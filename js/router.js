@@ -3,36 +3,45 @@ app.config(function ($routeProvider) {
 
     .when('/', {
      templateUrl: 'pages/home.html',
-     controller:'mainController',
+     controller:'authController',
+     access: {restricted: true}
    })
 
    .when('/login', {
      templateUrl: 'pages/auth/login.html',
-     controller:'mainController',
+     controller:'authController',
    })
 
     .when('/signup', {
      templateUrl: 'pages/auth/signUp.html',
-     controller:'mainController',
+     controller:'authController',
+     access: {restricted: true}
    })
 
      .when('/updateinfo', {
      templateUrl: 'pages/auth/updateEmailAndPass.html',
-     controller:'mainController',
+     controller:'authController',
    })
 
        .when('/resetpassword', {
      templateUrl: 'pages/auth/resetpassword.html',
-     controller:'mainController',
+     controller:'authController',
    })
 
    .when('/deleteaccount', {
      templateUrl: 'pages/auth/deleteAccount.html',
-     controller:'mainController',
+     controller:'authController',
    })
 
    .otherwise({redirectTo: '/'});
 });
 
+app.run(function ($rootScope, $location, $route, AuthService) {
+  $rootScope.$on('$routeChangeStart', function (event, next, current) {
+    if (next.access.restricted && AuthService.isLoggedIn() === false) {
 
+      $location.path('/login');
+    }
+  });
+});
 
