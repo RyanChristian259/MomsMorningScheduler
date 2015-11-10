@@ -11,29 +11,7 @@ app.controller('mainController', ['$scope', '$http', '$location', '$firebase', '
 
   var usersCollection = ref.child("users");
 
-
-//Create user with Firebase
-$scope.createUser = function() {
-    usersCollection.createUser({
-      email: $scope.createEmail,
-      password: $scope.createPassword
-    },
-
-    function(error, userData) {
-      if (error) {
-        console.log("Error YO:", error);
-      } else {
-        console.log("Successfully created user account with uid:", userData);
-      }
-    });
-// auth.$createUser($scope.createEmail, $scope.createPassword).then(function() {
-//   console.log("User created successfully!");
-// }).catch(function(error) {
-//   console.log("Error:", error);
-// });
-  };
-
-
+$scope.success = false;
 
 //User sign in with Firebase
 $scope.signInUser = function() {
@@ -44,9 +22,37 @@ $scope.signInUser = function() {
     if (error) {
       console.log("Login Failed!", error);
     } else {
+      $scope.success = true;
+      $scope.message = 'You are logged out!';
       console.log("Authenticated successfully with payload:", authData);
     }
 
+  });
+};
+
+// Create user with Firebase
+$scope.createUser = function() {
+  usersCollection.createUser({
+    email: $scope.createEmail,
+    password: $scope.createPassword
+  },
+  function(error, userData) {
+    if (error) {
+      console.log("Error YO:", error);
+    } else {
+      console.log("Successfully created user account with uid:", userData);
+    }
+//login user after account creation
+    ref.authWithPassword({
+      email    : $scope.createEmail,
+      password : $scope.createPassword
+    }, function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        console.log("Authenticated successfully with payload:", authData);
+      }
+    });
   });
 };
 
@@ -68,60 +74,60 @@ $scope.changePassword = function() {
 
 //Update email address
 $scope.updateEmail = function(){
-ref.changeEmail({
-  oldEmail : $scope.oldEmail,
-  newEmail : $scope.newEmail,
-  password : $scope.password
-}, function(error) {
-  if (error === null) {
-    console.log("Email changed successfully");
-  } else {
-    console.log("Error changing email:", error);
-  }
-});
+  ref.changeEmail({
+    oldEmail : $scope.oldEmail,
+    newEmail : $scope.newEmail,
+    password : $scope.password
+  }, function(error) {
+    if (error === null) {
+      console.log("Email changed successfully");
+    } else {
+      console.log("Error changing email:", error);
+    }
+  });
 };
 
 //Reset password via email
 $scope.passwordReset = function(){
-ref.resetPassword({
-  email : $scope.passwordResetEmail
-}, function(error) {
-  if (error === null) {
-    console.log("Password reset email sent successfully");
-  } else {
-    console.log("Error sending password reset email:", error);
-  }
-});
+  ref.resetPassword({
+    email : $scope.passwordResetEmail
+  }, function(error) {
+    if (error === null) {
+      console.log("Password reset email sent successfully");
+    } else {
+      console.log("Error sending password reset email:", error);
+    }
+  });
 };
 
 $scope.deleteUser = function(){
   var confirmDelete = confirm('Are you sure? This cannot be undone.');
-    if (confirmDelete === true){
-ref.removeUser({
-  email    : $scope.deleteUserEmail,
-  password : $scope.deleteUserPassword
-}, function(error) {
-  if (error === null) {
-    console.log("User removed successfully");
+  if (confirmDelete === true){
+    ref.removeUser({
+      email    : $scope.deleteUserEmail,
+      password : $scope.deleteUserPassword
+    }, function(error) {
+      if (error === null) {
+        console.log("User removed successfully");
+      } else {
+        console.log("Error removing user:", error);
+      }
+    });
   } else {
-    console.log("Error removing user:", error);
+    console.log('deleteUser cancelled');
   }
-});
-   } else {
-    console.log('deleteUser cancelled')
-   }
 };
 
-  // $scope.logoutUser = function() {
-  //   ref.unauth(function(error, authData) {
-  //     if (error) {
-  //       console.log("Login Failed!", error);
-  //     } else {
-  //       console.log("Authenticated successfully with payload:", authData);
-  //     }
+  $scope.logoutUser = function() {
+    ref.unauth(function(error, authData) {
+      if (error) {
+        console.log("Logout Failed!", error);
+      } else {
+        console.log("You are logged out");
+      }
 
-  //   });
-  // };
+    });
+  };
 
 
 
