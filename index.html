@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='scheduleApp'>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mom's Morning Out</title>
+
+    <!-- CSS -->
+    <!-- load Bootstrap and custom style.css -->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.0/journal/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#/">Mom's Morning Out</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="http://www.momsmorningout.info/">Home</a></li>
+        <li><a href="#/">Appointments</a></li>
+        <li><a href="http://www.momsmorningout.info/aboutus/">About Us</a></li>
+        <li><a href="http://www.momsmorningout.info/contact/">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#/login">Log in</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</br>
+</br>
+
+<div class='container'>
+
+Scheduling
+    <!-- <div class="container" ng-app="scheduleApp" ng-controller="mainController"> -->
+
+
+        <!-- <button ng-click='logoutUser()' type="submit" class="btn btn-default">LogOut</button> -->
+
+    <!-- </div> -->
+
+<div ng-view></div>
+
+</div>
+ <!-- JS -->
+    <!-- load Angular, Firebase, Firebase Angular Library, and custom app.js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.js"></script>
+    <script type='text/javascript' src="js/app.js"></script>
+    <script type='text/javascript' src="js/router.js"></script>
+</body>
+
+</html>

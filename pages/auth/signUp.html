@@ -1,0 +1,27 @@
+ <div class="container" ng-app="scheduleApp" ng-controller="mainController">
+
+        <form class='form' name='signUpForm'>
+            <h4>Sign Up</h4>
+
+            <div class="form-group">
+                <label form="email">Enter your Email</label>
+                <input type="text" name='signUpEmail' ng-model='createEmail' class="form-control" id="email" placeholder="Enter a username..." ng-minlength="6" ng-maxlength="20" required>
+            </div>
+            <div class="form-group">
+                <label form="password">Choose a Password</label>
+                <input type="text" ng-model='createPassword' class="form-control" id="password" placeholder="Choose a password..." required>
+            </div>
+        <!--     <div ng-messages="signUpForm.signUpEmail.$error" style="color:maroon" role="alert">
+                <div ng-message="required">Plese fill out this field</div>
+                <div ng-message="minlength">Too Short</div>
+                <div ng-message="maxlength">Too Long</div>
+            </div>
+
+        <pre>myForm.myName.$error = {{ myForm.myName.$error | json }}</pre> -->
+
+            <button ng-click='createUser()' type="submit" class="btn btn-default">Submit</button>
+        </form>
+
+        <hr>
+
+        <p><a href='#/login'>Log In Here</a></p>
