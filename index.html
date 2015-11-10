@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
+<body ng-controller='mainController'>
 
 <div class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
@@ -32,6 +32,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#/login">Log in</a></li>
+        <button ng-click='logoutUser()'>Log out</button>
       </ul>
     </div>
   </div>

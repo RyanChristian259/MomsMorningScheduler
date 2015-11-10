@@ -5,7 +5,7 @@
 
             <div class="form-group">
                 <label form="email">Enter your Email</label>
-                <input type="text" name='signUpEmail' ng-model='createEmail' class="form-control" id="email" placeholder="Enter a username..." ng-minlength="6" ng-maxlength="20" required>
+                <input type="email" name='signUpEmail' ng-model='createEmail' class="form-control" id="email" placeholder="Enter a username..." required>
             </div>
             <div class="form-group">
                 <label form="password">Choose a Password</label>
@@ -19,7 +19,7 @@
 
         <pre>myForm.myName.$error = {{ myForm.myName.$error | json }}</pre> -->
 
-            <button ng-click='createUser()' type="submit" class="btn btn-default">Submit</button>
+            <a href='#/'><button ng-click='createUser()' type="submit" class="btn btn-default">Submit</button></a>
         </form>
 
         <hr>
