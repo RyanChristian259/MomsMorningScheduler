@@ -3,7 +3,7 @@ app.config(function ($routeProvider) {
 
     .when('/', {
      templateUrl: 'pages/home.html',
-     controller:'mainController',
+     controller:'DatepickerDemoCtrl',
    })
 
    .when('/login', {
