@@ -167,10 +167,10 @@ app.controller('amberController', ['$scope', '$location', '$firebase', '$firebas
     var payload = {
       'timeStamp': $scope.dt
     };
-   $scope.payload = payload;
+    $scope.payload = payload;
   };
 
-    $scope.submitDate = function() {
+  $scope.submitDate = function() {
 
     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
     var workDaysCollection = ref.child("workDays");
@@ -180,5 +180,22 @@ app.controller('amberController', ['$scope', '$location', '$firebase', '$firebas
   };
 
 
+
+  $scope.formSubmit = function() {
+    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
+
+    var payloadStringified = JSON.stringify($scope.payload);
+
+    var payloadParsed = JSON.parse(payloadStringified);
+
+    var formData = {
+      date: payloadParsed,
+      schedule: $scope.formData
+    };
+    ref.push(formData);
+
+
+    console.log($scope.formData);
+  };
 
 }]);
