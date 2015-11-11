@@ -1,3 +1,19 @@
+body {
+  padding-top: 30px;
+}
+
 .container {
   margin: 0 2% 0 2%;
 }
+
+/*****ui bootstrap calendar*****/
+ .full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+  }
