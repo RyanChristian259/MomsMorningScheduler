@@ -9,17 +9,26 @@
    </section>
  </section>
 
+  <div>
+    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
 
+   <form class='form'>
+            <h4>Create your work day!</h4>
 
+            <div class="form-group">
+                <label form="date">Date</label>
+                <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
+            </div>
 
+            <button ng-click='submitDate()' class="btn btn-default">Submit</button>
+
+        </form>
 
 
 <!-- </br>
 <h1>Home.html</h1>
 
-<div>
-    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
     <h4>Inline</h4>
     <div style="display:inline-block; min-height:290px;">
