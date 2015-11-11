@@ -1,7 +1,6 @@
 var app = angular.module('scheduleApp', ['firebase', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap']);
 
 
-
 app.controller('mainController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray) {
 
   var self = this;
