@@ -1,4 +1,21 @@
-</br>
+</br></br>
+
+<section class="col-md-6">
+   <section class="input-group calendar">
+     <input type="text" class="form-control calendar-input" ng-change='changeDate()' uib-datepicker-popup="{{format='shortDate'}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+     <span class="input-group-btn">
+       <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+     </span>
+   </section>
+ </section>
+
+
+
+
+
+
+
+<!-- </br>
 <h1>Home.html</h1>
 
 <div>
@@ -42,3 +59,4 @@
     <button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" uib-tooltip="After today restriction">Min date</button>
 
 </div>
+ -->
