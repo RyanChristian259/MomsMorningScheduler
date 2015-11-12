@@ -189,13 +189,48 @@ app.controller('amberController', ['$scope', '$location', '$firebase', '$firebas
     var payloadParsed = JSON.parse(payloadStringified);
 
     var formData = {
-      date: payloadParsed,
-      schedule: $scope.formData
+      date: {
+        time: payloadParsed,
+        schedule: $scope.formData,
+        slots:{1:false,2:false,3:false,4:false}
+      }
     };
     ref.push(formData);
 
+  };
 
-    console.log($scope.formData);
+
+  $scope.getData = function() {
+    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
+    queryArray = [];
+    ref.orderByChild("date/time").on("child_added", function(snapshot) {
+
+      // console.log(snapshot.key() + " was " + snapshot.val().date.time.timeStamp + " time");
+      // $scope.test = snapshot.key() + ' test ' +snapshot.val().date.time.timeStamp + " time";
+       var query = snapshot.exportVal();
+
+      // $scope.query
+      // console.log($scope.query.schedule);
+      queryArray.push(query);
+      // console.log($scope.query);
+    });
+    // console.log(queryArray[0].date);
+    $scope.query = queryArray;
+    // console.log($scope.query[0].date);
+
+  };
+
+
+
+  $scope.changeSlots = function(data) {
+    console.log(data.date.slots);
+
+    var payload = data;
+    // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
+
+    // ref.update(payload);
+
+
   };
 
 }]);

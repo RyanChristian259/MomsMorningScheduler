@@ -36,9 +36,19 @@
                    <button ng-click='formSubmit()' type="submit" class="btn btn-danger btn-lg">Send Away!</button>
 
         </form>
+    </br></br>
+   <button ng-click='getData()'  class="btn btn-danger btn-lg">request from firebase!</button>
+<div >
+<!-- <div>SCHEDULE: {{query.schedule}}</div>
+</br></br>
+<a href="" ng-click='changeSlots()'>{{query.slots}}</a></div> -->
+</br></br>
+<!-- <div>DATE: {{query.time.timeStamp | date:'MM dd yyyy'}}</div> -->
+<ul ng-repeat='prop in query track by $index'>
+  <li> <a href="" ng-click='changeSlots(prop)'>{{prop}}</a></li>
 
-
-
+</ul>
+</div>
 
 <!-- </br>
 <h1>Home.html</h1>
