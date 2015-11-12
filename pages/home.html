@@ -1,5 +1,6 @@
 </br></br>
 
+<div >
 <section class="col-md-6">
    <section class="input-group calendar">
      <input type="text" class="form-control calendar-input" ng-change='changeDate()' uib-datepicker-popup="{{format='shortDate'}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
@@ -7,19 +8,53 @@
        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
      </span>
    </section>
+ </div>
  </section>
 
+    <div class='col-md-6'>
+    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+    </div>
+</div>
+   <form class='form'>
+            <h4>Create your work day!</h4>
 
+            <div class="form-group">
+                <label form="date">Date</label>
+                <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
+            </div>
+                      <div class="form-group">
+                          <label class="checkbox-inline">
+                              <input type="checkbox" name="favoriteColors" ng-model="formData.morning"> Morning
+                          </label>
+                          <label class="checkbox-inline">
+                              <input type="checkbox" name="favoriteColors" ng-model="formData.afternoon"> Afternoon
+                          </label>
+                          <label class="checkbox-inline">
+                              <input type="checkbox" name="favoriteColors" ng-model="formData.night"> Night
+                          </label>
+                      </div>
 
+                   <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+                   <button ng-click='formSubmit()' type="submit" class="btn btn-danger btn-lg">Send Away!</button>
 
+        </form>
+    </br></br>
+   <button ng-click='getData()'  class="btn btn-danger btn-lg">request from firebase!</button>
+<div >
+<!-- <div>SCHEDULE: {{query.schedule}}</div>
+</br></br>
+<a href="" ng-click='changeSlots()'>{{query.slots}}</a></div> -->
+</br></br>
+<!-- <div>DATE: {{query.time.timeStamp | date:'MM dd yyyy'}}</div> -->
+<ul ng-repeat='prop in query track by $index'>
+  <li> <a href="" ng-click='changeSlots(prop)'>{{prop}}</a></li>
 
-
+</ul>
+</div>
 
 <!-- </br>
 <h1>Home.html</h1>
 
-<div>
-    <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
     <h4>Inline</h4>
     <div style="display:inline-block; min-height:290px;">
