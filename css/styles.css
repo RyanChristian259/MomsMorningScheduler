@@ -1,19 +1,107 @@
 body {
-  padding-top: 30px;
+  background-color: #b0c4de;
+  background: url(../img/mmoMainBG.png) no-repeat 50% 50% fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+p {
+  font-size: 1.1em;
+}
+
+.pagePortal {
+  width: 1100px;
+  overflow: auto;
+  clear: both;
+  margin: 0 auto;
+  background-color: #D9E4E6;
 }
 
 .container {
-  margin: 0 2% 0 2%;
+  max-width: 1080px;
+  margin: 0px auto;
 }
 
-/*****ui bootstrap calendar*****/
- .full button span {
-    background-color: limegreen;
-    border-radius: 32px;
-    color: black;
-  }
-  .partially button span {
-    background-color: orange;
-    border-radius: 32px;
-    color: black;
-  }
+header {
+  height:140px;
+  background: transparent;
+  width:1100px;
+  margin:0px auto;
+  font-family: 'Alice', serif;
+  font-size: 1.4em;
+  color: #8B8D8D;
+}
+
+.moveLogo {
+  margin: 0 0 0 35px;
+
+}
+
+.moveNavBar {
+  transform: translate(0%,80%);
+}
+
+a {
+  color: #8B8D8D;
+}
+
+/* mouse over link */
+a:hover {
+    color: #666666;
+}
+
+/* selected link */
+a:active {
+    color: #666666;
+}
+
+
+footer {
+  height: 310px;
+  width:1100px;
+  margin:0px auto;
+   background: url(../img/Purple-BG.jpg) no-repeat top center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #FDFDFD;
+}
+
+.footerLightText {
+  opacity: 0.5;
+}
+
+/* footer link */
+.footerLink {
+  color: #FDFDFD;
+}
+
+/* footer link */
+.footerLink:hover {
+    color: #FDFDFD;
+}
+
+/* footer link */
+.footerLink:active {
+    color: #FDFDFD;
+}
+
+.textAlignLeft {
+  text-align: left;
+}
+
+.footerMargin {
+  margin: 40px 0px 0px 0px;
+}
+
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.navbar-text {
+    float: none;
+}

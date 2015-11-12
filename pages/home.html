@@ -1,5 +1,6 @@
 </br></br>
 
+<div >
 <section class="col-md-6">
    <section class="input-group calendar">
      <input type="text" class="form-control calendar-input" ng-change='changeDate()' uib-datepicker-popup="{{format='shortDate'}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
@@ -7,12 +8,13 @@
        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
      </span>
    </section>
+ </div>
  </section>
 
-  <div>
+    <div class='col-md-6'>
     <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
-
-
+    </div>
+</div>
    <form class='form'>
             <h4>Create your work day!</h4>
 
