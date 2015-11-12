@@ -1,2 +1,4 @@
 bower_components
 .DS_Store
+bower.json
+npm-debug.log
