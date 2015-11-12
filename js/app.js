@@ -3,6 +3,7 @@ var app = angular.module('scheduleApp', ['firebase', 'ngRoute', 'ngResource', 'n
 
 app.controller('mainController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray) {
 
+  moment().format();
   var self = this;
 
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
@@ -140,8 +141,8 @@ app.controller('amberController', ['$scope', '$location', '$firebase', '$firebas
   $scope.toggleMin = function() {
     $scope.minDate = $scope.minDate ? null : new Date();
   };
-  $scope.toggleMin();
-  $scope.maxDate = new Date(2020, 5, 22);
+    $scope.toggleMin();
+    $scope.maxDate = new Date(2020, 5, 22);
 
   $scope.open = function($event) {
     $scope.status.opened = true;
@@ -164,10 +165,15 @@ app.controller('amberController', ['$scope', '$location', '$firebase', '$firebas
   };
 
   $scope.changeDate = function() {
+    var cleanDate = moment($scope.dt).format('DD/MM/YYYY');
+    console.log(cleanDate);
     var payload = {
-      'timeStamp': $scope.dt
+      'timeStamp': cleanDate
     };
+
+
     $scope.payload = payload;
+    console.log($scope.payload);
   };
 
   $scope.submitDate = function() {
@@ -181,16 +187,17 @@ app.controller('amberController', ['$scope', '$location', '$firebase', '$firebas
 
 
 
+
   $scope.formSubmit = function() {
     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
 
-    var payloadStringified = JSON.stringify($scope.payload);
+    // var payloadStringified = JSON.stringify($scope.payload);
 
-    var payloadParsed = JSON.parse(payloadStringified);
+    // var payloadParsed = JSON.parse(payloadStringified);
 
     var formData = {
       date: {
-        time: payloadParsed,
+        time: $scope.payload.timeStamp,
         schedule: $scope.formData,
         slots:{1:false,2:false,3:false,4:false}
       }
@@ -201,32 +208,38 @@ app.controller('amberController', ['$scope', '$location', '$firebase', '$firebas
 
 
   $scope.getData = function() {
-    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
+    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com").limitToFirst(1);
     queryArray = [];
-    ref.orderByChild("date/time").on("child_added", function(snapshot) {
 
-      // console.log(snapshot.key() + " was " + snapshot.val().date.time.timeStamp + " time");
-      // $scope.test = snapshot.key() + ' test ' +snapshot.val().date.time.timeStamp + " time";
+    ref.orderByKey().on("child_added", function(snapshot) {
+
        var query = snapshot.exportVal();
 
-      // $scope.query
-      // console.log($scope.query.schedule);
-      queryArray.push(query);
-      // console.log($scope.query);
+       queryArray.push(query);
+
     });
-    // console.log(queryArray[0].date);
+
     $scope.query = queryArray;
-    // console.log($scope.query[0].date);
+
 
   };
 
 
 
   $scope.changeSlots = function(data) {
-    console.log(data.date.slots);
+
+    // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workdays");
+
+    // ref.orderByChild("date/schedule/time").equalTo("2015-11-13T19:24:21.465Z").on('childAdded', function (snapshot) {
+    //    console.log(snapshot.key());
+    // });
+
+
 
     var payload = data;
     // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
+
+    // ref.orderByChild('date')
 
     // ref.update(payload);
 
