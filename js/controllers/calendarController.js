@@ -13,8 +13,17 @@ app.controller('calendarController', ['$scope', '$location', '$firebase', '$fire
     $scope.minDate = $scope.minDate ? null : new Date();
   };
     $scope.toggleMin();
-    $scope.maxDate = new Date(2020, 5, 22);
 
+
+//Set Max Date for Scheduling availibility--
+//Change the num after .getFullYear to adjust
+     var setMaxDateYear = new Date().getFullYear() + 1;
+     var setMaxDateMonth = new Date().getMonth() + 12;
+    $scope.maxDate = new Date(setMaxDateYear, setMaxDateMonth, 1);
+    console.log($scope.maxDate);
+
+
+//
   $scope.open = function($event) {
     $scope.status.opened = true;
   };
