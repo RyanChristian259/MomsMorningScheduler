@@ -3,7 +3,7 @@ app.config(function ($routeProvider) {
 
     .when('/', {
      templateUrl: 'pages/home.html',
-     controller:'amberController',
+     controller:'calendarController',
      access: {restricted: true}
    })
 
@@ -33,15 +33,21 @@ app.config(function ($routeProvider) {
      controller:'authController',
    })
 
+    .when('/admin', {
+     templateUrl: 'pages/admin/admin.html',
+     controller:'calendarController',
+     access: {restricted: true}
+   })
+
    .otherwise({redirectTo: '/'});
 });
 
-app.run(function ($rootScope, $location, $route, AuthService) {
-  $rootScope.$on('$routeChangeStart', function (event, next, current) {
-    if (next.access.restricted && AuthService.isLoggedIn() === false) {
+// app.run(function ($rootScope, $location, $route, AuthService) {
+//   $rootScope.$on('$routeChangeStart', function (event, next, current) {
+//     if (next.access.restricted && AuthService.isLoggedIn() === false) {
 
-      $location.path('/login');
-    }
-  });
-});
+//       $location.path('/login');
+//     }
+//   });
+// });
 

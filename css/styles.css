@@ -105,3 +105,9 @@ footer {
 .navbar-text {
     float: none;
 }
+
+/**** size of calendar ****/
+.my-datepicker .btn {
+    padding: 12px 12px;
+    font-size: 1.2em;
+}

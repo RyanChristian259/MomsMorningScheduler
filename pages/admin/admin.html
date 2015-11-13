@@ -1,9 +1,10 @@
+<h1>Admin Page</h1>
+<p><a href='#/home'> Link to User Calendar</a></p>
  <section class="col-md-6">
-  <h4>Schedule your morning out!</h4>
-   <p><a href='#/admin'> Link to Admin Calendar</a></p>
+   <h4>Create your work day!</h4>
    <div class="calendar my-datepicker">
 
-     <div ng-change='changeDate()' class='my-datepicker cats' uib-datepicker="{{format='shortDate'}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ></div>
+     <div ng-change='changeDate()' class='my-datepicker datepicker cats' uib-datepicker="{{format='shortDate'}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ></div>
    </div>
  </section>
 

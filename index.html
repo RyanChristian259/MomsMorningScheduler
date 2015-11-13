@@ -45,14 +45,6 @@
 
 <div class='container'>
 
-  Scheduling
-  <!-- <div class="container" ng-app="scheduleApp" ng-controller="mainController"> -->
-
-
-  <!-- <button ng-click='logoutUser()' type="submit" class="btn btn-default">LogOut</button> -->
-
-  <!-- </div> -->
-
   <div ng-view></div>
 
 </div>
@@ -101,6 +93,7 @@
 
 <!-- JS -->
 <!-- load Angular, Firebase, Firebase Angular Library, and custom app.js -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -111,14 +104,14 @@
 <script src="bower_components/firebase/firebase.js"></script>
 <script src="bower_components/angularfire/dist/angularfire.js"></script>
 <script src="bower_components/moment/moment.js"></script>
-<script src="bower_components/angular-moment/angular-moment.js"></script>
-<script src="bower_components/moment/moment.js"></script>
 
-<script type='text/javascript' src="js/app.js"></script>
-<script type='text/javascript' src="js/auth.js"></script>
-<script type='text/javascript' src="js/services.js"></script>
+<script type='text/javascript' src="js/controllers/module.js"></script>
+<script type='text/javascript' src="js/controllers/mainController.js"></script>
+<script type='text/javascript' src="js/controllers/authController.js"></script>
+<script type='text/javascript' src="js/controllers/calendarController.js"></script>
+<script type='text/javascript' src="js/services/services.js"></script>
+<script type='text/javascript' src="js/services/authService.js"></script>
 <script type='text/javascript' src="js/router.js"></script>
-<script type='text/javascript' src="js/calendar.js"></script>
 </body>
 
 </html>
