@@ -1,40 +1,73 @@
 <h1>Admin Page</h1>
 <p><a href='#/home'> Link to User Calendar</a></p>
- <section class="col-md-6">
-   <h4>Create your work day!</h4>
-   <h4>Inline</h4>
+<section class="col-md-6">
+ <h4>Create your work day!</h4>
+ <h4>Inline</h4>
  <div class="calendar my-datepicker">
- <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></div>
-</div>
- </section>
+   <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></div>
+ </div>
+</section>
 
-
- <div class='col-md-6'>
+</br></br></br>
+<div class='col-md-6'>
   <form class='form'>
-
     <div class="form-group">
       <label form="date">Date</label>
       <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
     </div>
-    <div class="form-group">
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.morning"> Morning
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.afternoon"> Afternoon
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.night"> Night
-      </label>
-    </div>
-  </div>
 
-  <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
-  <button ng-click='formSubmit()' type="submit" class="btn btn-danger btn-lg">Send Away!</button>
+<!-- Select start and end times for single day scheduling -->
+<h3>Selected Start Time</h3>
+   <strong>{{selectedStartHour}}:{{selectedStartMinute}} {{selectedStartampm}}</strong>
+
+  <label>
+    <select ng-model="selectedStartHour" ng-options="city.id as city.name for city in startHourSelect">
+      <option value="">8</option>
+    </select>
+  </label>
+
+  <label>
+    <select ng-model="selectedStartMinute" ng-options="city.id as city.name for city in startMinuteSelect">
+      <option value="">30</option>
+    </select>
+  </label>
+
+  <label>
+    <select ng-model="selectedStartampm" ng-options="city.id as city.name for city in startampmSelect">
+    </select>
+  </label>
+
+
+<h3>Selected End Time</h3>
+   <strong>{{selectedEndHour}}:{{selectedEndMinute}} {{selectedEndampm}}</strong>
+
+  <label>
+    <select ng-model="selectedEndHour" ng-options="city.id as city.name for city in endHourSelect">
+      <option value="">12</option>
+    </select>
+  </label>
+
+  <label>
+    <select ng-model="selectedEndMinute" ng-options="city.id as city.name for city in endMinuteSelect">
+      <option value="">30</option>
+    </select>
+  </label>
+
+
+  <label>
+    <select ng-model="selectedEndampm" ng-options="city.id as city.name for city in endampmSelect">
+
+    </select>
+  </label>
+
+
+
+<!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+<button ng-click='createEvent()' type="submit" class="btn btn-danger btn-lg">Send Away!</button>
 </form>
 
 
-  <hr>
+<hr>
 </br></br></br>
 </br></br>
 <button ng-click='getData()'  class="btn btn-danger btn-lg">request from firebase!</button>
@@ -53,37 +86,37 @@
 
 <!-- Disable days of the week -->
 <div class='row'>
-<div class='col-md-6'>
-  <form class='form'>
-<h3>Check box to enable a schedule for  that day of the week</h3>
-    <div class="form-group">
-      <label form="date">Date</label>
-      <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
-    </div>
-    <div class="form-group">
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.sunday"> Sunday
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.monday"> Monday
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.tuesday"> Tuesday
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.wednesday"> Wednesday
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.thursday"> Thursday
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.friday"> Friday
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.saturday"> Saturday
-      </label>
-    </div>
-     <button ng-click='disabled()' type="submit" class="btn btn-danger btn-lg">Send Changes</button>
-  </form>
+  <div class='col-md-6'>
+    <form class='form'>
+      <h3>Check box to enable a schedule for  that day of the week</h3>
+      <div class="form-group">
+        <label form="date">Date</label>
+        <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
+      </div>
+      <div class="form-group">
+        <label class="checkbox-inline">
+          <input type="checkbox" name="favoriteColors" ng-model="formData.sunday"> Sunday
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" name="favoriteColors" ng-model="formData.monday"> Monday
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" name="favoriteColors" ng-model="formData.tuesday"> Tuesday
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" name="favoriteColors" ng-model="formData.wednesday"> Wednesday
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" name="favoriteColors" ng-model="formData.thursday"> Thursday
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" name="favoriteColors" ng-model="formData.friday"> Friday
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" name="favoriteColors" ng-model="formData.saturday"> Saturday
+        </label>
+      </div>
+      <button ng-click='disabled()' type="submit" class="btn btn-danger btn-lg">Send Changes</button>
+    </form>
   </div>
-  </div>
+</div>
