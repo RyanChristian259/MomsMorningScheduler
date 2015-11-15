@@ -2,10 +2,10 @@
 <p><a href='#/home'> Link to User Calendar</a></p>
  <section class="col-md-6">
    <h4>Create your work day!</h4>
-   <div class="calendar my-datepicker">
-
-     <div ng-change='changeDate()' class='my-datepicker datepicker cats' uib-datepicker="{{format='shortDate'}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ></div>
-   </div>
+   <h4>Inline</h4>
+ <div class="calendar my-datepicker">
+ <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></div>
+</div>
  </section>
 
 
@@ -50,3 +50,40 @@
 
   </ul>
 </div>
+
+<!-- Disable days of the week -->
+<div class='row'>
+<div class='col-md-6'>
+  <form class='form'>
+<h3>Check box to enable a schedule for  that day of the week</h3>
+    <div class="form-group">
+      <label form="date">Date</label>
+      <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
+    </div>
+    <div class="form-group">
+      <label class="checkbox-inline">
+        <input type="checkbox" name="favoriteColors" ng-model="formData.sunday"> Sunday
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" name="favoriteColors" ng-model="formData.monday"> Monday
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" name="favoriteColors" ng-model="formData.tuesday"> Tuesday
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" name="favoriteColors" ng-model="formData.wednesday"> Wednesday
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" name="favoriteColors" ng-model="formData.thursday"> Thursday
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" name="favoriteColors" ng-model="formData.friday"> Friday
+      </label>
+      <label class="checkbox-inline">
+        <input type="checkbox" name="favoriteColors" ng-model="formData.saturday"> Saturday
+      </label>
+    </div>
+     <button ng-click='disabled()' type="submit" class="btn btn-danger btn-lg">Send Changes</button>
+  </form>
+  </div>
+  </div>
