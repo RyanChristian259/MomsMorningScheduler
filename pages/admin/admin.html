@@ -21,19 +21,19 @@
    <strong>{{selectedStartHour}}:{{selectedStartMinute}} {{selectedStartampm}}</strong>
 
   <label>
-    <select ng-model="selectedStartHour" ng-options="city.id as city.name for city in startHourSelect">
+    <select ng-model="selectedStartHour" ng-options="time.id as time.name for time in startHourSelect">
       <option value="">8</option>
     </select>
   </label>
 
   <label>
-    <select ng-model="selectedStartMinute" ng-options="city.id as city.name for city in startMinuteSelect">
+    <select ng-model="selectedStartMinute" ng-options="time.id as time.name for time in startMinuteSelect">
       <option value="">30</option>
     </select>
   </label>
 
   <label>
-    <select ng-model="selectedStartampm" ng-options="city.id as city.name for city in startampmSelect">
+    <select ng-model="selectedStartampm" ng-options="time.id as time.name for time in startampmSelect">
     </select>
   </label>
 
@@ -42,20 +42,20 @@
    <strong>{{selectedEndHour}}:{{selectedEndMinute}} {{selectedEndampm}}</strong>
 
   <label>
-    <select ng-model="selectedEndHour" ng-options="city.id as city.name for city in endHourSelect">
+    <select ng-model="selectedEndHour" ng-options="time.id as time.name for time in endHourSelect">
       <option value="">12</option>
     </select>
   </label>
 
   <label>
-    <select ng-model="selectedEndMinute" ng-options="city.id as city.name for city in endMinuteSelect">
+    <select ng-model="selectedEndMinute" ng-options="time.id as time.name for time in endMinuteSelect">
       <option value="">30</option>
     </select>
   </label>
 
 
   <label>
-    <select ng-model="selectedEndampm" ng-options="city.id as city.name for city in endampmSelect">
+    <select ng-model="selectedEndampm" ng-options="time.id as time.name for time in endampmSelect">
 
     </select>
   </label>
