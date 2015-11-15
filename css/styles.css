@@ -111,7 +111,7 @@ footer {
 
 /**** size of calendar ****/
 .my-datepicker .btn {
-    padding: 15px 15px;
+    padding: 12px 12px;
     font-size: 1.2em;
 }
 
@@ -140,4 +140,11 @@ button {
      background-color: green;
     color: black;
     padding: 10px 20px 10px 20px;
+}
+
+/**** Time Select CSS ****/
+select {
+ margin: 5px;
+ /*width: 10%;*/
+ font-size: 1.2em;
 }

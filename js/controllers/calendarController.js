@@ -17,8 +17,6 @@ app.controller('calendarController', ['$scope', '$location', '$firebase', '$fire
   $scope.toggleMin();
 
 
-
-
 //**Set Max Date for Scheduling availibility**//
 //Change the num after .getFullYear to adjust
 //Currently set to 2 years out from current date
@@ -69,25 +67,39 @@ $scope.changeDate = function() {
 
 
 
-//Submit date in picker window to the database
-$scope.formSubmit = function() {
+//Admin submit date in picker window to the database
+$scope.createEvent = function() {
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
 
-    // var payloadStringified = JSON.stringify($scope.payload);
+    var payloadStringified = JSON.stringify($scope.payload);
 
-    // var payloadParsed = JSON.parse(payloadStringified);
+    var payloadParsed = JSON.parse(payloadStringified);
 
     var formData = {
-      date: {
-        time: $scope.payload.timeStamp,
-        schedule: $scope.formData,
-        slots:{1:false,2:false,3:false,4:false}
-      }
+      events: {
+        date: $scope.payload.timeStamp,
+        begin: $scope.selectedStartHour + ':' + $scope.selectedStartMinute + ' ' + $scope.selectedStartampm,
+        end: $scope.selectedEndHour + ':' + $scope.selectedEndMinute + ' ' + $scope.selectedEndampm,
+        slots:{0:false,1:false,2:false,3:false}
+        }
     };
+      console.log(formData, ' form data');
+    console.log('Data Sent');
     ref.push(formData);
-
   };
 
+
+
+    // type: 'morning',
+    // begin: 0830,
+    // end: 1230,
+    // date: 'Nov 23 2015',
+    // status: 'full',
+    // slots :{
+    //  0: false,
+    //  1: false,
+    //  2: false,
+    //  3: false
 
   $scope.getData = function() {
     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com");
@@ -287,4 +299,96 @@ $scope.getDayClass = function(date, mode) {
 //     return '';
 //   };
 // });
+
+
+$scope.startHourSelect = [
+      { id: 1, name: '1' },
+      { id: 2, name: '2' },
+      { id: 3, name: '3' },
+      { id: 4, name: '4' },
+      { id: 5, name: '5' },
+      { id: 6, name: '6' },
+      { id: 7, name: '7' },
+      { id: 8, name: '8' },
+      { id: 9, name: '9' },
+      { id: 10, name: '10' },
+      { id: 11, name: '11' },
+      { id: 12, name: '12' },
+      ];
+
+    // Pre-select value by id
+    $scope.selectedStartHour = 8;
+
+$scope.startMinuteSelect = [
+      { id: 00, name: '00' },
+      { id: 05, name: '05' },
+      { id: 10, name: '10' },
+      { id: 15, name: '15' },
+      { id: 20, name: '20' },
+      { id: 25, name: '25' },
+      { id: 30, name: '30' },
+      { id: 35, name: '35' },
+      { id: 40, name: '40' },
+      { id: 45, name: '45' },
+      { id: 50, name: '50' },
+      { id: 55, name: '55' },
+      ];
+
+    // Pre-select value by id
+    $scope.selectedStartMinute = 30;
+
+$scope.startampmSelect = [
+      { id: 'am', name: 'am' },
+      { id: 'pm', name: 'pm' }
+      ];
+
+    // Pre-select value by id
+    $scope.selectedStartampm = 'am';
+
+$scope.endHourSelect = [
+      { id: 1, name: '1' },
+      { id: 2, name: '2' },
+      { id: 3, name: '3' },
+      { id: 4, name: '4' },
+      { id: 5, name: '5' },
+      { id: 6, name: '6' },
+      { id: 7, name: '7' },
+      { id: 8, name: '8' },
+      { id: 9, name: '9' },
+      { id: 10, name: '10' },
+      { id: 11, name: '11' },
+      { id: 12, name: '12' },
+      ];
+
+    // Pre-select value by id
+    $scope.selectedEndHour = 12;
+
+$scope.endMinuteSelect = [
+      { id: 00, name: '00' },
+      { id: 05, name: '05' },
+      { id: 10, name: '10' },
+      { id: 15, name: '15' },
+      { id: 20, name: '20' },
+      { id: 25, name: '25' },
+      { id: 30, name: '30' },
+      { id: 35, name: '35' },
+      { id: 40, name: '40' },
+      { id: 45, name: '45' },
+      { id: 50, name: '50' },
+      { id: 55, name: '55' },
+      ];
+
+    // Pre-select value by id
+    $scope.selectedEndMinute = 30;
+
+$scope.endampmSelect = [
+      { id: 'am', name: 'am' },
+      { id: 'pm', name: 'pm' }
+      ];
+
+    // Pre-select value by id
+    $scope.selectedEndampm = 'pm';
+
+
+
 }]); //calendar controller
