@@ -107,8 +107,37 @@ footer {
     float: none;
 }
 
+/**** ui bootstrap calendar styles ****/
+
 /**** size of calendar ****/
 .my-datepicker .btn {
-    padding: 20px 20px;
+    padding: 15px 15px;
     font-size: 1.2em;
+}
+
+/**** Event Highlight ****/
+.full button span {
+    background-color: green;
+    color: black;
+    padding: 15px 10px;
+    border-radius: 5px;
+  }
+
+  .partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+  }
+
+/**** Current Day Select ****/
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info {
+    color: #fff;
+    background-color: #39B9D7;
+    border-color: grey;
+}
+
+button {
+     background-color: green;
+    color: black;
+    padding: 10px 20px 10px 20px;
 }
