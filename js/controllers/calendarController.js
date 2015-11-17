@@ -103,7 +103,10 @@ $scope.createEvent = function() {
 $scope.getData = function() {
   queryArray = [];
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+<<<<<<< HEAD
+=======
 
+>>>>>>> b90bfa8606d1fbf2b40a03be77af36e2f18a204e
   ref.orderByChild('date/time').on("child_added", function(snapshot) {
 
    var query = snapshot.exportVal();
@@ -164,16 +167,26 @@ afterTomorrow.setDate(tomorrow.getDate() + 2);
 
 // Attach an asynchronous callback to read the data at our posts reference
 $scope.callBack = function(){
+  var dateChosen = moment($scope.dt).format('DD/MM/YYYY');
+
   var inEvents;
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
   ref.on("value", function(snapshot) {
   events2 = snapshot.exportVal();
-  console.log(events2, ' events hit the callBack');
+  console.log(events2);
   for(var key in events2){
-    console.log(events2[key]);
+
      inEvents = events2[key];
+
+     if (dateChosen === inEvents.date) {
+      console.log(inEvents);
+      console.log(inEvents.date);
+      console.log( 'wah-hoo');
+
+
+     }
   }
-  console.log(inEvents.begin, ' hit');
+
   $rootScope.events2 = events2;
 }, function (errorObject) {
   console.log("The read failed: " + errorObject.code);
