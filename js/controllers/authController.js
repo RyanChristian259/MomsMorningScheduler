@@ -1,4 +1,4 @@
-app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray) {
+app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', 'userService', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, userService) {
 
   var self = this;
 
@@ -17,12 +17,13 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
       if (error) {
         console.log("Login Failed!", error);
       } else {
+        userService.currentUserID = authData.uid;
         $scope.success = true;
+        //not sure if this returns if you are logged in or out!!! Pls confirm.
+        console.log(userService.currentUserID, ' userservice current id, coming from sign in');
         $scope.message = 'You are logged out!';
         console.log("Authenticated successfully with payload:", authData);
-
       }
-
     });
   };
 
@@ -30,15 +31,15 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
   // Create user with Firebase
   $scope.createUser = function() {
     usersCollection.createUser({
-        email: $scope.createEmail,
-        password: $scope.createPassword
-      },
-      function(error, userData) {
-        if (error) {
-          console.log("Error YO:", error);
-        } else {
-          console.log("Successfully created user account with uid:", userData);
-        }
+      email: $scope.createEmail,
+      password: $scope.createPassword
+    },
+    function(error, userData) {
+      if (error) {
+        console.log("Error YO:", error);
+      } else {
+        console.log("Successfully created user account with uid:", userData);
+      }
         //login user after account creation
         ref.authWithPassword({
           email: $scope.createEmail,
@@ -48,10 +49,18 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
             console.log("Login Failed!", error);
           } else {
             console.log("Authenticated successfully with payload:", authData);
+            var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/users");
+            var formData = {
+              email: authData.password.email,
+              id: authData.uid
+            };
+            userService.currentUserID = authData.uid;
+            console.log(userService.currentUserID, ' userservice current id, coming from create user');
+            ref.push(formData);
           }
         });
       });
-  };
+};
 
   //User change password with Firebase
   $scope.changePassword = function() {
