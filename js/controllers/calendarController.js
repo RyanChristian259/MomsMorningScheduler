@@ -102,6 +102,7 @@ $scope.createEvent = function() {
 
 $scope.getData = function() {
   queryArray = [];
+  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
 
   ref.orderByChild('date/time').on("child_added", function(snapshot) {
 
@@ -129,8 +130,9 @@ $scope.disabled = function(date, mode) {
 };
 
 $scope.changeSlots = function(data) {
+  console.log(data)
 
-    // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workdays");
+    // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
 
     // ref.orderByChild("date/schedule/time").equalTo("2015-11-13T19:24:21.465Z").on('childAdded', function (snapshot) {
     //    console.log(snapshot.key());
@@ -138,7 +140,7 @@ $scope.changeSlots = function(data) {
 
 
 
-var payload = data;
+// var payload = data;
     // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
 
     // ref.orderByChild('date')
