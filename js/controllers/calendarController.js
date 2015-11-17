@@ -162,10 +162,16 @@ afterTomorrow.setDate(tomorrow.getDate() + 2);
 
 // Attach an asynchronous callback to read the data at our posts reference
 $scope.callBack = function(){
+  var inEvents;
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
   ref.on("value", function(snapshot) {
   events2 = snapshot.exportVal();
-  console.log(events2, ' events');
+  console.log(events2, ' events hit the callBack');
+  for(var key in events2){
+    console.log(events2[key]);
+     inEvents = events2[key];
+  }
+  console.log(inEvents.begin, ' hit');
   $rootScope.events2 = events2;
 }, function (errorObject) {
   console.log("The read failed: " + errorObject.code);
