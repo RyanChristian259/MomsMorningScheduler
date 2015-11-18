@@ -1,1 +1,1 @@
-var app = angular.module('scheduleApp', ['firebase', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap']);
+var app = angular.module('scheduleApp', ['firebase', 'ngRoute', 'ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.calendar']);
