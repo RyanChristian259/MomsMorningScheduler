@@ -103,10 +103,7 @@ $scope.createEvent = function() {
 $scope.getData = function() {
   queryArray = [];
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
-<<<<<<< HEAD
-=======
 
->>>>>>> b90bfa8606d1fbf2b40a03be77af36e2f18a204e
   ref.orderByChild('date/time').on("child_added", function(snapshot) {
 
    var query = snapshot.exportVal();
@@ -172,20 +169,32 @@ $scope.callBack = function(){
   var inEvents;
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
   ref.on("value", function(snapshot) {
+    snapshot.forEach(function (childSnapshot){
+      var key = childSnapshot.key();
+        console.log(key, " key");
+      var childData = childSnapshot.val();
+      console.log(childData, ' key')
+       if (dateChosen === childData.date) {
+          var ref2 = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + key + '/slots');
+          ref2.update({
+            0: true
+          });
+      }
+
+
+    });
   events2 = snapshot.exportVal();
-  console.log(events2);
-  for(var key in events2){
+  // console.log(events2);
+  // for(var key in events2){
 
-     inEvents = events2[key];
+  //    inEvents = events2[key];
 
-     if (dateChosen === inEvents.date) {
-      console.log(inEvents);
-      console.log(inEvents.date);
-      console.log( 'wah-hoo');
-
-
-     }
-  }
+     // if (dateChosen === inEvents.date) {
+     //  console.log(inEvents);
+     //  console.log(inEvents.date);
+     //  console.log( 'wah-hoo');
+     // }
+  // }
 
   $rootScope.events2 = events2;
 }, function (errorObject) {
