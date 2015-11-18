@@ -5,8 +5,14 @@
 
  <h4>Inline</h4>
  <div class="calendar my-datepicker">
-   <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker well well-sm' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" is-open="status.opened" datepicker-options="dateOptions" custom-class="getDayClass(date, mode)"></div>
+   <div uib-datepicker="{{format='shortDate'}}" ng-change='callBack();changeDate()' class='my-datepicker well well-sm' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" is-open="status.opened" datepicker-options="dateOptions" custom-class="getDayClass(date, mode)"></div>
  </div>
+
+<button ng-click='callBack()' type="submit" class="btn btn-danger btn-lg">Callback</button>
+
+
+
+<button ng-click='getDayClass2()' type="submit" class="btn btn-danger btn-lg">Getdayclassr</button>
 
 
 

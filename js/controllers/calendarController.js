@@ -1,4 +1,4 @@
-app.controller('calendarController', ['$scope', '$location', '$firebase', '$firebaseArray', '$rootScope', function($scope, $location, $firebase, $firebaseArray, $rootScope) {
+app.controller('calendarController', ['$scope', '$location', '$firebase', '$firebaseArray', '$rootScope','userService', function($scope, $location, $firebase, $firebaseArray, $rootScope,userService) {
 
 
   $scope.today = function() {
@@ -113,6 +113,8 @@ $scope.getData = function() {
 
     });
   $scope.query = queryArray;
+
+  console.log(userService.appointmentService,' in the getData');
 };
 
 //***************************//
@@ -171,18 +173,28 @@ $scope.callBack = function(){
   ref.on("value", function(snapshot) {
     snapshot.forEach(function (childSnapshot){
       var key = childSnapshot.key();
-        console.log(key, " key");
+        // console.log(key, " key");
       var childData = childSnapshot.val();
-      console.log(childData, ' key')
-       if (dateChosen === childData.date) {
-          var ref2 = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + key + '/slots');
-          ref2.update({
-            0: true
-          });
+      // console.log(childData, ' key');
+      var ref2 = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + key + '/slots');
+      ref2.on('value',function(snapshot){
+
+         if (dateChosen === childData.date) {
+          userService.appointmentService = snapshot.val();
+          console.log(userService.appointmentService,'inside the if');
+          // console.log(snapshot.val(),' dateChosen');
+          // ref2.update({
+          //   1: false
+          // });
       }
+
+      });
+
+
 
 
     });
+
   events2 = snapshot.exportVal();
   // console.log(events2);
   // for(var key in events2){
