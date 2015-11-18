@@ -1,9 +1,135 @@
 <h1>Admin Page</h1>
 <p><a href='#/home'> Link to User Calendar</a></p>
-<section class="col-md-6">
  <h4>Create your work day!</h4>
- <h4>Inline</h4>
- <div class="calendar my-datepicker">
+
+ <section>
+  <div class="well">
+    <div class="row-fluid">
+      <div class="span4">
+        <h3>Mom's Morning Out</h3>
+
+        <p>Schedule Your Morning Out!</p>
+        <form>
+
+          <div class="btn-group calTools">
+            <button type="button" class="btn btn-primary" ng-click="addEventToDatabase()">
+              Add Event
+            </button>
+
+            <!-- Select start and end times for single day scheduling -->
+            <h3>Selected Start Time</h3>
+            <strong>{{selectedStartHour}}:{{selectedStartMinute}} {{selectedStartampm}}</strong>
+
+            <label>
+              <select ng-model="selectedStartHour" ng-options="time.id as time.name for time in startHourSelect">
+                <option value="">8</option>
+              </select>
+            </label>
+
+            <label>
+              <select ng-model="selectedStartMinute" ng-options="time.id as time.name for time in startMinuteSelect">
+                <option value="">30</option>
+              </select>
+            </label>
+
+            <label>
+              <select ng-model="selectedStartampm" ng-options="time.id as time.name for time in startampmSelect">
+              </select>
+            </label>
+
+
+            <h3>Selected End Time</h3>
+            <strong>{{selectedEndHour}}:{{selectedEndMinute}} {{selectedEndampm}}</strong>
+
+            <label>
+              <select ng-model="selectedEndHour" ng-options="time.id as time.name for time in endHourSelect">
+                <option value="">12</option>
+              </select>
+            </label>
+
+            <label>
+              <select ng-model="selectedEndMinute" ng-options="time.id as time.name for time in endMinuteSelect">
+                <option value="">30</option>
+              </select>
+            </label>
+
+
+            <label>
+              <select ng-model="selectedEndampm" ng-options="time.id as time.name for time in endampmSelect">
+
+              </select>
+            </label>
+
+            <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+            <button ng-click='' type="submit" class="btn btn-danger btn-lg">Populate Calendar!</button>
+          </form>
+          <button type="button" class="btn btn-primary" ng-click="callBack()">
+            CallBack
+          </button>
+        </div>
+
+        <ul class="unstyled">
+          <li ng-repeat="e in events">
+            <div class="alert alert-info">
+              <a class="close" ng-click="remove($index)"><i class="icon-remove"></i></a>
+              <b> <input ng-model="e.title"></b>
+              {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="span8">
+        <tabset>
+          <tab select="renderCalender('myCalendar1');">
+            <tab-heading>
+            <i class="glyphicon glyphicon-bell"></i> Calendar One
+          </tab-heading>
+          <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+            <h4>{{alertMessage}}</h4>
+          </div>
+          <div class="btn-toolbar">
+            <p class="pull-right lead">Calendar One View Options</p>
+            <div class="btn-group">
+              <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
+              <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
+              <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
+            </div>
+          </div>
+          <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+        </tab>
+        <tab select="renderCalender('myCalendar3');">
+          <tab-heading>
+          <i class="glyphicon glyphicon-bell"></i> Admin
+        </tab-heading>
+        <div class="alert-success calAlert">
+          <h4>This calendar uses the extended form</h4>
+        </div>
+        <div class="btn-toolbar">
+          <p class="pull-right lead">Calendar Three View Options</p>
+          <div class="btn-group">
+            <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar3')">AgendaDay</button>
+            <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar3')">AgendaWeek</button>
+            <button class="btn btn-success" ng-click="changeView('month', 'myCalendar3')">Month</button>
+          </div>
+        </div>
+        <div class="calendar" ng-model="eventSources2" calendar="myCalendar3" ui-calendar="uiConfig.calendar"></div>
+      </tab>
+    </tabset>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+<!-- Datepicker Calendar starts -->
+<!--  <div class="calendar my-datepicker">
    <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></div>
  </div>
 </section>
@@ -14,21 +140,21 @@
 </form>
 
 <button ng-click='getDayClass2()' type="submit" class="btn btn-danger btn-lg">Process</button>
-</form>
+</form> -->
 
 
 
 
-</br></br></br>
+<!-- </br></br></br>
 <div class='col-md-6'>
   <form class='form'>
     <div class="form-group">
       <label form="date">Date</label>
       <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
-    </div>
+    </div> -->
 
-<!-- Select start and end times for single day scheduling -->
-<h3>Selected Start Time</h3>
+    <!-- Select start and end times for single day scheduling -->
+<!-- <h3>Selected Start Time</h3>
    <strong>{{selectedStartHour}}:{{selectedStartMinute}} {{selectedStartampm}}</strong>
 
   <label>
@@ -46,10 +172,10 @@
   <label>
     <select ng-model="selectedStartampm" ng-options="time.id as time.name for time in startampmSelect">
     </select>
-  </label>
+  </label> -->
 
 
-<h3>Selected End Time</h3>
+<!-- <h3>Selected End Time</h3>
    <strong>{{selectedEndHour}}:{{selectedEndMinute}} {{selectedEndampm}}</strong>
 
   <label>
@@ -69,12 +195,12 @@
     <select ng-model="selectedEndampm" ng-options="time.id as time.name for time in endampmSelect">
 
     </select>
-  </label>
+  </label> -->
 
 
 
-<!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
-<button ng-click='createEvent()' type="submit" class="btn btn-danger btn-lg">Send Away!</button>
+  <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+<!-- <button ng-click='createEvent()' type="submit" class="btn btn-danger btn-lg">Send Away!</button>
 </form>
 
 
@@ -84,19 +210,19 @@
 <button ng-click='getData()'  class="btn btn-danger btn-lg">request from firebase!</button>
 
 <div >
-    <!-- <div>SCHEDULE: {{query.schedule}}</div>
+ -->    <!-- <div>SCHEDULE: {{query.schedule}}</div>
     </br></br>
     <a href="" ng-click='changeSlots()'>{{query.slots}}</a></div> -->
-  </br></br>
-  <!-- <div>DATE: {{query.time.timeStamp | date:'MM dd yyyy'}}</div> -->
-  <ul ng-repeat='prop in query track by $index'>
+    <!-- </br></br> -->
+    <!-- <div>DATE: {{query.time.timeStamp | date:'MM dd yyyy'}}</div> -->
+  <!-- <ul ng-repeat='prop in query track by $index'>
     <li> <a href="" ng-click='changeSlots(prop)'>{{prop}}</a></li>
 
   </ul>
-</div>
+</div> -->
 
 <!-- Disable days of the week -->
-<div class='row'>
+<!-- <div class='row'>
   <div class='col-md-6'>
     <form class='form'>
       <h3>Check box to enable a schedule for  that day of the week</h3>
@@ -131,3 +257,4 @@
     </form>
   </div>
 </div>
+-->

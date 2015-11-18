@@ -3,7 +3,7 @@ app.config(function ($routeProvider) {
 
     .when('/', {
      templateUrl: 'pages/home.html',
-     controller:'calendarController',
+     controller:'CalendarCtrl',
      access: {restricted: true}
    })
 
@@ -35,7 +35,7 @@ app.config(function ($routeProvider) {
 
     .when('/admin', {
      templateUrl: 'pages/admin/admin.html',
-     controller:'calendarController',
+     controller:'CalendarCtrl',
      access: {restricted: true}
    })
 
