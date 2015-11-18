@@ -103,10 +103,7 @@ $scope.createEvent = function() {
 $scope.getData = function() {
   queryArray = [];
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
-<<<<<<< HEAD
-=======
 
->>>>>>> b90bfa8606d1fbf2b40a03be77af36e2f18a204e
   ref.orderByChild('date/time').on("child_added", function(snapshot) {
 
    var query = snapshot.exportVal();
