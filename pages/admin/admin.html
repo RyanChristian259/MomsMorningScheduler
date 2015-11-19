@@ -2,6 +2,31 @@
 <p><a href='#/home'> Link to User Calendar</a></p>
  <h4>Create your work day!</h4>
 
+
+
+<!-- Datepicker Calendar starts -->
+<div ng-controller='datePickerController'>
+ <div class="calendar my-datepicker">
+   <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)"></div>
+ </div>
+
+
+<button ng-click='getValues($rootScope.events2, "slots");' type="submit" class="btn btn-danger btn-lg">Get Values</button>
+
+
+<button ng-click='getDayClass2()' type="submit" class="btn btn-danger btn-lg">Process</button>
+
+<div class='col-md-6'>
+  <form class='form'>
+    <div class="form-group">
+      <label form="date">Date</label>
+      <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
+    </div>
+    </form>
+
+</div>
+</div>
+
  <section>
   <div class="well">
     <div class="row-fluid">
