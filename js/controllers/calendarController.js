@@ -1,5 +1,7 @@
-app.controller('calendarController',
- function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService) {
+app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '$location', '$compile', '$timeout', 'uiCalendarConfig','$rootScope','userService', function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService) {
+
+// app.controller('calendarController',
+ // function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService) {
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -274,4 +276,4 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     // Pre-select value by id
     $scope.selectedEndampm = 'pm';
 
-    });//End of Calendar Controller
+    }]);//End of Calendar Controller
