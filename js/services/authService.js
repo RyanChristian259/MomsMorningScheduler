@@ -1,6 +1,6 @@
 //Factory for Auth Service - see Auth Controller
-app.factory('AuthService', ['userService','$q', '$timeout', '$http',
-  function(userService,$q, $timeout, $http) {
+app.factory('AuthService', ['$q', '$timeout', '$http',
+  function($q, $timeout, $http) {
     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
 
     var usersCollection = ref.child("users");
@@ -17,12 +17,13 @@ app.factory('AuthService', ['userService','$q', '$timeout', '$http',
     function isLoggedIn(authData) {
       authData = ref.getAuth();
       if (authData) {
-        userService.currentUserID = authData.uid;
-        userService.currentUserEmail = authData.password.email;
-        return true;
+        console.log("Authenticated user with uid:", authData.uid);
+      return true;
       } else {
         return false;
       }
+      console.log('hit');
+
 
       // if (authData) {
       //   console.log('getting in the conditional');
@@ -39,3 +40,5 @@ app.factory('AuthService', ['userService','$q', '$timeout', '$http',
     });
   }
 ]);
+
+
