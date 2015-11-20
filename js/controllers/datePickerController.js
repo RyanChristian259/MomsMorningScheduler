@@ -104,14 +104,9 @@ $scope.createEvent = function() {
 $scope.getData = function() {
   queryArray = [];
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
-
   ref.orderByChild('date/time').on("child_added", function(snapshot) {
-
    var query = snapshot.exportVal();
-
    var pushedQuery = queryArray.push(query);
-      // console.log(query);
-
     });
   $scope.query = queryArray;
 };
@@ -365,63 +360,5 @@ $scope.startHourSelect = [
 
     // Pre-select value by id
     $scope.selectedEndampm = 'pm';
-//*********************************//
-//  Hard coded events for testing  //
-//*********************************//
-// $scope.events = [
-// {
-//   type: 'morning',
-//   begin: 0830,
-//   end: 1230,
-//   date: 'Nov 23 2015',
-//   status: 'full',
-//   slots :{
-//    0: false,
-//    1: false,
-//    2: false,
-//    3: false
-//  }
-// },
-// {
-//   type: 'morning',
-//   begin: 0830,
-//   end: 1230,
-//   date: 'Nov 24 2015',
-//   status: 'full',
-//   slots :{
-//     0: true,
-//     1: true,
-//     2: true,
-//     3: true
-//   }
-// },
-// {
-//   type: 'morning',
-//   begin: 0830,
-//   end: 1230,
-//   date: 'Nov 25 2015',
-//   status: 'full',
-//   slots :{
-//     0: false,
-//     1: false,
-//     2: false,
-//     3: false
-//   }
-// },
-// {
-//   type: 'morning',
-//   date: 'Nov 30 2015',
-//   begin: 0830,
-//   end: 1230,
-//   status: 'full',
-//   slots :{
-//     0: false,
-//     1: false,
-//     2: false,
-//     3: false
-//   }
-// }
-// ];
-
 
 }]); //calendar controller

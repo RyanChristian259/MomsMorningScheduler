@@ -1,68 +1,50 @@
 <h1>User Page</h1>
-<p><a href='#/admin'> Link to Admin Calendar</a></p>
+<p><a href='#/admin'> Go to Admin Calendar</a></p>
 
- <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
-
- <h4>Inline</h4>
- <div class="calendar my-datepicker">
-   <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker well well-sm' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" is-open="status.opened" datepicker-options="dateOptions" custom-class="getDayClass(date, mode)"></div>
- </div>
-
-
-
-<!-- <section class="col-md-6">
-  <h4>Schedule your morning out!</h4>
-  <p><a href='#/admin'> Link to Admin Calendar</a></p>
-
-  <div class="calendar my-datepicker">
-   <div ng-change='changeDate()' class='my-datepicker' uib-datepicker="{{format='shortDate'}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" ></div>
- </div>
-</section> -->
-
-<div class='col-md-6'>
-  <form class='form'>
-
-    <div class="form-group">
-      <label form="date">Date</label>
-      <input type="text" ng-model='payload.timeStamp' class="form-control" id="datefield" value="{{dt | date:'fullDate' }}" required>
-    </div>
-    <div class="form-group">
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.morning"> Morning
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.afternoon"> Afternoon
-      </label>
-      <label class="checkbox-inline">
-        <input type="checkbox" name="favoriteColors" ng-model="formData.night"> Night
-      </label>
-    </div>
-  </div>
-
-</div>
-
-
-
-
-
-  <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
-  <button ng-click='' type="submit" class="btn btn-danger btn-lg">Schedule Appt (not hooked up yet)</button>
+<!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
+<button ng-click='' type="submit" class="btn btn-danger btn-lg">Schedule Appt (not hooked up yet)</button>
 </form>
 
-
 <hr>
-</br></br></br>
-</br></br>
-<button ng-click='getData()'  class="btn btn-danger btn-lg">request from firebase!</button>
 
-<div >
-    <!-- <div>SCHEDULE: {{query.schedule}}</div>
-    </br></br>
-    <a href="" ng-click='changeSlots()'>{{query.slots}}</a></div> -->
-  </br></br>
-  <!-- <div>DATE: {{query.time.timeStamp | date:'MM dd yyyy'}}</div> -->
-  <ul ng-repeat='prop in query track by $index'>
-    <li> <a href="" ng-click='changeSlots(prop)'>{{prop}}</a></li>
+<!-- Start of UI Calendar -->
+<section>
+  <div class="well">
+    <div class="row-fluid">
+      <div class="span4">
 
-  </ul>
+        <ul class="unstyled">
+          <li ng-repeat="e in events">
+            <div class="alert alert-info">
+              <a class="close" ng-click="remove($index)"><i class="icon-remove"></i></a>
+              <b> <input ng-model="e.title"></b>
+              {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="span8">
+        <uib-tabset>
+        <uib-tab select="renderCalender('myCalendar1');">
+        <uib-tab-heading>
+        <i class="glyphicon glyphicon-bell"></i> Calendar One
+      </uib-tab-heading>
+      <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+        <h4>{{alertMessage}}</h4>
+      </div>
+      <div class="btn-toolbar">
+        <p class="pull-right lead">Calendar View Options</p>
+        <div class="btn-group">
+          <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
+          <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
+          <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
+        </div>
+      </div>
+      <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+    </uib-tab>
+  </uib-tabset>
 </div>
+</div>
+</div>
+</section>
