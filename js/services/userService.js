@@ -5,7 +5,7 @@ app.service('userService', ['$q', '$timeout', '$http',
 
     var currentUserID = 'nothing yet sucka';
 
-
+    var currentDate = 'No Date';
 
 }]); //end factory
 

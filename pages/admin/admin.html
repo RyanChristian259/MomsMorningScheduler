@@ -11,10 +11,10 @@
  </div>
 
 
-<button ng-click='getValues($rootScope.events2, "slots");' type="submit" class="btn btn-danger btn-lg">Get Values</button>
+<!-- <button ng-click='getValues($rootScope.events2, "slots");' type="submit" class="btn btn-danger btn-lg">Get Values</button> -->
 
 
-<button ng-click='getDayClass2()' type="submit" class="btn btn-danger btn-lg">Process</button>
+<!-- <button ng-click='getDayClass2()' type="submit" class="btn btn-danger btn-lg">Process</button> -->
 
 <div class='col-md-6'>
   <form class='form'>
@@ -25,13 +25,9 @@
     </form>
 
 </div>
-</div>
+</div><!-- End of DatePicker Controller -->
 
- <section>
-  <div class="well">
-    <div class="row-fluid">
-      <div class="span4">
-        <h3>Mom's Morning Out</h3>
+<h3>Mom's Morning Out</h3>
 
         <p>Schedule Your Morning Out!</p>
         <form>
@@ -40,6 +36,7 @@
             <button type="button" class="btn btn-primary" ng-click="addEventToDatabase()">
               Add Event
             </button>
+            </br>
 
             <!-- Select start and end times for single day scheduling -->
             <h3>Selected Start Time</h3>
@@ -86,12 +83,16 @@
             </label>
 
             <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
-            <button ng-click='' type="submit" class="btn btn-danger btn-lg">Populate Calendar!</button>
-          </form>
-          <button type="button" class="btn btn-primary" ng-click="callBack()">
+          <!-- <button type="button" class="btn btn-primary" ng-click="callBack()">
             CallBack
-          </button>
+          </button> -->
         </div>
+
+ <section>
+  <div class="well">
+    <div class="row-fluid">
+      <div class="span4">
+
 
         <ul class="unstyled">
           <li ng-repeat="e in events">

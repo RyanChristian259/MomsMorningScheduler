@@ -1,4 +1,4 @@
-app.controller('datePickerController', ['$scope', '$location', '$firebase', '$firebaseArray', '$rootScope', function($scope, $location, $firebase, $firebaseArray, $rootScope) {
+app.controller('datePickerController', ['$scope', '$location', '$firebase', '$firebaseArray', '$rootScope', 'userService', function($scope, $location, $firebase, $firebaseArray, $rootScope, userService) {
 
 
   $scope.today = function() {
@@ -46,7 +46,8 @@ $scope.status = {
 };
 
 $scope.changeDate = function() {
-  var cleanDate = moment($scope.dt).format('DD/MM/YYYY');
+  var cleanDate = moment($scope.dt).format('YYYY-MM-DD');
+  userService.currentDate = cleanDate;
   var payload = {
     'timeStamp': cleanDate
   };

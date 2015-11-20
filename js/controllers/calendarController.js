@@ -1,5 +1,5 @@
 app.controller('calendarController',
- function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope) {
+ function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService) {
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -22,13 +22,14 @@ var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest")
 $scope.addEventToDatabase = function(date, jsEvent, view) {
   var payloadStringified = JSON.stringify($scope.payload);
   var payloadParsed = JSON.parse(payloadStringified);
+  var newStartDateTime = (userService.currentDate + ' ' + $scope.selectedStartHour + ':' + $scope.selectedStartMinute + ' ' + $scope.selectedStartampm).toString();
+  var newEndDateTime = (userService.currentDate + ' ' + $scope.selectedEndHour + ':' + $scope.selectedEndMinute + ' ' + $scope.selectedEndampm).toString();
 
-  var newStartDateTime = new Date(y, m, d + 0, $scope.selectedStartHour, $scope.selectedStartMinute).toString();
-  var newEndDateTime = new Date(y, m, d + 0, $scope.selectedEndHour, $scope.selectedEndMinute).toString();
   var formData = {
     title: 'Morning Session',
     start: newStartDateTime,
     end: newEndDateTime,
+    reservations:{0:{value: ''},1:{value: ''},2:{value: ''},3:{value: ''}}
   };
   ref.push(formData);
       //Firebase callback starts here
@@ -38,11 +39,11 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
         for(var key in events){
           inEvents = events[key];
         }
-        $scope.events.push({
-         title: inEvents.title,
-         start: inEvents.start,
-         end: inEvents.end
-       });
+        // $scope.events.push({
+         // title: inEvents.title,
+         // start: inEvents.start,
+         // end: inEvents.end
+       // });
 
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
@@ -67,12 +68,12 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
       });
 
     };
-
     var init = function(){
       $scope.callBack();
     };
 
     // Call init to populate calendar on page load
+    // Must be called after admin submit function
     init();
 
 
@@ -82,7 +83,6 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
           // {title: 'Birthday Party',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false}
           // ];
           /* event source that calls a function on every view switch */
-          /* alert on eventClick */
 
 
     $scope.alertOnEventClick = function( date, jsEvent, view){
