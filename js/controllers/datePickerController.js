@@ -78,7 +78,7 @@ $scope.createEvent = function() {
       date: $scope.payload.timeStamp,
       begin: $scope.selectedStartHour + ':' + $scope.selectedStartMinute + ' ' + $scope.selectedStartampm,
       end: $scope.selectedEndHour + ':' + $scope.selectedEndMinute + ' ' + $scope.selectedEndampm,
-      reservations:{0:false,1:false,2:false,3:false},
+      slots:{0:false,1:false,2:false,3:false},
       status: 'full'
   };
   console.log(formData, ' form data');

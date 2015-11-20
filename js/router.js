@@ -15,7 +15,7 @@ app.config(function ($routeProvider) {
     .when('/signup', {
      templateUrl: 'pages/auth/signUp.html',
      controller:'authController',
-     access: {restricted: false}
+     access: {restricted: true}
    })
 
      .when('/updateinfo', {
@@ -42,12 +42,12 @@ app.config(function ($routeProvider) {
    .otherwise({redirectTo: '/'});
 });
 
-app.run(function ($rootScope, $location, $route, AuthService) {
-  $rootScope.$on('$routeChangeStart', function (event, next, current) {
-    if (next.access.restricted && AuthService.isLoggedIn() === false) {
+// app.run(function ($rootScope, $location, $route, AuthService) {
+//   $rootScope.$on('$routeChangeStart', function (event, next, current) {
+//     if (next.access.restricted && AuthService.isLoggedIn() === false) {
 
-      $location.path('/login');
-    }
-  });
-});
+//       $location.path('/login');
+//     }
+//   });
+// });
 
