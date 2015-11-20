@@ -1,7 +1,5 @@
 app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '$location', '$compile', '$timeout', 'uiCalendarConfig','$rootScope','userService', function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService) {
 
-// app.controller('calendarController',
- // function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService) {
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
@@ -13,9 +11,9 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
   window.cal = uiCalendarConfig;
 
 //***********************************//
-//        Firebase reference         //
+//        Firebase eventsTestReference         //
 //***********************************//
-var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
+var eventsTestRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
 
 
 //***********************************//
@@ -24,6 +22,7 @@ var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest")
 $scope.addEventToDatabase = function(date, jsEvent, view) {
   var payloadStringified = JSON.stringify($scope.payload);
   var payloadParsed = JSON.parse(payloadStringified);
+
   var newStartDateTime = (userService.currentDate + ' ' + $scope.selectedStartHour + ':' + $scope.selectedStartMinute + ' ' + $scope.selectedStartampm).toString();
   var newEndDateTime = (userService.currentDate + ' ' + $scope.selectedEndHour + ':' + $scope.selectedEndMinute + ' ' + $scope.selectedEndampm).toString();
 
@@ -31,37 +30,26 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     title: 'Morning Session',
     start: newStartDateTime,
     end: newEndDateTime,
-    reservations:{0:{value: ''},1:{value: ''},2:{value: ''},3:{value: ''}}
+    reservations:{0:{user_id: ''},1:{user_id: ''},2:{user_id: ''},3:{user_id: ''}}
   };
-  ref.push(formData);
-      //Firebase callback starts here
-      var inEvents;
-      ref.on("value", function(snapshot) {
-        events = snapshot.exportVal();
-        for(var key in events){
-          inEvents = events[key];
-        }
-        // $scope.events.push({
-         // title: inEvents.title,
-         // start: inEvents.start,
-         // end: inEvents.end
-       // });
+  eventsTestRef.push(formData);
+};
 
-      }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-      });
-    };
 
-    $scope.events = [];
-    $scope.eventSources = [$scope.events];
-    console.log($scope.events, $scope.eventSources);
+
+$scope.events = [];
+$scope.eventSources = [$scope.events];
+    // console.log($scope.events, $scope.eventSources);
     $scope.callBack = function(){
-      ref.on("value", function(snapshot) {
+      eventsTestRef.on("value", function(snapshot) {
         $scope.events.splice(0);
-        events = snapshot.exportVal();
+        firebaseEvents = snapshot.exportVal();
 
-        for(var key in events){
-          $scope.events.push(events[key]);
+        for(var key in firebaseEvents){
+          var clientSideEvent  = firebaseEvents[key];
+          clientSideEvent.key = key;
+
+          $scope.events.push(clientSideEvent);
         }
 
         $scope.$apply();
@@ -87,47 +75,37 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
           /* event source that calls a function on every view switch */
 
 
-    $scope.alertOnEventClick = function( date, jsEvent, view){
-      $scope.alertMessage = (date.title + ' was clicked ' + date.start);
-      $scope.dateTest = date.start;
-     };
+          $scope.alertOnEventClick = function(date, jsEvent, view){
+               $scope.alertMessage = (date.title + ' was clicked ' + date.start);
+               $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
+               $scope.selectedDateKey = date.key;
+              };
 
 
-    /* alert on Drop */
-    $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-      $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
-      };
-    /* alert on Resize */
-    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-      $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-      };
-    /* add and removes an event source of choice */
-    $scope.addRemoveEventSource = function(sources,source) {
-      var canAdd = 0;
-       angular.forEach(sources,function(value, key){
-         if(sources[key] === source){
-           sources.splice(key,1);
-           canAdd = 1;
+          /* alert on Drop */
+          $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+            $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
+          };
+          /* alert on Resize */
+          $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+            $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
+          };
+          /* add and removes an event source of choice */
+          $scope.addRemoveEventSource = function(sources,source) {
+            var canAdd = 0;
+            angular.forEach(sources,function(value, key){
+             if(sources[key] === source){
+               sources.splice(key,1);
+               canAdd = 1;
+             }
+           });
+            if(canAdd === 0){
+              sources.push(source);
             }
-          });
-          if(canAdd === 0){
-            sources.push(source);
-          }
-        };
+          };
 
-   $scope.changeTo = 'Hungarian';
-        /* event source that pulls from google.com */
+          $scope.changeTo = 'Hungarian';
 
-
-        /* add custom event*/
-      // $scope.addEvent = function() {
-      //   $scope.events.push({
-      //     title: 'Open Sesame',
-      //     start: new Date(y, m, 28),
-      //     end: new Date(y, m, 29),
-      //     className: ['openSesame']
-      //   });
-      // };
       /* remove event */
       $scope.remove = function(index) {
         $scope.events.splice(index,1);
@@ -178,14 +156,53 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
           $scope.changeTo = 'Hungarian';
         }
       };
-      /* event sources array*/
 
+      /* event sources array*/
       // $scope.events is your events with the following keys:
       // title, start, end, allDay
 
       // $scope.eventSource is
       // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
       // init();
+
+//////////////////////// USER CALENDAR FUNCTIONALITY BEGINS BELOW ////////////////////////
+  $scope.reserve = function() {
+    var userId = userService.currentUserID;
+    var firebaseRef = new Firebase("https://momsmorningscheduler.firebaseio.com");
+    var eventKey = $scope.selectedDateKey;
+
+
+    firebaseRef.on('value', function (snapshots) {
+      var selectedEvent, userKey;
+      snapshots.forEach(function (snapshot) {
+        if ( snapshot.key() == 'eventsTest' ) {
+          selectedEvent = snapshot.val()[eventKey];
+          selectedEvent.key = eventKey;
+        } else if ( snapshot.key() == 'users' ) {
+          var users = snapshot.val();
+
+          Object.keys(users).forEach(function(key) {
+            if ( users[key].id == userId ) {
+              userKey = key;
+            }
+          });
+        } else {
+          console.log('some other table');
+        }
+      });
+
+      // selectedEvent = { end: ..., start: ..., title: ...,
+      //                   reservations: [{ 0: '' }, { 1: '' }, { 2: '' }, { 3: '' }] }
+      // userKey = -KsEHUnjdkscaheHUEFjhds
+      //
+      // What you want is:
+      // >> reservations: [{ 0: '-KsEHUnjdkscaheHUEFjhds', ... }]
+      var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest/" + selectedEvent.key + "/reservations");
+      updateResRef.child('1').update({user_id: userKey });
+
+      console.log('event and key', selectedEvent, userKey);
+    });
+  };
 
       //Values for time selector on admin page
       $scope.startHourSelect = [

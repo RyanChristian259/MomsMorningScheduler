@@ -1,3 +1,120 @@
+/////////////////////////////////////////////////////////////////
+//Here is the infamous code that caused the dreaded firebase loop.
+ // userRef.on("value", function(users) {
+
+    //   users.forEach(function(user){
+    //     key = user.key();
+    //     userData = user.val();
+    //   });
+
+    //   if(userId === userData.id){
+    //     var singleUserRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + key);
+    //     singleUserRef.update({'date':$scope.cleanDate});
+    //   }
+    // }, function (errorObject) {
+    //   console.log("The read failed: " + errorObject.code);
+    // });
+/////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////
+//***********************************************//
+// process events to show if slots are available //
+//***********************************************//
+$scope.processEvents = function(events){
+  var numSlots = 0;
+  for (var i = 0; i < $scope.events.length; i ++){
+    for (var j = 0; j < $scope.events.length; j ++){
+      if( $scope.events[i].slots[j] === false){
+        numSlots += 1;
+      }
+    }
+    return numSlots;
+  }
+};
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+// Callback function
+// Attach an asynchronous callback to read the data at our posts reference
+$scope.callBack = function(){
+  var dateChosen = moment($scope.dt).format('DD/MM/YYYY');
+
+  var inEvents;
+  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+  ref.on("value", function(snapshot) {
+    snapshot.forEach(function (childSnapshot){
+      var key = childSnapshot.key();
+        // console.log(key, " key");
+      var childData = childSnapshot.val();
+      // console.log(childData, ' key');
+      var ref2 = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + key + '/slots');
+      ref2.on('value',function(snapshot){
+
+         if (dateChosen === childData.date) {
+          userService.appointmentService = snapshot.val();
+          console.log(userService.appointmentService,'inside the if');
+          // console.log(snapshot.val(),' dateChosen');
+          // ref2.update({
+          //   1: false
+          // });
+      }
+
+      });
+
+
+
+
+    });
+
+  events2 = snapshot.exportVal();
+  // console.log(events2);
+  // for(var key in events2){
+
+  //    inEvents = events2[key];
+
+     // if (dateChosen === inEvents.date) {
+     //  console.log(inEvents);
+     //  console.log(inEvents.date);
+     //  console.log( 'wah-hoo');
+     // }
+  // }
+
+  $rootScope.events2 = events2;
+}, function (errorObject) {
+  console.log("The read failed: " + errorObject.code);
+});
+};
+/////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+//From Calendar Controller -  add event to database Fn, after ref.form push(data)
+    // //Firebase callback starts here
+      // var inEvents;
+      // eventsTestRef.on("value", function(snapshot) {
+      //   events = snapshot.exportVal();
+      //   for(var key in events){
+      //     inEvents = events[key];
+      //   }
+      //   // $scope.events.push({
+      //    // title: inEvents.title,
+      //    // start: inEvents.start,
+      //    // end: inEvents.end
+      //  // });
+
+      // }, function (errorObject) {
+        // console.log("The read failed: " + errorObject.code);
+      // });
+/////////////////////////////////////////////////////////////////
+
  <link href='http://ajax.microsoft.com/ajax/jquery.ui/1.8.7/themes/black-tie/jquery-ui.css'/ rel='stylesheet'>
 <script src='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js'></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
