@@ -1,12 +1,20 @@
 <h1>User Page</h1>
 <p><a href='#/admin'> Link to Admin Calendar</a></p>
 
+<<<<<<< HEAD
+=======
  <pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
 
  <h4>Inline</h4>
  <div class="calendar my-datepicker">
-   <div uib-datepicker="{{format='shortDate'}}" ng-change='changeDate()' class='my-datepicker well well-sm' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" is-open="status.opened" datepicker-options="dateOptions" custom-class="getDayClass(date, mode)"></div>
+   <div uib-datepicker="{{format='shortDate'}}" ng-change='callBack();changeDate()' class='my-datepicker well well-sm' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" is-open="status.opened" datepicker-options="dateOptions" custom-class="getDayClass(date, mode)"></div>
  </div>
+
+<button ng-click='callBack()' type="submit" class="btn btn-danger btn-lg">Callback</button>
+
+
+
+<button ng-click='getDayClass2()' type="submit" class="btn btn-danger btn-lg">Getdayclassr</button>
 
 
 
@@ -45,24 +53,52 @@
 
 
 
+>>>>>>> 1ba7a6b08f461d365c3654380645dbdd3ce763bd
   <!-- SUBMIT BUTTON (DOESNT DO ANYTHING) -->
-  <button ng-click='' type="submit" class="btn btn-danger btn-lg">Schedule Appt (not hooked up yet)</button>
-</form>
-
+  <button ng-click='reserve()' type="submit" class="btn btn-danger btn-lg">Schedule Appt (not hooked up yet)</button>
 
 <hr>
-</br></br></br>
-</br></br>
-<button ng-click='getData()'  class="btn btn-danger btn-lg">request from firebase!</button>
 
-<div >
-    <!-- <div>SCHEDULE: {{query.schedule}}</div>
-    </br></br>
-    <a href="" ng-click='changeSlots()'>{{query.slots}}</a></div> -->
-  </br></br>
-  <!-- <div>DATE: {{query.time.timeStamp | date:'MM dd yyyy'}}</div> -->
-  <ul ng-repeat='prop in query track by $index'>
-    <li> <a href="" ng-click='changeSlots(prop)'>{{prop}}</a></li>
+<section>
+  <div class="well">
+    <div class="row-fluid">
+      <div class="span4">
+        <h3>Mom's Morning Out</h3>
+        <p>Schedule Your Morning Out!</p>
+          <div class="btn-group calTools">
 
-  </ul>
+        <ul class="unstyled">
+          <li ng-repeat="e in events">
+            <div class="alert alert-info">
+              <a class="close" ng-click="remove($index)"><i class="icon-remove"></i></a>
+              <b> <input ng-model="e.title"></b>
+              {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
+            </div>
+          </li>
+        </ul>
+
+      </div>
+
+      <div class="span8">
+        <uib-tabset>
+
+          <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+            <h4>{{alertMessage}}</h4>
+          </div>
+          <div class="btn-toolbar">
+            <p class="pull-right lead">Calendar One View Options</p>
+            <div class="btn-group">
+              <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
+              <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
+              <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
+            </div>
+          </div>
+          <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+        </uib-tab>
+
+    </uib-tabset>
+  </div>
 </div>
+</div>
+</section>
+

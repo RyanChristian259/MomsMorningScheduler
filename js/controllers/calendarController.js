@@ -1,9 +1,64 @@
+<<<<<<< HEAD
 app.controller('calendarController',
- function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope) {
+ function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope,userService) {
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
+=======
+app.controller('calendarController', ['$scope', '$location', '$firebase', '$firebaseArray', '$rootScope','userService', function($scope, $location, $firebase, $firebaseArray, $rootScope,userService) {
+
+
+  $scope.today = function() {
+    $scope.dt = new Date();
+  };
+
+  $scope.today();
+
+  $scope.clear = function() {
+    $scope.dt = null;
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+
+//**Set Max Date for Scheduling availibility**//
+//Change the num after .getFullYear to adjust
+//Currently set to 2 years out from current date
+var setMaxDateYear = new Date().getFullYear();
+var setMaxDateMonth = new Date().getMonth() + 24;
+$scope.maxDate = new Date(setMaxDateYear, setMaxDateMonth, 1);
+
+//
+$scope.open = function($event) {
+  $scope.status.opened = true;
+};
+
+$scope.setDate = function(year, month, day) {
+  $scope.dt = new Date(year, month, day);
+};
+
+$scope.dateOptions = {
+  formatYear: 'yy',
+  startingDay: 1
+};
+
+$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+$scope.format = $scope.formats[0];
+
+$scope.status = {
+  opened: false
+};
+
+$scope.changeDate = function() {
+  var cleanDate = moment($scope.dt).format('DD/MM/YYYY');
+  var payload = {
+    'timeStamp': cleanDate
+  };
+>>>>>>> 1ba7a6b08f461d365c3654380645dbdd3ce763bd
 
 
   var payload = {};
@@ -13,7 +68,7 @@ app.controller('calendarController',
 //***********************************//
 //        Firebase reference         //
 //***********************************//
-var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
+var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
 
 
 //***********************************//
@@ -29,8 +84,13 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     title: 'Morning Session',
     start: newStartDateTime,
     end: newEndDateTime,
+    reservations: { 0: { user_id: '' },
+                    1: { user_id: '' },
+                    2: { user_id: '' },
+                    3: { user_id: '' } }
   };
   ref.push(formData);
+<<<<<<< HEAD
       //Firebase callback starts here
       var inEvents;
       ref.on("value", function(snapshot) {
@@ -41,26 +101,93 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
         $scope.events.push({
          title: inEvents.title,
          start: inEvents.start,
-         end: inEvents.end
+         end: inEvents.end,
+         reservations: inEvents.reservations
        });
+=======
+};
+
+
+//***************************//
+//  Async call to firebase   //
+//***************************//
+// var ref = new Firebase("https://momsmorningscheduler.firebaseio.com");
+// // Attach an asynchronous callback to read the data at our posts reference
+// ref.on("value", function(snapshot) {
+//   console.log(snapshot.exportVal());
+
+// }, function (errorObject) {
+//   console.log("The read failed: " + errorObject.code);
+// });
+
+
+$scope.getData = function() {
+  queryArray = [];
+  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+
+  ref.orderByChild('date/time').on("child_added", function(snapshot) {
+
+   var query = snapshot.exportVal();
+
+   var pushedQuery = queryArray.push(query);
+      // console.log(query);
+
+    });
+  $scope.query = queryArray;
+
+  console.log(userService.appointmentService,' in the getData');
+};
+
+//***************************//
+//  Disable selected days    //
+//***************************//
+$scope.disabled = function(date, mode) {
+  $scope.sunday = null; //0 to disable, null to enable
+  $scope.monday = null; //1 to disable, null to enable
+  $scope.tuesday = null; //2 to disable, null to enable
+  $scope.wednesday = null; //3 to disable, null to enable
+  $scope.thursday = null; //4 to disable, null to enable
+  $scope.friday = null; //5 to disable, null to enable
+  $scope.saturday = null; //6 to disable, null to enable
+  return ( mode === 'day' && ( date.getDay() === $scope.sunday || date.getDay() === $scope.monday || date.getDay() === $scope.tuesday || date.getDay() === $scope.wednesday || date.getDay() === $scope.thursday || date.getDay() === $scope.friday || date.getDay() === $scope.saturday ) );
+};
+
+$scope.changeSlots = function(data) {
+  console.log(data)
+
+    // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+
+    // ref.orderByChild("date/schedule/time").equalTo("2015-11-13T19:24:21.465Z").on('childAdded', function (snapshot) {
+    //    console.log(snapshot.key());
+    // });
+>>>>>>> 1ba7a6b08f461d365c3654380645dbdd3ce763bd
 
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
       });
+      console.log(userService.currentUserID, ' here is the users id');
     };
 
     $scope.events = [];
     $scope.eventSources = [$scope.events];
-    console.log($scope.events, $scope.eventSources);
+    // console.log($scope.events, $scope.eventSources);
     $scope.callBack = function(){
       ref.on("value", function(snapshot) {
         $scope.events.splice(0);
-        events = snapshot.exportVal();
+        firebaseEvents = snapshot.exportVal();
 
-        for(var key in events){
-          $scope.events.push(events[key]);
+        console.log('firebaseEvents', firebaseEvents);
+
+
+
+        for(var key in firebaseEvents){
+          var clientSideEvent     = firebaseEvents[key];
+              clientSideEvent.key = key;
+
+          $scope.events.push(clientSideEvent);
         }
 
+<<<<<<< HEAD
         $scope.$apply();
       }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
@@ -84,10 +211,13 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
           /* event source that calls a function on every view switch */
           /* alert on eventClick */
 
+    // $scope.renderSingleDate = function(){
 
-    $scope.alertOnEventClick = function( date, jsEvent, view){
+    // };
+    $scope.alertOnEventClick = function(date, jsEvent, view){
       $scope.alertMessage = (date.title + ' was clicked ' + date.start);
-      $scope.dateTest = date.start;
+      $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
+      $scope.selectedDateKey = date.key;
      };
 
 
@@ -114,18 +244,7 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
         };
 
    $scope.changeTo = 'Hungarian';
-        /* event source that pulls from google.com */
 
-
-        /* add custom event*/
-      // $scope.addEvent = function() {
-      //   $scope.events.push({
-      //     title: 'Open Sesame',
-      //     start: new Date(y, m, 28),
-      //     end: new Date(y, m, 29),
-      //     className: ['openSesame']
-      //   });
-      // };
       /* remove event */
       $scope.remove = function(index) {
         $scope.events.splice(index,1);
@@ -174,6 +293,124 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
           $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
           $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
           $scope.changeTo = 'Hungarian';
+=======
+  // $('span').on('click', function(){
+  //   var buttonClicked = $(this).html();
+  //   console.log(buttonClicked, ' click');
+  // });
+
+var tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+var afterTomorrow = new Date();
+afterTomorrow.setDate(tomorrow.getDate() + 2);
+
+
+
+// Attach an asynchronous callback to read the data at our posts reference
+$scope.callBack = function(){
+  var dateChosen = moment($scope.dt).format('DD/MM/YYYY');
+
+  var inEvents;
+  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+  ref.on("value", function(snapshot) {
+    snapshot.forEach(function (childSnapshot){
+      var key = childSnapshot.key();
+        // console.log(key, " key");
+      var childData = childSnapshot.val();
+      // console.log(childData, ' key');
+      var ref2 = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + key + '/slots');
+      ref2.on('value',function(snapshot){
+
+         if (dateChosen === childData.date) {
+          userService.appointmentService = snapshot.val();
+          console.log(userService.appointmentService,'inside the if');
+          // console.log(snapshot.val(),' dateChosen');
+          // ref2.update({
+          //   1: false
+          // });
+      }
+
+      });
+
+
+
+
+    });
+
+  events2 = snapshot.exportVal();
+  // console.log(events2);
+  // for(var key in events2){
+
+  //    inEvents = events2[key];
+
+     // if (dateChosen === inEvents.date) {
+     //  console.log(inEvents);
+     //  console.log(inEvents.date);
+     //  console.log( 'wah-hoo');
+     // }
+  // }
+
+  $rootScope.events2 = events2;
+}, function (errorObject) {
+  console.log("The read failed: " + errorObject.code);
+});
+};
+
+var ref3 = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
+ref3.orderByChild("workDays/date").on("child_added", function(snapshot) {
+  console.log('status ' + snapshot.key() + ' ' + snapshot.val().status + " date " + snapshot.val().date);
+});
+
+// var ref2 = new Firebase("https://dinosaur-facts.firebaseio.com/dinosaurs");
+// ref2.orderByChild("dimensions/height").on("child_added", function(snapshot) {
+//   console.log(snapshot.key() + " was " + snapshot.val().height + " meters tall");
+// });
+
+//***********************************************//
+// process events to show if slots are available //
+//***********************************************//
+$scope.processEvents = function(events){
+  var numSlots = 0;
+  for (var i = 0; i < $scope.events.length; i ++){
+    for (var j = 0; j < $scope.events.length; j ++){
+      if( $scope.events[i].slots[j] === false){
+        numSlots += 1;
+      }
+    }
+    return numSlots;
+  }
+};
+
+
+//*************************//
+// Show events on calendar //
+//*************************//
+$scope.getDayClass = function(date, mode) {
+  if (mode === 'day') {
+    var dayToCheck = new Date(date).setHours(0,0,0,0);
+    for (var i = 0; i < $scope.events.length; i ++){
+      var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
+      // console.log(currentDay, ' current day');
+      if (dayToCheck === currentDay && $scope.events[i].slots[i] === false) {
+        return $scope.events[i].status;
+      }
+    }
+  }
+  return '';
+};
+
+var obj = $rootScope.events2;
+//return an array of values that match on a certain key
+$scope.getValues = function(obj, key) {
+    var objects = [];
+    for (var i in obj) {
+      console.log(i, ' events in func');
+        if (!obj.hasOwnProperty(i)) continue;
+        if (typeof obj[i] == 'object') {
+            objects = objects.concat(getValues(obj[i], key));
+        } else if (i == key) {
+            objects.push(obj[i]);
+>>>>>>> 1ba7a6b08f461d365c3654380645dbdd3ce763bd
         }
       };
       /* event sources array*/
@@ -274,4 +511,64 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     // Pre-select value by id
     $scope.selectedEndampm = 'pm';
 
-    });//End of Calendar Controller
+//////////////////////// USER CALENDAR FUNCTIONALITY BEGINS BELOW ////////////////////////
+  $scope.reserve = function() {
+    var userId = userService.currentUserID;
+    var firebaseRef = new Firebase("https://momsmorningscheduler.firebaseio.com");
+    var eventKey = $scope.selectedDateKey;
+
+
+    firebaseRef.on('value', function (snapshots) {
+      var selectedEvent, userKey;
+      snapshots.forEach(function (snapshot) {
+        if ( snapshot.key() == 'events' ) {
+          selectedEvent = snapshot.val()[eventKey];
+          selectedEvent.key = eventKey;
+        } else if ( snapshot.key() == 'users' ) {
+          var users = snapshot.val();
+
+          Object.keys(users).forEach(function(key) {
+            if ( users[key].id == userId ) {
+              userKey = key;
+            }
+          });
+        } else {
+          console.log('some other table');
+        }
+      });
+
+      // selectedEvent = { end: ..., start: ..., title: ...,
+      //                   reservations: [{ 0: '' }, { 1: '' }, { 2: '' }, { 3: '' }] }
+      // userKey = -KsEHUnjdkscaheHUEFjhds
+      //
+      // What you want is:
+      // >> reservations: [{ 0: '-KsEHUnjdkscaheHUEFjhds', ... }]
+      var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations");
+      updateResRef.child('1').update({user_id: userKey });
+
+      console.log('event and key', selectedEvent, userKey);
+    });
+
+    // userRef.on("value", function(users) {
+
+    //   users.forEach(function(user){
+    //     key = user.key();
+    //     userData = user.val();
+    //   });
+
+    //   if(userId === userData.id){
+    //     var singleUserRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + key);
+    //     singleUserRef.update({'date':$scope.cleanDate});
+    //   }
+    // }, function (errorObject) {
+    //   console.log("The read failed: " + errorObject.code);
+    // });
+  };
+
+// usersRef.update({
+//   "alanisawesome/nickname": "Alan The Machine"
+//   "gracehop/nickname": "Amazing Grace"
+// });
+
+
+});//End of Calendar Controller

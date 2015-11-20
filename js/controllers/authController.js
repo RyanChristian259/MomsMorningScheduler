@@ -18,11 +18,13 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
         console.log("Login Failed!", error);
       } else {
         userService.currentUserID = authData.uid;
+        userService.currentUserEmail = authData.password.email;
+
         $scope.success = true;
         //not sure if this returns if you are logged in or out!!! Pls confirm.
-        console.log(userService.currentUserID, ' userservice current id, coming from sign in');
+        // console.log(userService.currentUserID, ' userservice current id, coming from sign in');
         $scope.message = 'You are logged out!';
-        console.log("Authenticated successfully with payload:", authData);
+        // console.log("Authenticated successfully with payload:", authData);
       }
     });
   };
@@ -55,6 +57,7 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
               id: authData.uid
             };
             userService.currentUserID = authData.uid;
+            userService.currentUserEmail = authData.password.email;
             console.log(userService.currentUserID, ' userservice current id, coming from create user');
             ref.push(formData);
           }
@@ -86,6 +89,7 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
       password: $scope.password
     }, function(error) {
       if (error === null) {
+        userService.currentUserEmail = authData.password.email;
         console.log("Email changed successfully");
       } else {
         console.log("Error changing email:", error);
