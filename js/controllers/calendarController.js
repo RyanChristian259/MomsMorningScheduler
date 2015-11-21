@@ -1,9 +1,20 @@
-app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '$location', '$compile', '$timeout', 'uiCalendarConfig','$rootScope','userService', function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService) {
+app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '$location', '$compile', '$timeout', 'uiCalendarConfig','$rootScope','userService', 'authService', function($scope, $firebase, $firebaseArray, $location, $compile, $timeout, uiCalendarConfig, $rootScope, userService, authService) {
 
   var date = new Date();
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
+
+//***********************************//
+//         Check Login State         //
+//***********************************//
+var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
+var authData = ref.getAuth();
+if (authData) {
+  console.log("User " + authData.uid + " is logged in with " + authData.provider);
+} else {
+  console.log("User is logged out");
+}
 
 
   var payload = {};
@@ -14,6 +25,7 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
 //  Firebase eventsTestReference     //
 //***********************************//
 var eventsTestRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
+
 
 
 //***********************************//
@@ -30,7 +42,7 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     title: 'Morning Session',
     start: newStartDateTime,
     end: newEndDateTime,
-    reservations:{0:{user_id: ''},1:{user_id: ''},2:{user_id: ''},3:{user_id: ''}}
+    reservations:{0:{user_id: '', age:'0-24 months'},1:{user_id: '', age:'0-24 months'},2:{user_id: '', age:'2-6 years'},3:{user_id: '', age:'2-6 years'},4:{user_id: '', age:'2-6 years'},5:{user_id: '', age:'2-6 years'}}
   };
   eventsTestRef.push(formData);
 };
@@ -60,7 +72,7 @@ $scope.eventSources = [$scope.events];
     };
     var init = function(){
       $scope.callBack();
-    };
+    };//End addEventToDatabase
 
     // Call init to populate calendar on page load
     // Must be called after admin submit function
@@ -145,17 +157,6 @@ $scope.eventSources = [$scope.events];
         }
       };
 
-      $scope.changeLang = function() {
-        if($scope.changeTo === 'Hungarian'){
-          $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-          $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-          $scope.changeTo= 'English';
-        } else {
-          $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-          $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-          $scope.changeTo = 'Hungarian';
-        }
-      };
 
       /* event sources array*/
       // $scope.events is your events with the following keys:
@@ -294,3 +295,15 @@ $scope.eventSources = [$scope.events];
     $scope.selectedEndampm = 'pm';
 
     }]);//End of Calendar Controller
+
+  // $scope.changeLang = function() {
+      //   if($scope.changeTo === 'Hungarian'){
+      //     $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
+      //     $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
+      //     $scope.changeTo= 'English';
+      //   } else {
+      //     $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      //     $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      //     $scope.changeTo = 'Hungarian';
+      //   }
+      // };
