@@ -46,7 +46,10 @@ $scope.status = {
 };
 
 
-
+//**************************************//
+//      Set date from datepicker        //
+//**************************************//
+// Set current date as default on page load
 var cleanDate = moment($scope.dt).format('YYYY-MM-DD');
   userService.currentDate = cleanDate;
   var payload = {
@@ -54,7 +57,7 @@ var cleanDate = moment($scope.dt).format('YYYY-MM-DD');
   };
   $scope.payload = payload;
 
-
+//Change date when selected from picker
 $scope.changeDate = function() {
   var cleanDate = moment($scope.dt).format('YYYY-MM-DD');
   userService.currentDate = cleanDate;
@@ -63,17 +66,6 @@ $scope.changeDate = function() {
   };
   $scope.payload = payload;
   };
-
-
-  $scope.submitDate = function() {
-    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
-    var workDaysCollection = ref.child("workDays");
-    var payloadStringified = JSON.stringify($scope.payload);
-    var payloadParsed = JSON.parse(payloadStringified);
-    workDaysCollection.push(payloadParsed);
-    // console.log($scope.workDaysCollection, ' open');
-  };
-
 
 //**************************************//
 // Admin submit single date to database //
@@ -108,7 +100,9 @@ $scope.createEvent = function() {
 //   console.log("The read failed: " + errorObject.code);
 // });
 
-
+//*****************************//
+//  Query database for events  //
+//*****************************//
 $scope.getData = function() {
   queryArray = [];
   var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
