@@ -45,17 +45,25 @@ $scope.status = {
   opened: false
 };
 
+
+
+var cleanDate = moment($scope.dt).format('YYYY-MM-DD');
+  userService.currentDate = cleanDate;
+  var payload = {
+    'timeStamp': userService.currentDate
+  };
+  $scope.payload = payload;
+
+
 $scope.changeDate = function() {
   var cleanDate = moment($scope.dt).format('YYYY-MM-DD');
   userService.currentDate = cleanDate;
   var payload = {
-    'timeStamp': cleanDate
+    'timeStamp': userService.currentDate
   };
-
-
   $scope.payload = payload;
-    // console.log($scope.payload);
   };
+
 
   $scope.submitDate = function() {
     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
