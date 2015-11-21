@@ -11,7 +11,7 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
   window.cal = uiCalendarConfig;
 
 //***********************************//
-//        Firebase eventsTestReference         //
+//  Firebase eventsTestReference     //
 //***********************************//
 var eventsTestRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
 
