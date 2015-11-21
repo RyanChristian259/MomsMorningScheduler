@@ -8,7 +8,9 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
 
   $scope.success = false;
 
-  //User sign in with Firebase
+//*******************************//
+//          Sign In User         //
+//*******************************//
   $scope.signInUser = function() {
     ref.authWithPassword({
       email: $scope.enterEmail,
@@ -21,14 +23,23 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
         $scope.success = true;
         //not sure if this returns if you are logged in or out!!! Pls confirm.
         console.log(userService.currentUserID, ' userservice current id, coming from sign in');
-        $scope.message = 'You are logged out!';
+        $scope.message = 'You are logged in!';
         console.log("Authenticated successfully with payload:", authData);
       }
     });
   };
 
 
-  // Create user with Firebase
+ref.authWithPassword({
+  email    : "bobtony@firebase.com",
+  password : "correcthorsebatterystaple"
+}, function(error, authData) { /* Your Code */ }, {
+  remember: "sessionOnly"
+});
+
+//*******************************//
+//          Create User          //
+//*******************************//
   $scope.createUser = function() {
     usersCollection.createUser({
       email: $scope.createEmail,
@@ -36,7 +47,7 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
     },
     function(error, userData) {
       if (error) {
-        console.log("Error YO:", error);
+        console.log("Login Failed!", error);
       } else {
         console.log("Successfully created user account with uid:", userData);
       }
@@ -55,14 +66,15 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
               id: authData.uid
             };
             userService.currentUserID = authData.uid;
-            console.log(userService.currentUserID, ' userservice current id, coming from create user');
             ref.push(formData);
           }
         });
       });
 };
 
-  //User change password with Firebase
+//*******************************//
+//         Change Password       //
+//*******************************//
   $scope.changePassword = function() {
     ref.changePassword({
       email: $scope.enterCurrentEmail,
@@ -78,7 +90,9 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
     });
   };
 
-  //Update email address
+//*******************************//
+//      Update Email address     //
+//*******************************//
   $scope.updateEmail = function() {
     ref.changeEmail({
       oldEmail: $scope.oldEmail,
@@ -93,7 +107,9 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
     });
   };
 
-  //Reset password via email
+//************************************//
+//  Request password reset via email  //
+//************************************//
   $scope.passwordReset = function() {
     ref.resetPassword({
       email: $scope.passwordResetEmail
@@ -106,6 +122,9 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
     });
   };
 
+//*******************************//
+//          Delete User         //
+//*******************************//
   $scope.deleteUser = function() {
     var confirmDelete = confirm('Are you sure? This cannot be undone.');
     if (confirmDelete === true) {
@@ -124,6 +143,9 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
     }
   };
 
+//*******************************//
+//            Logout             //
+//*******************************//
   $scope.logoutUser = function() {
     ref.unauth(function(error, authData) {
       if (error) {

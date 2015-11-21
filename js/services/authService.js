@@ -1,18 +1,11 @@
-//Factory for Auth Service - see Auth Controller
-app.factory('AuthService', ['$q', '$timeout', '$http',
+//Service for Auth Service - see Auth Controller
+app.factory('authService', ['$q', '$timeout', '$http',
   function($q, $timeout, $http) {
+
+
     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
 
     var usersCollection = ref.child("users");
-
-
-
-    // var authData = ref.getAuth();
-    // if (authData) {
-    //   console.log("Authenticated user with uid:", authData.uid);
-    //   return authData;
-    // }
-
 
     function isLoggedIn(authData) {
       authData = ref.getAuth();
@@ -33,12 +26,10 @@ app.factory('AuthService', ['$q', '$timeout', '$http',
       // }
     }
     // isLoggedIn();
-
     return ({
       isLoggedIn: isLoggedIn,
 
     });
-  }
-]);
+  }]); // end service
 
 

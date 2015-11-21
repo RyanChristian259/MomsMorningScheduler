@@ -1,4 +1,4 @@
-//Factory for User Service
+//Service for User Service
 app.service('userService', ['$q', '$timeout', '$http',
   function($q, $timeout, $http) {
 
@@ -10,4 +10,4 @@ app.service('userService', ['$q', '$timeout', '$http',
 
     var currentDate = 'No Date';
 
-}]); //end factory
+}]); //end Service

@@ -71,7 +71,7 @@ $scope.changeDate = function() {
 // Admin submit single date to database //
 //**************************************//
 $scope.createEvent = function() {
-  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
   var payloadStringified = JSON.stringify($scope.payload);
   var payloadParsed = JSON.parse(payloadStringified);
 
