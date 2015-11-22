@@ -1,4 +1,4 @@
-app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', 'userService', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, userService) {
+app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', 'userService', 'authService', '$window', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, userService, authService, $window) {
 
   var self = this;
 
@@ -6,7 +6,18 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
 
   var usersCollection = ref.child("users");
 
-  $scope.success = false;
+//***********************************//
+//         Check Login State         //
+//***********************************//
+var authData = ref.getAuth();
+if (authData) {
+  console.log("User " + authData.uid + " is logged in with auth controller " + authData.provider);
+  $scope.authData = authData;
+  $scope.greetUser = authData.password.email;
+  console.log(' auth data ', authData);
+} else {
+  console.log("User is logged out");
+}
 
 //*******************************//
 //          Sign In User         //
@@ -19,23 +30,14 @@ app.controller('authController', ['$scope', '$http', '$location', '$firebase', '
       if (error) {
         console.log("Login Failed!", error);
       } else {
-        userService.currentUserID = authData.uid;
-        $scope.success = true;
         //not sure if this returns if you are logged in or out!!! Pls confirm.
-        console.log(userService.currentUserID, ' userservice current id, coming from sign in');
         $scope.message = 'You are logged in!';
         console.log("Authenticated successfully with payload:", authData);
+        $location.path('#/');
+        $window.location.reload();
       }
     });
   };
-
-
-ref.authWithPassword({
-  email    : "bobtony@firebase.com",
-  password : "correcthorsebatterystaple"
-}, function(error, authData) { /* Your Code */ }, {
-  remember: "sessionOnly"
-});
 
 //*******************************//
 //          Create User          //
@@ -67,6 +69,7 @@ ref.authWithPassword({
             };
             userService.currentUserID = authData.uid;
             ref.push(formData);
+            $location.path('#/');
           }
         });
       });
@@ -152,6 +155,7 @@ ref.authWithPassword({
         console.log("Logout Failed!", error);
       } else {
         console.log("You are logged out");
+        $window.location.reload();
       }
 
     });

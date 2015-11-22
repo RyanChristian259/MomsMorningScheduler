@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body  ng-controller='authController'>
+<body ng-controller='authController'>
 
   <header>
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -33,16 +33,16 @@
         <li><a href="#/">Appointments</a></li>
         <li><a href="http://www.momsmorningout.info/aboutus/">About Us</a></li>
         <li><a href="http://www.momsmorningout.info/contact/">Contact</a></li>
-        <li><a href="#/login">Log in</a></li>
-        <li><a href='' ng-click='logoutUser()'>Log out</a></li>
+        <li ng-show='!authData'><a href="#/login">Log in</a></li>
+        <li ng-show='authData'><a href='' ng-click='logoutUser()'>Log out</a></li>
       </ul>
     </nav>
   </div>
 </header>
-<div class='pagePortal'>
 
-</br>
-</br>
+<div class='pagePortal'>
+<p style='text-align: right'>Hello {{greetUser}}&nbsp;&nbsp;&nbsp;</p>
+
 
 <div class='container'>
 
