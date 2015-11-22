@@ -11,9 +11,12 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
 var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
 var authData = ref.getAuth();
 if (authData) {
-  console.log("User " + authData.uid + " is logged in with " + authData.provider);
+  console.log("User " + authData.uid + " is logged in with calendar controller " + authData.provider);
+  // $scope.show = true;
+  console.log(' auth data ', authData);
 } else {
-  console.log("User is logged out");
+  console.log("User is logged out", authData);
+  // $scope.show = false;
 }
 
 

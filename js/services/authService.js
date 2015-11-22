@@ -2,7 +2,6 @@
 app.factory('authService', ['$q', '$timeout', '$http',
   function($q, $timeout, $http) {
 
-
     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
 
     var usersCollection = ref.child("users");
