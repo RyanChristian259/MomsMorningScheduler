@@ -50,8 +50,6 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
   eventsTestRef.push(formData);
 };
 
-
-
 $scope.events = [];
 $scope.eventSources = [$scope.events];
     // console.log($scope.events, $scope.eventSources);
@@ -73,6 +71,15 @@ $scope.eventSources = [$scope.events];
       });
 
     };
+
+    $scope.eventsF = function (start, end, timezone, callback) {
+      var s = new Date(start).getTime() / 1000;
+      var e = new Date(end).getTime() / 1000;
+      var m = new Date(start).getMonth();
+      $scope.events = [{title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed']}];
+      callback($scope.events);
+    };
+
     var init = function(){
       $scope.callBack();
     };//End addEventToDatabase
@@ -127,7 +134,10 @@ $scope.eventSources = [$scope.events];
       };
       /* Change View */
       $scope.changeView = function(view,calendar) {
-        uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
+        uiCalendarConfig.calendars[calendar].fullCalendar('removeEvents');
+        uiCalendarConfig.calendars[calendar].fullCalendar('addEventSource', $scope.events);
+
+        uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
       };
       /* Change View */
       $scope.renderCalender = function(calendar) {
@@ -137,6 +147,7 @@ $scope.eventSources = [$scope.events];
           }
         });
       };
+
       /* Render Tooltip */
       $scope.eventRender = function( event, element, view ) {
         element.attr({'tooltip': event.title,
