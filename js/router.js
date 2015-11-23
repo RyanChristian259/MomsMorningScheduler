@@ -33,6 +33,10 @@ app.config(function ($routeProvider) {
      controller:'authController',
    })
 
+   .when('/accountInfo', {
+     templateUrl: 'pages/auth/accountInfo.html',
+     controller:'authController',
+   })
     .when('/admin', {
      templateUrl: 'pages/admin/admin.html',
      controller:'calendarController',
@@ -42,7 +46,7 @@ app.config(function ($routeProvider) {
    .otherwise({redirectTo: '/'});
 });
 
-// app.run(function ($rootScope, $location, $route, AuthService) {
+// app.run(function ($rootScope, $location, $route, authService) {
 //   $rootScope.$on('$routeChangeStart', function (event, next, current) {
 //     if (next.access.restricted && AuthService.isLoggedIn() === false) {
 
