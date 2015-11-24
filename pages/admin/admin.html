@@ -137,7 +137,7 @@
                   <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
                 </div>
               </div>
-              <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+              <div class="calendar" ng-click="changeView('month', 'myCalendar1')" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
             </uib-tab>
     </uib-tabset>
   </div>

@@ -52,7 +52,6 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
 
 $scope.events = [];
 $scope.eventSources = [$scope.events];
-    // console.log($scope.events, $scope.eventSources);
     $scope.callBack = function(){
       eventsTestRef.on("value", function(snapshot) {
         $scope.events.splice(0);
@@ -98,7 +97,7 @@ $scope.eventSources = [$scope.events];
 
 
           $scope.alertOnEventClick = function(date, jsEvent, view){
-               $scope.alertMessage = (date.title + ' was clicked ' + date.start);
+               $scope.alertMessage = ('You chose a ' + date.title + ' on ' + date.start.format('MM/DD/YYYY'));
                $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
                $scope.selectedDateKey = date.key;
               };
@@ -110,7 +109,7 @@ $scope.eventSources = [$scope.events];
           };
           /* alert on Resize */
           $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-            $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
+            $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);vv
           };
           /* add and removes an event source of choice */
           $scope.addRemoveEventSource = function(sources,source) {
@@ -125,8 +124,6 @@ $scope.eventSources = [$scope.events];
               sources.push(source);
             }
           };
-
-          $scope.changeTo = 'Hungarian';
 
       /* remove event */
       $scope.remove = function(index) {
@@ -158,7 +155,7 @@ $scope.eventSources = [$scope.events];
       $scope.uiConfig = {
         calendar:{
           height: 450,
-          editable: true,
+          editable: false,
           header:{
             left: 'title',
             center: '',
