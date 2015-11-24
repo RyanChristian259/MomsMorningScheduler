@@ -8,9 +8,9 @@
 <section>
   <div class="well">
     <div class="row-fluid">
-      <div class="span4">
+      <!-- <div class="span4"> -->
 
-        <ul class="unstyled">
+       <!--  <ul class="unstyled">
           <li ng-repeat="e in events">
             <div class="alert alert-info">
               <a class="close" ng-click="remove($index)"><i class="icon-remove"></i></a>
@@ -18,8 +18,8 @@
               {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
             </div>
           </li>
-        </ul>
-      </div>
+        </ul> -->
+      <!-- </div> -->
 
       <div class="span8">
         <uib-tabset>
@@ -31,14 +31,14 @@
         <h4>{{alertMessage}}</h4>
       </div>
       <div class="btn-toolbar">
-        <p class="pull-right lead">Calendar View Options</p>
+        <p class="pull-right lead">Your selection: &nbsp;</p>
         <div class="btn-group">
-          <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">AgendaDay</button>
-          <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">AgendaWeek</button>
+          <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+          <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
           <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
         </div>
       </div>
-      <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+      <div class="calendar" ng-click="changeView('month', 'myCalendar1')" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
     </uib-tab>
   </uib-tabset>
 </div>
