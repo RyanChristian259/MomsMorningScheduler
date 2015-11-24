@@ -14,7 +14,7 @@ if (authData) {
   console.log("User " + authData.uid + " is logged in with auth controller " + authData.provider);
   $scope.authData = authData;
   $scope.greetUser = authData.password.email;
-  console.log(' auth data ', authData);
+  // console.log(' auth data ', authData);
 } else {
   console.log("User is logged out");
 }

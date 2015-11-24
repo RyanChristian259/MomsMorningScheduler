@@ -4,16 +4,15 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
-
 //***********************************//
 //         Check Login State         //
 //***********************************//
 var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/");
 var authData = ref.getAuth();
 if (authData) {
-  console.log("User " + authData.uid + " is logged in with calendar controller " + authData.provider);
+  // console.log("User " + authData.uid + " is logged in with calendar controller " + authData.provider);
   // $scope.show = true;
-  console.log(' auth data ', authData);
+  // console.log(' auth data ', authData);
 } else {
   console.log("User is logged out", authData);
   // $scope.show = false;
@@ -28,7 +27,6 @@ if (authData) {
 //  Firebase eventsTestReference     //
 //***********************************//
 var eventsTestRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
-
 
 
 //***********************************//
@@ -50,8 +48,11 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
   eventsTestRef.push(formData);
 };
 
+
+
 $scope.events = [];
 $scope.eventSources = [$scope.events];
+    // console.log($scope.events, $scope.eventSources);
     $scope.callBack = function(){
       eventsTestRef.on("value", function(snapshot) {
         $scope.events.splice(0);
@@ -70,15 +71,6 @@ $scope.eventSources = [$scope.events];
       });
 
     };
-
-    $scope.eventsF = function (start, end, timezone, callback) {
-      var s = new Date(start).getTime() / 1000;
-      var e = new Date(end).getTime() / 1000;
-      var m = new Date(start).getMonth();
-      $scope.events = [{title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed']}];
-      callback($scope.events);
-    };
-
     var init = function(){
       $scope.callBack();
     };//End addEventToDatabase
@@ -86,6 +78,10 @@ $scope.eventSources = [$scope.events];
     // Call init to populate calendar on page load
     // Must be called after admin submit function
     init();
+
+    // Call init to populate calendar on page load
+    // Must be called after admin submit function
+    // init();
 
 
     /* event source that contains custom events on the scope */
