@@ -65,7 +65,7 @@ $scope.changeDate = function() {
     'timeStamp': userService.currentDate
   };
   $scope.payload = payload;
-  };
+};
 
 //**************************************//
 // Admin submit single date to database //
