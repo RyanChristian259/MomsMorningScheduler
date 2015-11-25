@@ -1,27 +1,52 @@
- <form class='form'>
-  <h4>My account</h4>
+<div class="container">
+   <form class='form'>
+    <h4>My account</h4>
 
-Hello {{greetUser}}
+  Hello {{greetUser}}
 
-  <div class="form-group">
-    <label form="email">Please enter the following</label></br>
-    <label form="email">First Name</label>
-    <input type="text" ng-model='userFirstName' class="form-control" id="firstName" placeholder="Enter your first name" required>
-    <label form="email">Last Name</label>
-    <input type="text" ng-model='userLastName' class="form-control" id="lastName" placeholder="Enter your last name" required>
-  <label form="email">Street Address</label>
-   <input type="text" ng-model='userAddress' class="form-control" id="email" placeholder="Enter your street address" required>
-    <label form="email">City</label>
-    <input type="text" ng-model='userCity' class="form-control" id="email" placeholder="Enter your city" required>
-    <label form="email">Zip Code</label>
-    <input type="text" ng-model='userZipCode' class="form-control" id="email" placeholder="Enter your Zip Code" required>
-  </div>
+    <div class="form-group">
+      <label form="email">Please enter the following</label></br>
+      <label form="email">First Name</label>
+      <input type="text" ng-model='userFirstName' class="form-control" id="firstName" placeholder="Enter your first name" required>
+      <label form="email">Last Name</label>
+      <input type="text" ng-model='userLastName' class="form-control" id="lastName" placeholder="Enter your last name" required>
+    <label form="email">Street Address</label>
+     <input type="text" ng-model='userAddress' class="form-control" id="email" placeholder="Enter your street address" required>
+      <label form="email">City</label>
+      <input type="text" ng-model='userCity' class="form-control" id="email" placeholder="Enter your city" required>
+      <label form="email">Zip Code</label>
+      <input type="text" ng-model='userZipCode' class="form-control" id="email" placeholder="Enter your Zip Code" required>
 
-  <button ng-click='updateUser()' type="submit" class="btn btn-default">Submit</button>
-</form>
+
+    <button ng-click='updateUser()' type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
 
 Show/edit address</br>
 Show/edit children
+<button ng-click="addChild = !addChild" class="btn btn-default">Add Child</button>
+<div class="container">
+  <div class="container" ng-hide="addChild">
+    <div class="row">
+      <div class="col-sm-offset-1 col-sm-10">
+        <form name="addChild" novalidate >
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Name" ng-model="child.name" required>
+          </div>
+          <div class="form-group">
+            <input type="date" class="form-control" placeholder="Birthdate" ng-model="child.birthdate" required>
+          </div>
+
+            <button ng-click='addKid()' type="submit" ng-mouseup="addChild = !addChild" class="btn btn-default">Add Child</button>
+
+            <button class="btn btn-danger" ng-mouseup="addChild = !addChild">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <hr>
 

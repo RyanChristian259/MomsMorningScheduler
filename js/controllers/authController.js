@@ -65,7 +65,8 @@ $scope.createUser = function() {
             var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/users");
             var formData = {
               email: authData.password.email,
-              id: authData.uid
+              id: authData.uid,
+              children: []
             };
             userService.currentUserID = authData.uid;
             ref.push(formData);
@@ -167,7 +168,7 @@ $scope.logoutUser = function() {
 //*******************************//
 $scope.updateUser = function() {
     console.log(authData.uid, ' auth.uid populate');
-    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com");
+    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/" + authData.uid);
     // var formData = {
     //     firstName: $scope.userFirstname,
     //     lastName: $scope.userLastName
@@ -175,19 +176,95 @@ $scope.updateUser = function() {
     //    // userService.currentUserID = authData.uid;
     //    ref.push(formData);
 
-var usersRef = ref.child("users");
-usersRef.set({
-  alanisawesome: {
-    date_of_birth: "June 23, 1912",
-    full_name: "Alan Turing"
-  },
-  gracehop: {
-    date_of_birth: "December 9, 1906",
-    full_name: "Grace Hopper"
-  }
-});
+
+  //   var usersRef = ref.child("users");
+  //   usersRef.set({
+  //     alanisawesome: {
+  //       date_of_birth: "June 23, 1912",
+  //       full_name: "Alan Turing"
+  //     },
+  //     gracehop: {
+  //       date_of_birth: "December 9, 1906",
+  //       full_name: "Grace Hopper"
+  //     }
+  // });
 };
 
+// var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+//   ref.on("value", function(snapshot) {
+//     snapshot.forEach(function (childSnapshot){
+//       var key = childSnapshot.key();
+//         console.log(key, " key");
+//       var childData = childSnapshot.val();
+//       console.log(childData, ' key')
+//        if (dateChosen === childData.date) {
+//           var ref2 = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + key + '/slots');
+//           ref2.update({
+//             0: true
+//           });
+//       }
 
+
+
+//*******************************//
+//    add children to user       //
+//*******************************//
+
+
+
+  $scope.child = {};
+  $scope.addKid = function () {
+     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/users");
+     var key = '';
+     var childData = $scope.child;
+     ref.on("value", function(snapshot) {
+      // console.log(snapshot.val(), ' snappie');
+        snapshot.forEach(function (childSnapshot) {
+        // console.log(childSnapshot.val(), 'users');
+          if (authData.uid === childSnapshot.val().id) {
+            // console.log('yay!')
+            key = childSnapshot.key();
+            userService.currentUserKey = key;
+            pushIntoUser();
+          }
+        });
+        // var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + key + '/children');
+          // userRef.push(childData);
+     });
+
+  };
+  var pushIntoUser = function () {
+    var key = userService.currentUserKey;
+    console.log(key);
+    var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + key + '/children');
+    // var data = {
+    //   name: $scope.child.name,
+    //   birthdate: $scope.child.birthdate
+    // };
+    // var newChildRef = userRef.push();
+    // newChildRef.set({
+    //   name: $scope.child.name,
+    //   birthdate: $scope.child.birthdate
+    // });
+    userRef.push({
+      name: $scope.child.name,
+      birthdate: $scope.child.birthdate,
+      time: Firebase.ServerValue.TIMESTAMP
+    });
+    // console.log(data);
+    // userRef.push(data);
+  };
+
+// var postsRef = ref.child("posts");
+//   var newPostRef = postsRef.push();
+//   newPostRef.set({
+//     author: "gracehop",
+//     title: "Announcing COBOL, a New Programming Language"
+//   });
+//   // we can also chain the two calls together
+//   postsRef.push().set({
+//     author: "alanisawesome",
+//     title: "The Turing Machine"
+//   });
 }]);
 
