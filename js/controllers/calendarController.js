@@ -49,43 +49,45 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
 };
 
 
-
+//$scope.events and $scope.eventSources are
+//necessary for UI Calendar to read events
 $scope.events = [];
 $scope.eventSources = [$scope.events];
 
+//***********************************//
+//     Call Database for events      //
+//***********************************//
 $scope.callBack = function(){
   eventsTestRef.on("value", function(snapshot) {
     $scope.events.splice(0);
     firebaseEvents = snapshot.exportVal();
     var counter = 0;
-
-
+    //loop through events to get num of reserved events
     for(var key in firebaseEvents){
       var clientSideEvent  = firebaseEvents[key];
       clientSideEvent.key = key;
-      console.log(clientSideEvent.reservations, ' reservations');
-
+      //break into client events object
       for (var key2 in clientSideEvent.reservations){
-              // console.log(clientSideEvent.reservations[key2].age, ' client thingy');
               if(clientSideEvent.reservations[key2].user_id !== ""){
+                //count num of reserved slots for each event
                 counter += 1;
-                console.log(counter, ' counter');
               }
             }
             if(counter === 4 ){
               console.log('Hold the event');
-            }else  {$scope.events.push(clientSideEvent);}
+            } else {
+              $scope.events.push(clientSideEvent);
+            }
+            //reset counter for each new event
             counter = 0;
-            // $scope.events.push(clientSideEvent);
           }
-
           $scope.$apply();
         }, function (errorObject) {
           console.log("The read failed: " + errorObject.code);
         });
-
 };
-var init = function(){
+
+  var init = function(){
   $scope.callBack();
     };//End addEventToDatabase
 
@@ -93,17 +95,23 @@ var init = function(){
     // Must be called after admin submit function
     init();
 
+$scope.cats = function(){
+  console.log('cats');
+};
 
+//***********************************//
+//   Show event details on click     //
+//***********************************//
     $scope.alertOnEventClick = function(date, jsEvent, view){
-      var determineIfFull = [];
+      var showAvailableSlots = [];
       for(var key in date.reservations){
           // console.log(date.reservations[key].user_id, ' key and user_id');
-          if(date.reservations[key].user_id !== ""){
-            determineIfFull.push(date.reservations[key].user_id);
+          if(date.reservations[key].user_id === ""){
+            showAvailableSlots.push(date.reservations[key].age);
+            console.log(showAvailableSlots, ' show available');
           }
-          if(determineIfFull.length < 4){
+          if(showAvailableSlots.length >= 2){
             $scope.alertMessage = ('You chose a ' + date.title + ' on ' + date.start.format('MM/DD/YYYY'));
-            // console.log(determineIfFull, ' determine');
           } else {
            $scope.alertMessage = ('This date is already full. Please choose another');
          }
@@ -112,6 +120,24 @@ var init = function(){
        $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
        $scope.selectedDateKey = date.key;
      };
+
+    // $scope.alertOnEventClick = function(date, jsEvent, view){
+    //   var showAvailSlots = [];
+    //   for(var key in date.reservations){
+    //       // console.log(date.reservations[key].user_id, ' key and user_id');
+    //       if(date.reservations[key].user_id !== ""){
+    //         showAvailSlots.push(date.reservations[key].user_id);
+    //       }
+    //       if(showAvailSlots.length < 4){
+    //         $scope.alertMessage = ('You chose a ' + date.title + ' on ' + date.start.format('MM/DD/YYYY'));
+    //       } else {
+    //        $scope.alertMessage = ('This date is already full. Please choose another');
+    //      }
+    //      $scope.date = date;
+    //    }
+    //    $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
+    //    $scope.selectedDateKey = date.key;
+    //  };
 
 
      /* alert on Drop */
