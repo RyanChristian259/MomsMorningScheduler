@@ -43,7 +43,7 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     title: 'Morning Session',
     start: newStartDateTime,
     end: newEndDateTime,
-    reservations:{0:{user_id: '', age:'0-24 months'},1:{user_id: '', age:'0-24 months'},2:{user_id: '', age:'2-6 years'},3:{user_id: '', age:'2-6 years'},4:{user_id: '', age:'2-6 years'},5:{user_id: '', age:'2-6 years'}}
+    reservations:{0:{user_id: '', age:'2-6 year old'},1:{user_id: '', age:'2-6 year old'},2:{user_id: '', age:'0-6 year old'},3:{user_id: '', age:'0-6 year old'}}
   };
   eventsTestRef.push(formData);
 };
@@ -68,12 +68,14 @@ $scope.callBack = function(){
       clientSideEvent.key = key;
       //break into client events object
       for (var key2 in clientSideEvent.reservations){
-              if(clientSideEvent.reservations[key2].user_id !== ""){
+        if(clientSideEvent.reservations[key2].user_id !== ""){
+          console.log(clientSideEvent.reservations[key2].user_id, ' id');
                 //count num of reserved slots for each event
                 counter += 1;
+                console.log(counter, ' counter');
               }
             }
-            if(counter === 4 ){
+            if(counter >= 4 ){
               console.log('Hold the event');
             } else {
               $scope.events.push(clientSideEvent);
@@ -87,7 +89,7 @@ $scope.callBack = function(){
         });
 };
 
-  var init = function(){
+var init = function(){
   $scope.callBack();
     };//End addEventToDatabase
 
@@ -95,53 +97,35 @@ $scope.callBack = function(){
     // Must be called after admin submit function
     init();
 
-$scope.cats = function(){
-  console.log('cats');
-};
+    $scope.cats = function(){
+      console.log('cats');
+    };
 
 //***********************************//
 //   Show event details on click     //
 //***********************************//
-    $scope.alertOnEventClick = function(date, jsEvent, view){
-      var showAvailableSlots = [];
-      for(var key in date.reservations){
-          // console.log(date.reservations[key].user_id, ' key and user_id');
-          if(date.reservations[key].user_id === ""){
-            showAvailableSlots.push(date.reservations[key].age);
-            console.log(showAvailableSlots, ' show available');
-          }
-          if(showAvailableSlots.length >= 2){
-            $scope.alertMessage = ('You chose a ' + date.title + ' on ' + date.start.format('MM/DD/YYYY'));
-          } else {
-           $scope.alertMessage = ('This date is already full. Please choose another');
-         }
-         $scope.date = date;
-       }
-       $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
-       $scope.selectedDateKey = date.key;
-     };
-
-    // $scope.alertOnEventClick = function(date, jsEvent, view){
-    //   var showAvailSlots = [];
-    //   for(var key in date.reservations){
-    //       // console.log(date.reservations[key].user_id, ' key and user_id');
-    //       if(date.reservations[key].user_id !== ""){
-    //         showAvailSlots.push(date.reservations[key].user_id);
-    //       }
-    //       if(showAvailSlots.length < 4){
-    //         $scope.alertMessage = ('You chose a ' + date.title + ' on ' + date.start.format('MM/DD/YYYY'));
-    //       } else {
-    //        $scope.alertMessage = ('This date is already full. Please choose another');
-    //      }
-    //      $scope.date = date;
-    //    }
-    //    $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
-    //    $scope.selectedDateKey = date.key;
-    //  };
+$scope.alertOnEventClick = function(date, jsEvent, view){
+  var showAvailableSlots = [];
+  for(var key in date.reservations){
+    if(date.reservations[key].user_id === ""){
+      showAvailableSlots.push(date.reservations[key].age + ' ' + key);
+      $scope.showAvailableSlots = showAvailableSlots;
+    }
+    if(showAvailableSlots.length > 0){
+      // console.log($scope.showAvailableSlots, ' show available');
+      $scope.alertMessage = ( date.title + ' on ' + date.start.format('MM/DD/YYYY') + ' for a ');
+    } else {
+     $scope.alertMessage = ('This date is already full. Please choose another');
+   }
+   $scope.date = date;
+ }
+ $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
+ $scope.selectedDateKey = date.key;
+};
 
 
-     /* alert on Drop */
-     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+    /* alert on Drop */
+    $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
       $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
     };
     /* alert on Resize */
@@ -216,19 +200,21 @@ $scope.cats = function(){
 
 //////////////////////// USER CALENDAR FUNCTIONALITY BEGINS BELOW ////////////////////////
 $scope.reserve = function(date, jsEvent, view) {
+  console.log(this.slots);
+  var childRefNumber = this.slots.slice(-1);
   var userId = authData.uid;
   var firebaseRef = new Firebase("https://momsmorningscheduler.firebaseio.com");
   var eventKey = $scope.selectedDateKey;
-  var determineReserve = [];
+  // var determineReserve = [];
 
-  //Determine if date is full, disallow user to schedule
-  for(var key in $scope.date.reservations){
-    if($scope.date.reservations[key].user_id !== ""){
-      determineReserve.push($scope.date.reservations[key].user_id);
-      console.log(determineReserve, ' determine');
-    }
-  }
-  if(determineReserve.length < 4){
+  // Determine if date is full, disallow user to schedule
+  // for(var key in $scope.date.reservations){
+  //   if($scope.date.reservations[key].user_id !== ""){
+  //     determineReserve.push($scope.date.reservations[key].user_id);
+  //     console.log(determineReserve, ' determine');
+  //   }
+  // }
+  // if(determineReserve.length > 0){
     firebaseRef.on('value', function (snapshots) {
       var selectedEvent, userKey;
       snapshots.forEach(function (snapshot) {
@@ -247,25 +233,21 @@ $scope.reserve = function(date, jsEvent, view) {
           console.log('some other table');
         }
       });
-
       var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest/" + selectedEvent.key + "/reservations");
-      updateResRef.child('1').update({user_id: userKey });
-
+      updateResRef.child(childRefNumber).update({user_id: userKey });
       console.log('event and key', selectedEvent, userKey);
     });
-  } else{
-    console.log('Date is full, please choose another');
-    $scope.alertMessage = ('Date is full, please select another');
-  }
+  // } else{
+  //   console.log('Date is full, please choose another');
+  //   $scope.alertMessage = ('Date is full, please select another');
+  // }
 };
 
 $scope.show0to24Months = function(){
-
+  //function to show only slots for infants
 };
 
-$scope.show2to6Years = function(){
 
-};
       //Values for time selector on admin page
       $scope.startHourSelect = [
       { id: 1, name: '1' },
