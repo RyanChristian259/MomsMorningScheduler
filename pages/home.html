@@ -31,10 +31,10 @@
         <i class="glyphicon glyphicon-bell"></i> Calendar One
       </uib-tab-heading>
       <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
-        <h4> &nbsp;{{alertMessage}} <button class='btn btn-success' ng-click='cats()'>Reserve</button></h4>
+        <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}  <button class='btn btn-success' ng-click="reserve()">Reserve</button></h4>
       </div>
       <div class="btn-toolbar">
-        <p class="pull-right lead">Your selection: &nbsp;</p>
+        <p class="pull-right lead">Available: &nbsp;</p>
         <div class="btn-group">
           <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
           <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
