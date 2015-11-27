@@ -4,6 +4,9 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
   var d = date.getDate();
   var m = date.getMonth();
   var y = date.getFullYear();
+
+$scope.show0to24 = false;
+
 //***********************************//
 //         Check Login State         //
 //***********************************//
@@ -24,9 +27,9 @@ $scope.payload = payload;
 window.cal = uiCalendarConfig;
 
 //***********************************//
-//  Firebase eventsTestReference     //
+//  Firebase eventsReference     //
 //***********************************//
-var eventsTestRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
+var eventsRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
 
 
 //***********************************//
@@ -45,7 +48,7 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     end: newEndDateTime,
     reservations:{0:{user_id: '', age:'2-6 year old'},1:{user_id: '', age:'2-6 year old'},2:{user_id: '', age:'0-6 year old'},3:{user_id: '', age:'0-6 year old'}}
   };
-  eventsTestRef.push(formData);
+  eventsRef.push(formData);
 };
 
 
@@ -58,7 +61,7 @@ $scope.eventSources = [$scope.events];
 //     Call Database for events      //
 //***********************************//
 $scope.callBack = function(){
-  eventsTestRef.on("value", function(snapshot) {
+  eventsRef.on("value", function(snapshot) {
     $scope.events.splice(0);
     firebaseEvents = snapshot.exportVal();
     var counter = 0;
@@ -72,7 +75,7 @@ $scope.callBack = function(){
           console.log(clientSideEvent.reservations[key2].user_id, ' id');
                 //count num of reserved slots for each event
                 counter += 1;
-                console.log(counter, ' counter');
+                // console.log(counter, ' counter');
               }
             }
             if(counter >= 4 ){
@@ -97,9 +100,14 @@ var init = function(){
     // Must be called after admin submit function
     init();
 
-    $scope.cats = function(){
-      console.log('cats');
-    };
+
+$scope.show0to24Months = function(date, jsEvent, view){
+   $scope.show0to24 = true;
+};
+
+$scope.showAll = function(){
+   $scope.show0to24 = false;
+};
 
 //***********************************//
 //   Show event details on click     //
@@ -107,22 +115,26 @@ var init = function(){
 $scope.alertOnEventClick = function(date, jsEvent, view){
   var showAvailableSlots = [];
   for(var key in date.reservations){
-    if(date.reservations[key].user_id === ""){
+    if($scope.show0to24 === true && date.reservations[key].user_id === "" && date.reservations[key].age === "0-6 year old"){
       showAvailableSlots.push(date.reservations[key].age + ' ' + key);
       $scope.showAvailableSlots = showAvailableSlots;
+    } else {
+      if(date.reservations[key].user_id === "" && $scope.show0to24 === false){
+      showAvailableSlots.push(date.reservations[key].age + ' ' + key);
+      $scope.showAvailableSlots = showAvailableSlots;
+     }
     }
     if(showAvailableSlots.length > 0){
-      // console.log($scope.showAvailableSlots, ' show available');
       $scope.alertMessage = ( date.title + ' on ' + date.start.format('MM/DD/YYYY') + ' for a ');
     } else {
      $scope.alertMessage = ('This date is already full. Please choose another');
    }
    $scope.date = date;
- }
+
  $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
  $scope.selectedDateKey = date.key;
+}
 };
-
 
     /* alert on Drop */
     $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
@@ -168,9 +180,10 @@ $scope.alertOnEventClick = function(date, jsEvent, view){
 
     /* Render Tooltip */
     $scope.eventRender = function( event, element, view ) {
-      element.attr({'tooltip': event.title,
-        'tooltip-append-to-body': true});
-      $compile(element)($scope);
+    $timeout(function(){
+     $(element).attr('tooltip', event.title);
+     $compile(element)($scope);
+     });
     };
     /* config object */
     $scope.uiConfig = {
@@ -194,31 +207,17 @@ $scope.alertOnEventClick = function(date, jsEvent, view){
       // $scope.events is your events with the following keys:
       // title, start, end, allDay
 
-      // $scope.eventSource is
-      // $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
-      // init();
-
 //////////////////////// USER CALENDAR FUNCTIONALITY BEGINS BELOW ////////////////////////
 $scope.reserve = function(date, jsEvent, view) {
-  console.log(this.slots);
   var childRefNumber = this.slots.slice(-1);
   var userId = authData.uid;
   var firebaseRef = new Firebase("https://momsmorningscheduler.firebaseio.com");
   var eventKey = $scope.selectedDateKey;
-  // var determineReserve = [];
 
-  // Determine if date is full, disallow user to schedule
-  // for(var key in $scope.date.reservations){
-  //   if($scope.date.reservations[key].user_id !== ""){
-  //     determineReserve.push($scope.date.reservations[key].user_id);
-  //     console.log(determineReserve, ' determine');
-  //   }
-  // }
-  // if(determineReserve.length > 0){
     firebaseRef.on('value', function (snapshots) {
       var selectedEvent, userKey;
       snapshots.forEach(function (snapshot) {
-        if ( snapshot.key() == 'eventsTest' ) {
+        if ( snapshot.key() == 'events' ) {
           selectedEvent = snapshot.val()[eventKey];
           selectedEvent.key = eventKey;
         } else if ( snapshot.key() == 'users' ) {
@@ -233,20 +232,20 @@ $scope.reserve = function(date, jsEvent, view) {
           console.log('some other table');
         }
       });
-      var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest/" + selectedEvent.key + "/reservations");
+      var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations");
       updateResRef.child(childRefNumber).update({user_id: userKey });
       console.log('event and key', selectedEvent, userKey);
     });
-  // } else{
-  //   console.log('Date is full, please choose another');
-  //   $scope.alertMessage = ('Date is full, please select another');
-  // }
+    //Remove slot from array after selection
+    $scope.showAvailableSlots.splice(this.$index, 1);
 };
 
-$scope.show0to24Months = function(){
-  //function to show only slots for infants
-};
 
+
+  $scope.isActive = false;
+  $scope.activeButton = function() {
+    $scope.isActive = !$scope.isActive;
+  };
 
       //Values for time selector on admin page
       $scope.startHourSelect = [
