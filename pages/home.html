@@ -1,11 +1,12 @@
 <h1>User Page</h1>
 <p><a href='#/admin'> Go to Admin Calendar</a></p>
 
-<button ng-click='show0to24Months()' type="submit" class="btn btn-primary btn-lg">Show only 0-24 months</button>
+<button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success', false: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
 </form>
 
-<button ng-click='reserve()' type="submit" class="btn btn-primary btn-lg">Schedule Appt</button>
+<button ng-click="show0to24Months(); !feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{false: 'btn btn-success', true: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show only 0-2 years</button>
 </form>
+
 
 <!-- Start of UI Calendar -->
 <section>
@@ -31,10 +32,11 @@
         <i class="glyphicon glyphicon-bell"></i> Calendar One
       </uib-tab-heading>
       <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+      <p class=" lead">Available: &nbsp;</p>
         <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}  <button class='btn btn-success' ng-click="reserve()">Reserve</button></h4>
       </div>
       <div class="btn-toolbar">
-        <p class="pull-right lead">Available: &nbsp;</p>
+        <!-- <p class="pull-right lead">Available: &nbsp;</p> -->
         <div class="btn-group">
           <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
           <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
