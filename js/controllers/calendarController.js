@@ -67,12 +67,15 @@ $scope.callBack = function(){
     var counter = 0;
     //loop through events to get num of reserved events
     for(var key in firebaseEvents){
+      console.log(new Date, ' date');
+      // if (firebaseEvents[key].end < date.format('DD/MM/YYYY')){console.log(firebaseEvents[key].end, date,'cats')}
+      console.log(firebaseEvents[key].end, ' events');
       var clientSideEvent  = firebaseEvents[key];
       clientSideEvent.key = key;
       //break into client events object
       for (var key2 in clientSideEvent.reservations){
         if(clientSideEvent.reservations[key2].user_id !== ""){
-          console.log(clientSideEvent.reservations[key2].user_id, ' id');
+          // console.log(clientSideEvent.reservations[key2].user_id, ' id');
                 //count num of reserved slots for each event
                 counter += 1;
                 // console.log(counter, ' counter');
