@@ -75,10 +75,8 @@ $scope.callBack = function(){
       //break into client events object
       for (var key2 in clientSideEvent.reservations){
         if(clientSideEvent.reservations[key2].user_id !== ""){
-          // console.log(clientSideEvent.reservations[key2].user_id, ' id');
                 //count num of reserved slots for each event
                 counter += 1;
-                // console.log(counter, ' counter');
               }
             }
             if(counter >= 4 ){
@@ -172,7 +170,7 @@ $scope.alertOnEventClick = function(date, jsEvent, view){
 
       uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
     };
-    /* Change View */
+    /* Render Calendar */
     $scope.renderCalender = function(calendar) {
       $timeout(function() {
         if(uiCalendarConfig.calendars[calendar]){
@@ -231,13 +229,14 @@ $scope.reserve = function(date, jsEvent, view) {
               userKey = key;
             }
           });
+
         } else {
           console.log('some other table');
         }
       });
       var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations");
       updateResRef.child(childRefNumber).update({user_id: userKey });
-      console.log('event and key', selectedEvent, userKey);
+      // console.log('event and key', selectedEvent, userKey);
     });
     //Remove slot from array after selection
     $scope.showAvailableSlots.splice(this.$index, 1);

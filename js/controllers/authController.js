@@ -1,4 +1,4 @@
-app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', 'userService', 'authService', '$window', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, userService, authService, $window) {
+app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', 'userService', 'authService', '$window', '$rootScope', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, userService, authService, $window, $rootScope) {
 
   var self = this;
 
@@ -66,7 +66,7 @@ $scope.createUser = function() {
             var formData = {
               email: authData.password.email,
               id: authData.uid,
-              children: []
+              children: ['']
             };
             userService.currentUserID = authData.uid;
             ref.push(formData);
@@ -204,16 +204,14 @@ $scope.updateUser = function() {
 //           });
 //       }
 
-
+$rootScope.key;
 
 //*******************************//
 //    add children to user       //
 //*******************************//
-
-
-
   $scope.child = {};
   $scope.addKid = function () {
+
      var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/users");
      var key = '';
      var childData = $scope.child;
@@ -222,49 +220,30 @@ $scope.updateUser = function() {
         snapshot.forEach(function (childSnapshot) {
         // console.log(childSnapshot.val(), 'users');
           if (authData.uid === childSnapshot.val().id) {
-            // console.log('yay!')
-            key = childSnapshot.key();
-            userService.currentUserKey = key;
-            pushIntoUser();
+            $rootScope.key = childSnapshot.key();
+            console.log($rootScope.key, ' key add child one');
+
           }
         });
-        // var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + key + '/children');
-          // userRef.push(childData);
      });
+   };
 
-  };
-  var pushIntoUser = function () {
-    var key = userService.currentUserKey;
-    console.log(key);
-    var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + key + '/children');
-    // var data = {
-    //   name: $scope.child.name,
-    //   birthdate: $scope.child.birthdate
-    // };
+     $scope.addKid2 = function(){
+      console.log($rootScope.key, ' key add child 2');
+    var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + $rootScope.key + '/children');
+    var data = {
+      name: $scope.child.name,
+      birthdate: 'birthdate'
+      };
     // var newChildRef = userRef.push();
     // newChildRef.set({
     //   name: $scope.child.name,
     //   birthdate: $scope.child.birthdate
     // });
-    userRef.push({
-      name: $scope.child.name,
-      birthdate: $scope.child.birthdate,
-      time: Firebase.ServerValue.TIMESTAMP
-    });
+
     // console.log(data);
-    // userRef.push(data);
+    userRef.push(data);
+
   };
 
-// var postsRef = ref.child("posts");
-//   var newPostRef = postsRef.push();
-//   newPostRef.set({
-//     author: "gracehop",
-//     title: "Announcing COBOL, a New Programming Language"
-//   });
-//   // we can also chain the two calls together
-//   postsRef.push().set({
-//     author: "alanisawesome",
-//     title: "The Turing Machine"
-//   });
-}]);
-
+}]);//End Controller
