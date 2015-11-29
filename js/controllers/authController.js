@@ -221,8 +221,7 @@ $scope.addKidCallback = function () {
         // console.log(childSnapshot.val(), 'users');
         if (authData.uid === childSnapshot.val().id) {
           $scope.key = childSnapshot.key();
-          console.log($scope.key, ' key add child one');
-
+          console.log($scope.key, ' key available');
         }
       });
     });
@@ -237,9 +236,8 @@ var init = function(){
     init();
 
     $scope.addKid = function(){
-      console.log($scope.key, ' key add child 2');
       var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + $scope.key + '/children');
-      console.log($scope.child.name, $scope.child.birthdate, ' name and birthdate');
+      //birthdate set to string so database will accept it
       var data = {
         name: $scope.child.name,
         birthdate: $scope.child.birthdate.toString()
@@ -247,7 +245,31 @@ var init = function(){
 
     // Push data into database
     userRef.push(data);
-
   };
+
+//***********************************//
+//   Call Database for user kids     //
+//***********************************//
+$scope.populateUser = function(){
+  var kids = [];
+var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + $scope.key);
+  userRef.on("value", function(snapshot) {
+    firebaseKids = snapshot.exportVal();
+    //loop through events to get kids info
+    var kidsInfo = firebaseKids.children;
+    if (kidsInfo === undefined){
+      $scope.kids = [{name:'Please add a child', birthdate:''}];
+    } else {
+    for(var key in kidsInfo){
+      kids.push(kidsInfo[key]);
+      $scope.kids = kids;
+      console.log($scope.kids, ' children');
+    }
+          }
+        }, function (errorObject) {
+          console.log("The read failed: " + errorObject.code);
+        });
+};
+
 
 }]);//End Controller
