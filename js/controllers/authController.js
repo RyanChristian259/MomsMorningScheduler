@@ -1,4 +1,4 @@
-app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', 'userService', 'authService', '$window', '$rootScope', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, userService, authService, $window, $rootScope) {
+app.controller('authController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', 'userService', 'authService', '$window', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, userService, authService, $window) {
 
   var self = this;
 
@@ -167,8 +167,8 @@ $scope.logoutUser = function() {
 //         User Populate         //
 //*******************************//
 $scope.updateUser = function() {
-    console.log(authData.uid, ' auth.uid populate');
-    var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/" + authData.uid);
+  console.log(authData.uid, ' auth.uid populate');
+  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/" + authData.uid);
     // var formData = {
     //     firstName: $scope.userFirstname,
     //     lastName: $scope.userLastName
@@ -204,44 +204,48 @@ $scope.updateUser = function() {
 //           });
 //       }
 
-$rootScope.key;
+
 
 //*******************************//
 //    add children to user       //
 //*******************************//
-  $scope.child = {};
-  $scope.addKid = function () {
+$scope.child = {};
+$scope.addKidCallback = function () {
 
-     var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/users");
-     var key = '';
-     var childData = $scope.child;
-     ref.on("value", function(snapshot) {
+ var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/users");
+ var key = '';
+ var childData = $scope.child;
+ ref.on("value", function(snapshot) {
       // console.log(snapshot.val(), ' snappie');
-        snapshot.forEach(function (childSnapshot) {
+      snapshot.forEach(function (childSnapshot) {
         // console.log(childSnapshot.val(), 'users');
-          if (authData.uid === childSnapshot.val().id) {
-            $rootScope.key = childSnapshot.key();
-            console.log($rootScope.key, ' key add child one');
+        if (authData.uid === childSnapshot.val().id) {
+          $scope.key = childSnapshot.key();
+          console.log($scope.key, ' key add child one');
 
-          }
-        });
-     });
-   };
+        }
+      });
+    });
+};
 
-     $scope.addKid2 = function(){
-      console.log($rootScope.key, ' key add child 2');
-    var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + $rootScope.key + '/children');
-    var data = {
-      name: $scope.child.name,
-      birthdate: 'birthdate'
+var init = function(){
+  $scope.addKidCallback();
+    };//End addEventToDatabase
+
+    // Call init to populate user key on page load
+    // Must be called after addKidCallback function
+    init();
+
+    $scope.addKid = function(){
+      console.log($scope.key, ' key add child 2');
+      var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + $scope.key + '/children');
+      console.log($scope.child.name, $scope.child.birthdate, ' name and birthdate');
+      var data = {
+        name: $scope.child.name,
+        birthdate: $scope.child.birthdate.toString()
       };
-    // var newChildRef = userRef.push();
-    // newChildRef.set({
-    //   name: $scope.child.name,
-    //   birthdate: $scope.child.birthdate
-    // });
 
-    // console.log(data);
+    // Push data into database
     userRef.push(data);
 
   };
