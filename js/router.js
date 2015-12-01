@@ -35,7 +35,7 @@ app.config(function ($routeProvider) {
 
    .when('/accountInfo', {
      templateUrl: 'pages/auth/accountInfo.html',
-     controller:'authController',
+     controller:'accountInfoController',
    })
     .when('/admin', {
      templateUrl: 'pages/admin/admin.html',
