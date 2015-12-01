@@ -5,7 +5,7 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
   var m = date.getMonth();
   var y = date.getFullYear();
 
-$scope.show0to24 = false;
+  $scope.show0to24 = false;
 
 //***********************************//
 //         Check Login State         //
@@ -27,10 +27,9 @@ $scope.payload = payload;
 window.cal = uiCalendarConfig;
 
 //***********************************//
-//  Firebase eventsReference     //
+//     Firebase eventsReference      //
 //***********************************//
 var eventsRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
-
 
 //***********************************//
 //  Admin submit date to database    //
@@ -46,7 +45,7 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
     title: 'Morning Session',
     start: newStartDateTime,
     end: newEndDateTime,
-    reservations:{0:{user_id: '', age:'2-6 year old'},1:{user_id: '', age:'2-6 year old'},2:{user_id: '', age:'0-6 year old'},3:{user_id: '', age:'0-6 year old'}}
+    reservations:{0:{user_id: '', age:'2-6 year old', resNumber: 0},1:{user_id: '', age:'2-6 year old', resNumber: 1},2:{user_id: '', age:'0-6 year old', resNumber: 2},3:{user_id: '', age:'0-6 year old', resNumber: 3}},
   };
   eventsRef.push(formData);
 };
@@ -67,9 +66,7 @@ $scope.callBack = function(){
     var counter = 0;
     //loop through events to get num of reserved events
     for(var key in firebaseEvents){
-      console.log(new Date, ' date');
-      // if (firebaseEvents[key].end < date.format('DD/MM/YYYY')){console.log(firebaseEvents[key].end, date,'cats')}
-      console.log(firebaseEvents[key].end, ' events');
+      // console.log(new Date, ' date');
       var clientSideEvent  = firebaseEvents[key];
       clientSideEvent.key = key;
       //break into client events object
@@ -101,14 +98,16 @@ var init = function(){
     // Must be called after admin submit function
     init();
 
+//***********************************//
+// Show desired age details on click //
+//***********************************//
+    $scope.show0to24Months = function(date, jsEvent, view){
+     $scope.show0to24 = true;
+   };
 
-$scope.show0to24Months = function(date, jsEvent, view){
-   $scope.show0to24 = true;
-};
-
-$scope.showAll = function(){
-   $scope.show0to24 = false;
-};
+   $scope.showAll = function(){
+     $scope.show0to24 = false;
+   };
 
 //***********************************//
 //   Show event details on click     //
@@ -121,9 +120,9 @@ $scope.alertOnEventClick = function(date, jsEvent, view){
       $scope.showAvailableSlots = showAvailableSlots;
     } else {
       if(date.reservations[key].user_id === "" && $scope.show0to24 === false){
-      showAvailableSlots.push(date.reservations[key].age + ' ' + key);
-      $scope.showAvailableSlots = showAvailableSlots;
-     }
+        showAvailableSlots.push(date.reservations[key].age + ' ' + key);
+        $scope.showAvailableSlots = showAvailableSlots;
+      }
     }
     if(showAvailableSlots.length > 0){
       $scope.alertMessage = ( date.title + ' on ' + date.start.format('MM/DD/YYYY') + ' for a ');
@@ -132,122 +131,119 @@ $scope.alertOnEventClick = function(date, jsEvent, view){
    }
    $scope.date = date;
 
- $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
- $scope.selectedDateKey = date.key;
-}
+   $scope.cleanDate = moment(date.start).format('DD/MM/YYYY');
+   $scope.selectedDateKey = date.key;
+ }
 };
 
-    /* alert on Drop */
-    $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
-      $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
-    };
-    /* alert on Resize */
-    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
-      $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-    };
-    /* add and removes an event source of choice */
-    $scope.addRemoveEventSource = function(sources,source) {
-      var canAdd = 0;
-      angular.forEach(sources,function(value, key){
-       if(sources[key] === source){
-         sources.splice(key,1);
-         canAdd = 1;
-       }
-     });
-      if(canAdd === 0){
-        sources.push(source);
-      }
-    };
+/* alert on Drop */
+$scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view){
+  $scope.alertMessage = ('Event Dropped to make dayDelta ' + delta);
+};
+/* alert on Resize */
+$scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view ){
+  $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
+};
+/* add and removes an event source of choice */
+$scope.addRemoveEventSource = function(sources,source) {
+  var canAdd = 0;
+  angular.forEach(sources,function(value, key){
+   if(sources[key] === source){
+     sources.splice(key,1);
+     canAdd = 1;
+   }
+ });
+  if(canAdd === 0){
+    sources.push(source);
+  }
+};
 
-    /* remove event */
-    $scope.remove = function(index) {
-      $scope.events.splice(index,1);
-    };
-    /* Change View */
-    $scope.changeView = function(view,calendar) {
-      uiCalendarConfig.calendars[calendar].fullCalendar('removeEvents');
-      uiCalendarConfig.calendars[calendar].fullCalendar('addEventSource', $scope.events);
+/* remove event */
+$scope.remove = function(index) {
+  $scope.events.splice(index,1);
+};
+/* Change View */
+$scope.changeView = function(view,calendar) {
+  uiCalendarConfig.calendars[calendar].fullCalendar('removeEvents');
+  uiCalendarConfig.calendars[calendar].fullCalendar('addEventSource', $scope.events);
 
-      uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
-    };
-    /* Render Calendar */
-    $scope.renderCalender = function(calendar) {
-      $timeout(function() {
-        if(uiCalendarConfig.calendars[calendar]){
-          uiCalendarConfig.calendars[calendar].fullCalendar('render');
-        }
-      });
-    };
+  uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
+};
+/* Render Calendar */
+$scope.renderCalender = function(calendar) {
+  $timeout(function() {
+    if(uiCalendarConfig.calendars[calendar]){
+      uiCalendarConfig.calendars[calendar].fullCalendar('render');
+    }
+  });
+};
 
-    /* Render Tooltip */
-    $scope.eventRender = function( event, element, view ) {
-    $timeout(function(){
-     $(element).attr('tooltip', event.title);
-     $compile(element)($scope);
-     });
-    };
-    /* config object */
-    $scope.uiConfig = {
-      calendar:{
-        height: 450,
-        editable: false,
-        header:{
-          left: 'title',
-          center: '',
-          right: 'today prev,next'
-        },
-        eventClick: $scope.alertOnEventClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender
-      }
-    };
+/* Render Tooltip */
+$scope.eventRender = function( event, element, view ) {
+  $timeout(function(){
+   $(element).attr('tooltip', event.title);
+   $compile(element)($scope);
+ });
+};
+/* config object */
+$scope.uiConfig = {
+  calendar:{
+    height: 450,
+    editable: false,
+    header:{
+      left: 'title',
+      center: '',
+      right: 'today prev,next'
+    },
+    eventClick: $scope.alertOnEventClick,
+    eventDrop: $scope.alertOnDrop,
+    eventResize: $scope.alertOnResize,
+    eventRender: $scope.eventRender
+  }
+};
 
 
-    /* event sources array*/
+/* event sources array*/
       // $scope.events is your events with the following keys:
       // title, start, end, allDay
+$scope.selectKid = function(){
+  $scope.selectedName = this.kid.name;
+};
+
 
 //////////////////////// USER CALENDAR FUNCTIONALITY BEGINS BELOW ////////////////////////
+
 $scope.reserve = function(date, jsEvent, view) {
   var childRefNumber = this.slots.slice(-1);
   var userId = authData.uid;
   var firebaseRef = new Firebase("https://momsmorningscheduler.firebaseio.com");
   var eventKey = $scope.selectedDateKey;
+  var selectedName = $scope.selectedName;
+  firebaseRef.on('value', function (snapshots) {
+    var selectedEvent, userKey;
+    snapshots.forEach(function (snapshot) {
+      if ( snapshot.key() == 'events' ) {
+        selectedEvent = snapshot.val()[eventKey];
+        selectedEvent.key = eventKey;
+      } else if ( snapshot.key() == 'users' ) {
+        var users = snapshot.val();
 
-    firebaseRef.on('value', function (snapshots) {
-      var selectedEvent, userKey;
-      snapshots.forEach(function (snapshot) {
-        if ( snapshot.key() == 'events' ) {
-          selectedEvent = snapshot.val()[eventKey];
-          selectedEvent.key = eventKey;
-        } else if ( snapshot.key() == 'users' ) {
-          var users = snapshot.val();
-
-          Object.keys(users).forEach(function(key) {
-            if ( users[key].id == userId ) {
-              userKey = key;
-            }
-          });
-
-        } else {
-          console.log('some other table');
-        }
-      });
-      var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations");
-      updateResRef.child(childRefNumber).update({user_id: userKey });
-      // console.log('event and key', selectedEvent, userKey);
+        Object.keys(users).forEach(function(key) {
+          if ( users[key].id == userId ) {
+            userKey = key;
+          }
+        });
+      } else {
+        console.log('some other table');
+      }
+    });
+     var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations/" + childRefNumber);
+    updateResRef.update({"user_id": userKey, "childName": selectedName});
     });
     //Remove slot from array after selection
     $scope.showAvailableSlots.splice(this.$index, 1);
-};
-
-
-
-  $scope.isActive = false;
-  $scope.activeButton = function() {
-    $scope.isActive = !$scope.isActive;
   };
+
 
       //Values for time selector on admin page
       $scope.startHourSelect = [

@@ -6,11 +6,12 @@ app.service('userService', ['$q', '$timeout', '$http',
 
     var currentUserID = 'nothing yet sucka';
 
-    // set from authController, addKid() //
     var currentUserKey = 'nothing yet sucka';
 
     var appointmentService = 'nothing yet';
 
     var currentDate = 'No Date';
+
+    var userKids = 'no kids yet';
 
 }]); //end Service

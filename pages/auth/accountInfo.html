@@ -1,8 +1,15 @@
 <div class="container">
+<h1>User Account</h1>
+<p><a href='#/'> Go to User Calendar</a></p>
 
-<button ng-click='populateUser()' type="submit" class="btn btn-default">Show My Kids</button>
+<h3>My Children</h3>
+<button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button>
+<h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}  -- Birthdate: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="editKid()">Edit</button></h4>
 
-<h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}  -- Birthdate: {{kid.birthdate}}</h4>
+<h3>My Events</h3>
+<button ng-click='populateUserEvents()' type="submit" class="btn btn-default">Show My Events</button>
+<h4 ng-repeat='event in displayMyEvents track by $index'> Name: {{event.title}} Starting On: {{event.start}} For: {{event.childName}} <button ng-click='deleteEvent(event.reservations)' type="submit" class="btn btn-danger">Delete Events</button></h4>
+
 
    <form class='form'>
     <h4>My account</h4>
@@ -13,15 +20,15 @@
     <div class="form-group">
       <label form="email">Please enter the following</label></br>
       <label form="email">First Name</label>
-      <input type="text" ng-model='userFirstName' class="form-control" id="firstName" placeholder="Enter your first name" required>
+      <input type="text" ng-model='firstName.text' class="form-control" id="firstName" placeholder="Enter your first name" required>
       <label form="email">Last Name</label>
-      <input type="text" ng-model='userLastName' class="form-control" id="lastName" placeholder="Enter your last name" required>
+      <input type="text" ng-model='lastName.text' class="form-control" id="lastName" placeholder="Enter your last name" required>
     <label form="email">Street Address</label>
-     <input type="text" ng-model='userAddress' class="form-control" id="email" placeholder="Enter your street address" required>
+     <input type="text" ng-model='street.text' class="form-control" id="email" placeholder="Enter your street address" required>
       <label form="email">City</label>
-      <input type="text" ng-model='userCity' class="form-control" id="email" placeholder="Enter your city" required>
+      <input type="text" ng-model='city.text' class="form-control" id="email" placeholder="Enter your city" required>
       <label form="email">Zip Code</label>
-      <input type="text" ng-model='userZipCode' class="form-control" id="email" placeholder="Enter your Zip Code" required>
+      <input type="text" ng-model='zip.text' class="form-control" id="email" placeholder="Enter your Zip Code" required>
 
 
     <button ng-click='updateUser()' type="submit" class="btn btn-default">Submit</button>
