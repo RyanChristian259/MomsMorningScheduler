@@ -9,28 +9,38 @@ app.controller('accountInfoController', ['$scope', '$http', '$location', '$fireb
   var userKey = userService.currentUserKey;
 
 
-
+//***********************************//
+//      User set Personal Info       //
+//***********************************//
 $scope.userInfo = function(){
+
+
   var userFirstNameRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/firstName");
   var userLastNameRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/lastName");
   var userStreetRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/street");
   var userCityRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/city");
+  var userStateRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/state");
   var userZipRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/zip");
+  var userPhoneRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/phone");
 
   // download the data into a local object
   var syncFirstNameObject = $firebaseObject(userFirstNameRef);
   var syncLastNameObject = $firebaseObject(userLastNameRef);
   var syncStreetObject = $firebaseObject(userStreetRef);
   var syncCityObject = $firebaseObject(userCityRef);
+  var syncStateObject = $firebaseObject(userStateRef);
   var syncZipObject = $firebaseObject(userZipRef);
+  var syncPhoneObject = $firebaseObject(userPhoneRef);
 
   // synchronize the object with a three-way data binding
-  // click on `index.html` above to see it used in the DOM!
   syncFirstNameObject.$bindTo($scope, "firstName");
   syncLastNameObject.$bindTo($scope, "lastName");
   syncStreetObject.$bindTo($scope, "street");
   syncCityObject.$bindTo($scope, "city");
+  syncStateObject.$bindTo($scope, "state");
   syncZipObject.$bindTo($scope, "zip");
+  syncPhoneObject.$bindTo($scope, "phone");
+
 };
 
 
@@ -119,6 +129,7 @@ $scope.addKidCallback = function () {
   $scope.populateUserKids();
   $scope.populateUserEvents();
   $scope.userInfo();
+  $scope.deleteEvent();
 });
 };
 
@@ -146,7 +157,6 @@ $scope.addKid = function(){
 $scope.deleteEvent = function(data) {
   var firebaseDeleteRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + this.event.key + '/reservations/' + this.event.resNumber+ '/');
   firebaseDeleteRef.update({"user_id": '', "childName": null});
-  console.log($scope.displayMyEvents);
 };
 
 }]);//End Controller

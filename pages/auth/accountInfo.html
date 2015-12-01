@@ -1,44 +1,48 @@
 <div class="container">
-<h1>User Account</h1>
-<p><a href='#/'> Go to User Calendar</a></p>
-
-<h3>My Children</h3>
-<button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button>
-<h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}  -- Birthdate: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="editKid()">Edit</button></h4>
-
-<h3>My Events</h3>
-<button ng-click='populateUserEvents()' type="submit" class="btn btn-default">Show My Events</button>
-<h4 ng-repeat='event in displayMyEvents track by $index'> Name: {{event.title}} Starting On: {{event.start}} For: {{event.childName}} <button ng-click='deleteEvent(event.reservations)' type="submit" class="btn btn-danger">Delete Events</button></h4>
-
-
-   <form class='form'>
-    <h4>My account</h4>
-
+  <h1>User Account</h1>
+  <p><a href='#/'> Go to User Calendar</a></p>
   Hello {{greetUser}}
 
+  <h3>My Children</h3>
+  <button ng-click="showKids = !showKids; populateUserKids()" class="btn btn-success" type='submit'>Show My Kids</button>
+  <div ng-hide="!showKids">
+    <h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   Birthdate: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="editKid()">Edit</button></h4>
+    <button class="btn btn-danger" ng-mouseup="showKids = !showKids">Close</button>
+  </div ><!-- ng hide show kids -->
 
-    <div class="form-group">
-      <label form="email">Please enter the following</label></br>
+  <h3>My Events</h3>
+  <button ng-click="showEvents = !showEvents; populateUserEvents()" class="btn btn-success" type='submit'>Show My Events</button>
+  <div ng-hide="!showEvents">
+    <h4 ng-repeat='event in displayMyEvents track by $index'> Name: {{event.title}} Starting On: {{event.start}} For: {{event.childName}} <button ng-click='deleteEvent(event.reservations)' type="submit" class="btn btn-danger">Delete Event</button></h4>
+    <button class="btn btn-danger" ng-mouseup="showEvents = !showEvents">Close</button>
+  </div ><!-- ng hide show events -->
+
+  <form class='form'>
+
+    <h3>My account</h3>
+    <button ng-click="showAccount = !showAccount; populateUserEvents()" class="btn btn-success" type='submit'>Show My Info</button>
+    <div ng-hide="!showAccount">
+      <label>Please enter the following</label></br>
       <label form="email">First Name</label>
-      <input type="text" ng-model='firstName.text' class="form-control" id="firstName" placeholder="Enter your first name" required>
-      <label form="email">Last Name</label>
-      <input type="text" ng-model='lastName.text' class="form-control" id="lastName" placeholder="Enter your last name" required>
-    <label form="email">Street Address</label>
-     <input type="text" ng-model='street.text' class="form-control" id="email" placeholder="Enter your street address" required>
-      <label form="email">City</label>
-      <input type="text" ng-model='city.text' class="form-control" id="email" placeholder="Enter your city" required>
-      <label form="email">Zip Code</label>
-      <input type="text" ng-model='zip.text' class="form-control" id="email" placeholder="Enter your Zip Code" required>
+      <input type="text" ng-model='firstName.text' class="form-control" placeholder="Enter your first name" required>
+      <label>Last Name</label>
+      <input type="text" ng-model='lastName.text' class="form-control" placeholder="Enter your last name" required>
+      <label>Street Address</label>
+      <input type="text" ng-model='street.text' class="form-control" placeholder="Enter your street address" required>
+      <label>City</label>
+      <input type="text" ng-model='city.text' class="form-control" placeholder="Enter your city" required>
+      <label>State</label>
+      <input type="text" ng-model='state.text' class="form-control" placeholder="Enter your State" required>
+      <label>Zip Code</label>
+      <input type="text" ng-model='zip.text' class="form-control" placeholder="Enter your Zip Code" required>
+      <label>Phone Number</label>
+      <input type="text" ng-model='phone.text' class="form-control" placeholder="Enter your 10 digit Phone Number" required>
+      <button class="btn btn-danger" ng-mouseup="showAccount = !showAccount">Save and Close</button>
+    </form>
+  </div>
+</div><!-- ng hide show account -->
 
-
-    <button ng-click='updateUser()' type="submit" class="btn btn-default">Submit</button>
-
-
-  </form>
-</div>
-
-Show/edit address</br>
-Show/edit children
+</br>
 <button ng-click="addChild = !addChild" class="btn btn-default">Add Child</button>
 <div class="container">
   <div class="container" ng-hide="addChild">
@@ -52,17 +56,14 @@ Show/edit children
             <input type="date" class="form-control" placeholder="Birthdate" ng-model="child.birthdate" required>
           </div>
 
-            <button ng-click='addKid()' type="submit" ng-mouseup="addChild = !addChild" class="btn btn-default">Submit</button>
+          <button ng-click='addKid()' type="submit" ng-mouseup="addChild = !addChild" class="btn btn-default">Submit</button>
 
-            <button class="btn btn-danger" ng-mouseup="addChild = !addChild">Cancel</button>
-          </div>
-        </form>
+          <button class="btn btn-danger" ng-mouseup="addChild = !addChild">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
+
+</form>
 </div>
-
-
-<hr>
-
-<p><a href='#/login'>Back to login</a></p>
+</div>
