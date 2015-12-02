@@ -67,13 +67,10 @@ $scope.populateUserKids = function(){
     firebaseKids = snapshot.exportVal();
     //loop through events to get kids info
     var kidsInfo = firebaseKids.children;
-    if (kidsInfo === undefined){
-      kids = [{name:'Please add a child', birthdate:'Please add a child'}];
-    } else {
       for(var key in kidsInfo){
         kids.push(kidsInfo[key]);
       }
-    }
+
     $scope.kids = kids;
     // kids = [];
     // console.log($scope.kids, ' children');
