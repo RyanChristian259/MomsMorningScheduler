@@ -3,7 +3,7 @@
 
 <h1>User Page</h1>
 <p><a href='#/admin'> Go to Admin Calendar</a></p>
-<p><a href='#/accountInfo'> Go to My Account</a></p>
+<p><a href='#/accountInfo' ng-click="refreshPage()"> Go to My Account</a></p>
 
 
 <button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success', false: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
@@ -30,8 +30,8 @@
         <i class="glyphicon glyphicon-calendar"></i> Mom's Morning Out
       </uib-tab-heading>
       <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
-      <p class=" lead">Available: &nbsp;</p>
-        <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}  <button class='btn btn-success' ng-click="reserve()">Reserve</button></h4>
+      <p class=" lead">Available: &nbsp;</p><h4 ng-show='selectedName === null'>Please Select a child to reserve and appointment</h4>
+        <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}  <button class='btn btn-success' ng-disabled='selectedName === null' ng-click="reserve()">Reserve</button></h4>
       </div>
       <div class="btn-toolbar">
         <!-- <p class="pull-right lead">Available: &nbsp;</p> -->
