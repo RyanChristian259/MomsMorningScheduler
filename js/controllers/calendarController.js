@@ -37,9 +37,9 @@ var eventsRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events
 $scope.addEventToDatabase = function(date, jsEvent, view) {
   var payloadStringified = JSON.stringify($scope.payload);
   var payloadParsed = JSON.parse(payloadStringified);
-
   var newStartDateTime = (userService.currentDate + ' ' + $scope.selectedStartHour + ':' + $scope.selectedStartMinute + ' ' + $scope.selectedStartampm).toString();
   var newEndDateTime = (userService.currentDate + ' ' + $scope.selectedEndHour + ':' + $scope.selectedEndMinute + ' ' + $scope.selectedEndampm).toString();
+console.log(newStartDateTime, ' start hour');
 
   var formData = {
     title: 'Morning Session',

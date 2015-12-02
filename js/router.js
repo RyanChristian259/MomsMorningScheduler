@@ -14,8 +14,7 @@ app.config(function ($routeProvider) {
 
     .when('/signup', {
      templateUrl: 'pages/auth/signUp.html',
-     controller:'authController',
-     access: {restricted: true}
+     controller:'authController'
    })
 
      .when('/updateinfo', {

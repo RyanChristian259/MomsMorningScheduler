@@ -15,13 +15,13 @@ app.controller('accountInfoController', ['$scope', '$http', '$location', '$fireb
 $scope.userInfo = function(){
 
 
-  var userFirstNameRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/firstName");
-  var userLastNameRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/lastName");
-  var userStreetRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/street");
-  var userCityRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/city");
-  var userStateRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/state");
-  var userZipRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/zip");
-  var userPhoneRef = new Firebase("'https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/phone");
+  var userFirstNameRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/firstName");
+  var userLastNameRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/lastName");
+  var userStreetRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/street");
+  var userCityRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/city");
+  var userStateRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/state");
+  var userZipRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/zip");
+  var userPhoneRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + $scope.key + "/phone");
 
   // download the data into a local object
   var syncFirstNameObject = $firebaseObject(userFirstNameRef);
@@ -160,4 +160,3 @@ $scope.deleteEvent = function(data) {
 };
 
 }]);//End Controller
-

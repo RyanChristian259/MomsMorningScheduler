@@ -32,7 +32,7 @@ $scope.signInUser = function() {
         //not sure if this returns if you are logged in or out!!! Pls confirm.
         $scope.message = 'You are logged in!';
         console.log("Authenticated successfully with payload:", authData);
-        $location.path('#/');
+        $window.location='#/';
         $window.location.reload();
       }
     });
@@ -65,11 +65,10 @@ $scope.createUser = function() {
             var formData = {
               email: authData.password.email,
               id: authData.uid,
-              children: ['']
             };
             userService.currentUserID = authData.uid;
             ref.push(formData);
-            $location.path('#/');
+            $window.location='#/accountInfo';
             $window.location.reload();
           }
         });
@@ -156,6 +155,7 @@ $scope.logoutUser = function() {
       console.log("Logout Failed!", error);
     } else {
       console.log("You are logged out");
+      $window.location='#/';
       $window.location.reload();
     }
 
