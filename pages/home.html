@@ -1,6 +1,10 @@
+<h4 ng-cloak ng-show='!authData' style='float: right; color:#666666'>Please Log In to reserve an appointment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+
+
 <h1>User Page</h1>
 <p><a href='#/admin'> Go to Admin Calendar</a></p>
 <p><a href='#/accountInfo'> Go to My Account</a></p>
+
 
 <button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success', false: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
 </form>
@@ -10,7 +14,7 @@
 
 <div ng-controller='accountInfoController'>
 <h3>My Children</h3>
-<button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button>
+<!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
 <h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   {{kid.birthdate}} (will show age here instead of bday) <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
 </div>
 
@@ -18,18 +22,6 @@
 <section>
   <div class="well">
     <div class="row-fluid">
-      <!-- <div class="span4"> -->
-
-       <!--  <ul class="unstyled">
-          <li ng-repeat="e in events">
-            <div class="alert alert-info">
-              <a class="close" ng-click="remove($index)"><i class="icon-remove"></i></a>
-              <b> <input ng-model="e.title"></b>
-              {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
-            </div>
-          </li>
-        </ul> -->
-      <!-- </div> -->
 
       <div class="span8">
         <uib-tabset>

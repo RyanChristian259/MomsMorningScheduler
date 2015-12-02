@@ -67,38 +67,6 @@ $scope.changeDate = function() {
   $scope.payload = payload;
 };
 
-//**************************************//
-// Admin submit single date to database //
-//**************************************//
-$scope.createEvent = function() {
-  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/eventsTest");
-  var payloadStringified = JSON.stringify($scope.payload);
-  var payloadParsed = JSON.parse(payloadStringified);
-
-  var formData = {
-      date: $scope.payload.timeStamp,
-      begin: $scope.selectedStartHour + ':' + $scope.selectedStartMinute + ' ' + $scope.selectedStartampm,
-      end: $scope.selectedEndHour + ':' + $scope.selectedEndMinute + ' ' + $scope.selectedEndampm,
-      slots:{0:false,1:false,2:false,3:false},
-      status: 'full'
-  };
-  console.log(formData, ' form data');
-  console.log('Data Sent');
-  ref.push(formData);
-};
-
-
-//***************************//
-//  Async call to firebase   //
-//***************************//
-// var ref = new Firebase("https://momsmorningscheduler.firebaseio.com");
-// // Attach an asynchronous callback to read the data at our posts reference
-// ref.on("value", function(snapshot) {
-//   console.log(snapshot.exportVal());
-
-// }, function (errorObject) {
-//   console.log("The read failed: " + errorObject.code);
-// });
 
 //*****************************//
 //  Query database for events  //
@@ -127,37 +95,11 @@ $scope.disabled = function(date, mode) {
   return ( mode === 'day' && ( date.getDay() === $scope.sunday || date.getDay() === $scope.monday || date.getDay() === $scope.tuesday || date.getDay() === $scope.wednesday || date.getDay() === $scope.thursday || date.getDay() === $scope.friday || date.getDay() === $scope.saturday ) );
 };
 
-$scope.changeSlots = function(data) {
-  console.log(data);
-
-    // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
-
-    // ref.orderByChild("date/schedule/time").equalTo("2015-11-13T19:24:21.465Z").on('childAdded', function (snapshot) {
-    //    console.log(snapshot.key());
-    // });
-
-
-
-// var payload = data;
-    // var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/workDays");
-
-    // ref.orderByChild('date')
-
-    // ref.update(payload);
-
-
-  };
-
-  // $('span').on('click', function(){
-  //   var buttonClicked = $(this).html();
-  //   console.log(buttonClicked, ' click');
-  // });
 
 var tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 var afterTomorrow = new Date();
 afterTomorrow.setDate(tomorrow.getDate() + 2);
-
 
 
 // Attach an asynchronous callback to read the data at our posts reference
@@ -182,17 +124,7 @@ $scope.callBack = function(){
 
     });
   events2 = snapshot.exportVal();
-  // console.log(events2);
-  // for(var key in events2){
 
-  //    inEvents = events2[key];
-
-     // if (dateChosen === inEvents.date) {
-     //  console.log(inEvents);
-     //  console.log(inEvents.date);
-     //  console.log( 'wah-hoo');
-     // }
-  // }
 
   $rootScope.events2 = events2;
 }, function (errorObject) {
@@ -205,43 +137,6 @@ ref3.orderByChild("workDays/date").on("child_added", function(snapshot) {
   console.log('status ' + snapshot.key() + ' ' + snapshot.val().status + " date " + snapshot.val().date);
 });
 
-// var ref2 = new Firebase("https://dinosaur-facts.firebaseio.com/dinosaurs");
-// ref2.orderByChild("dimensions/height").on("child_added", function(snapshot) {
-//   console.log(snapshot.key() + " was " + snapshot.val().height + " meters tall");
-// });
-
-//***********************************************//
-// process events to show if slots are available //
-//***********************************************//
-$scope.processEvents = function(events){
-  var numSlots = 0;
-  for (var i = 0; i < $scope.events.length; i ++){
-    for (var j = 0; j < $scope.events.length; j ++){
-      if( $scope.events[i].slots[j] === false){
-        numSlots += 1;
-      }
-    }
-    return numSlots;
-  }
-};
-
-
-//*************************//
-// Show events on calendar //
-//*************************//
-$scope.getDayClass = function(date, mode) {
-  if (mode === 'day') {
-    var dayToCheck = new Date(date).setHours(0,0,0,0);
-    for (var i = 0; i < $scope.events.length; i ++){
-      var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-      // console.log(currentDay, ' current day');
-      if (dayToCheck === currentDay && $scope.events[i].slots[i] === false) {
-        return $scope.events[i].status;
-      }
-    }
-  }
-  return '';
-};
 
 var obj = $rootScope.events2;
 //return an array of values that match on a certain key
@@ -273,94 +168,5 @@ $scope.getDayClass2 = function(date, mode) {
   }
   return '';
 };
-
-//Values for time selector on admin page
-$scope.startHourSelect = [
-{ id: 1, name: '1' },
-{ id: 2, name: '2' },
-{ id: 3, name: '3' },
-{ id: 4, name: '4' },
-{ id: 5, name: '5' },
-{ id: 6, name: '6' },
-{ id: 7, name: '7' },
-{ id: 8, name: '8' },
-{ id: 9, name: '9' },
-{ id: 10, name: '10' },
-{ id: 11, name: '11' },
-{ id: 12, name: '12' },
-];
-
-    // Pre-select value by id
-    $scope.selectedStartHour = 8;
-
-    $scope.startMinuteSelect = [
-    { id: 00, name: '00' },
-    { id: 05, name: '05' },
-    { id: 10, name: '10' },
-    { id: 15, name: '15' },
-    { id: 20, name: '20' },
-    { id: 25, name: '25' },
-    { id: 30, name: '30' },
-    { id: 35, name: '35' },
-    { id: 40, name: '40' },
-    { id: 45, name: '45' },
-    { id: 50, name: '50' },
-    { id: 55, name: '55' },
-    ];
-
-    // Pre-select value by id
-    $scope.selectedStartMinute = 30;
-
-    $scope.startampmSelect = [
-    { id: 'am', name: 'am' },
-    { id: 'pm', name: 'pm' }
-    ];
-
-    // Pre-select value by id
-    $scope.selectedStartampm = 'am';
-
-    $scope.endHourSelect = [
-    { id: 1, name: '1' },
-    { id: 2, name: '2' },
-    { id: 3, name: '3' },
-    { id: 4, name: '4' },
-    { id: 5, name: '5' },
-    { id: 6, name: '6' },
-    { id: 7, name: '7' },
-    { id: 8, name: '8' },
-    { id: 9, name: '9' },
-    { id: 10, name: '10' },
-    { id: 11, name: '11' },
-    { id: 12, name: '12' },
-    ];
-
-    // Pre-select value by id
-    $scope.selectedEndHour = 12;
-
-    $scope.endMinuteSelect = [
-    { id: 00, name: '00' },
-    { id: 05, name: '05' },
-    { id: 10, name: '10' },
-    { id: 15, name: '15' },
-    { id: 20, name: '20' },
-    { id: 25, name: '25' },
-    { id: 30, name: '30' },
-    { id: 35, name: '35' },
-    { id: 40, name: '40' },
-    { id: 45, name: '45' },
-    { id: 50, name: '50' },
-    { id: 55, name: '55' },
-    ];
-
-    // Pre-select value by id
-    $scope.selectedEndMinute = 30;
-
-    $scope.endampmSelect = [
-    { id: 'am', name: 'am' },
-    { id: 'pm', name: 'pm' }
-    ];
-
-    // Pre-select value by id
-    $scope.selectedEndampm = 'pm';
 
 }]); //calendar controller

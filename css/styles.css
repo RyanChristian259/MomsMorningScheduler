@@ -7,8 +7,12 @@ body {
   background-size: cover;
 }
 
+h1, h2, h3, h4, h5, h6, p {
+  color:#666666;
+}
+
 p {
-  font-size: 1.1em;
+  font-size: 1.2em;
 }
 
 .pagePortal {
@@ -73,11 +77,16 @@ footer {
 
 .footerLightText {
   opacity: 0.5;
+  color: #FDFDFD;
 }
 
 /* footer link */
 .footerLink {
   color: #FDFDFD;
+}
+
+.footerText {
+ color: #FDFDFD;
 }
 
 /* footer link */
