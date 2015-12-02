@@ -206,13 +206,14 @@ $scope.uiConfig = {
 /* event sources array*/
       // $scope.events is your events with the following keys:
       // title, start, end, allDay
+$scope.selectedName = null;
+
 $scope.selectKid = function(){
   $scope.selectedName = this.kid.name;
 };
-
-
-//////////////////////// USER CALENDAR FUNCTIONALITY BEGINS BELOW ////////////////////////
-
+//***********************************//
+//        User Reserve Event         //
+//***********************************//
 $scope.reserve = function(date, jsEvent, view) {
   var childRefNumber = this.slots.slice(-1);
   var userId = authData.uid;
@@ -237,7 +238,7 @@ $scope.reserve = function(date, jsEvent, view) {
         console.log('some other table');
       }
     });
-     var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations/" + childRefNumber);
+    var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations/" + childRefNumber);
     updateResRef.update({"user_id": userKey, "childName": selectedName});
     });
     //Remove slot from array after selection

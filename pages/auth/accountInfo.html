@@ -1,3 +1,5 @@
+
+
 <div class="container">
   <h2>My account</h2><p><a href='#/'> Go to the Calendar</a></p>
 
@@ -24,7 +26,7 @@
       </div>
       <h3>My Children</h3>
       <button ng-click="showKids = !showKids; populateUserKids()" class="btn btn-success" type='submit'>Show My Children</button>
-      <div ng-hide="!showKids"><h4 ng-hide='kids.length'><a href='#/'>Please click Add Child to add a child to your account</a></h4>
+      <div ng-hide="!showKids"><h4 ng-hide='kids.length'>Please Add Child to add a child to your account</h4>
         <h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   Birthdate: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="editKid()">Edit</button></h4>
         <button class="btn btn-danger" ng-mouseup="showKids = !showKids">Close</button>
 
@@ -32,48 +34,62 @@
         <div class="container">
           <div class="container" ng-hide="addChild">
             <div class="row">
-              <div class="col-sm-offset-1 col-sm-6">
+              <div class="col-sm-4">
                 <form name="addChild" novalidate >
                   <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Name" ng-model="child.name" required>
+                  </br>
+                  <input type="text" class="form-control" placeholder="Name" ng-model="child.name" required>
+                </div>
+                <div class="form-group">
+                <!-- Datepicker starts -->
+                  <div ng-controller='datePickerController'>
+
+                    <div class="row">
+                     <div class="col-md-6">
+                      <div class="calendar">
+                        <p class="input-group">
+                          <input type="text" uib-datepicker-popup="{{format}}" ng-change='changeDate()' class='my-datepicker form-control' ng-model="dt" min-date="minDate" max-date="maxDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)" is-open="status.opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close"/>
+                          <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                          </span>
+
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group">
-                   <input type="date" class="form-control" placeholder="Birthdate" ng-model="child.birthdate" required>
-                 </div>
+                </div><!-- DatePicker End -->
+                <!-- <input type="date" class="form-control" placeholder="Birthdate" ng-model="child.birthdate" required> -->
+              </div>
 
-                 <button ng-click='addKid()' type="submit" ng-mouseup="addChild = !addChild" class="btn btn-default">Submit</button>
+              <button ng-click='addKid()' type="submit" ng-mouseup="addChild = !addChild" class="btn btn-default">Submit</button>
 
-                 <button class="btn btn-danger" ng-mouseup="addChild = !addChild">Cancel</button>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div ><!-- ng hide show kids -->
+              <button class="btn btn-danger" ng-mouseup="addChild = !addChild">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div ><!-- ng hide show kids -->
 
-       <h3>My Events</h3>
-       <button ng-click="showEvents = !showEvents; populateUserEvents()" class="btn btn-success" type='submit'>Show My Events</button>
-       <div ng-hide="!showEvents"><h4 ng-hide='displayMyEvents.length'><a href='#/'>Please visit the calendar to schedule an event</a></h4>
-        <h4 ng-repeat='event in displayMyEvents track by $index'> Name: {{event.title}} Starting On: {{event.start}} For: {{event.childName}} <button ng-click='deleteEvent(event.reservations)' type="submit" class="btn btn-danger">Delete Event</button></h4>
-        <button class="btn btn-danger" ng-mouseup="showEvents = !showEvents">Close</button>
-      </div ><!-- ng hide show events -->
-    </div>
-    <div class='col-md-6'>
+    <h3>My Events</h3>
+    <button ng-click="showEvents = !showEvents; populateUserEvents()" class="btn btn-success" type='submit'>Show My Events</button>
+    <div ng-hide="!showEvents"><h4 ng-hide='displayMyEvents.length'><a href='#/'>Please visit the calendar to schedule an event</a></h4>
+      <h4 ng-repeat='event in displayMyEvents track by $index'> Name: {{event.title}} Starting On: {{event.start}} For: {{event.childName}} <button ng-click='deleteEvent(event.reservations)' type="submit" class="btn btn-danger">Delete Event</button></h4>
+      <button class="btn btn-danger" ng-mouseup="showEvents = !showEvents">Close</button>
+    </div ><!-- ng hide show events -->
+  </div>
+  <div class='col-md-6'>
 
     <h3 style='margin:0'>Your Info:</h3>
-      <h4>{{firstName.text}} {{lastName.text}}</h4>
-      <h4>Address: {{street.text}}</h4>
-      <h4>{{city.text}} {{state.text}} {{zip.text}}</h4>
-      <h4>{{phone.text}}</h4>
-    </br>
+    <h4>{{firstName.text}} {{lastName.text}}</h4>
+    <h4>Address: {{street.text}}</h4>
+    <h4>{{city.text}} {{state.text}} {{zip.text}}</h4>
+    <h4>{{phone.text}}</h4>
+  </br>
 
-    <h3>Your Children:</h3>
-    <h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   Birthdate: {{kid.birthdate}}</h4>
-  </div>
+  <h3>Your Children:</h3>
+  <h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   Birthdate: {{kid.birthdate}}</h4>
 </div>
-
-
-
-
+</div>
 </br>
 </div>
 </div>

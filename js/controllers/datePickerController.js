@@ -38,8 +38,8 @@ $scope.dateOptions = {
   startingDay: 1
 };
 
-$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-$scope.format = $scope.formats[0];
+$scope.formats = ['dd-MMMM-yyyy', 'MM/dd/yyyy', 'dd.MM.yyyy', 'shortDate'];
+$scope.format = $scope.formats[1];
 
 $scope.status = {
   opened: false

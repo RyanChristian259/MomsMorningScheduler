@@ -1,4 +1,4 @@
-app.controller('accountInfoController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', '$firebaseObject', 'userService', 'authService', '$window', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, $firebaseObject, userService, authService, $window) {
+app.controller('accountInfoController', ['$scope', '$http', '$location', '$firebase', '$route', '$routeParams', '$firebaseArray', '$firebaseObject', 'userService', 'authService', '$window', function($scope, $http, $location, $firebase, $route, $routeParams, $firebaseArray, $firebaseObject, userService, authService, $window  ) {
 
   var self = this;
 
@@ -8,6 +8,11 @@ app.controller('accountInfoController', ['$scope', '$http', '$location', '$fireb
 
   var userKey = userService.currentUserKey;
 
+$scope.refreshPage = function(){
+   $window.location='#/accountInfo';
+        $window.location.reload();
+        console.log('refreshed');
+  };
 
 //***********************************//
 //      User set Personal Info       //
@@ -42,7 +47,6 @@ $scope.userInfo = function(){
   syncPhoneObject.$bindTo($scope, "phone");
 
 };
-
 
 
 //***********************************//
@@ -106,6 +110,15 @@ $scope.populateUserEvents = function(){
 });
 };
 
+//***********************************//
+//            Delete Event           //
+//***********************************//
+$scope.deleteEvent = function(data) {
+  console.log(' delete event trying');
+  var firebaseDeleteRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + this.event.key + '/reservations/' + this.event.resNumber+ '/');
+  firebaseDeleteRef.update({"user_id": '', "childName": null});
+};
+
 //*******************************//
 //    Add children callback      //
 //*******************************//
@@ -126,7 +139,6 @@ $scope.addKidCallback = function () {
   $scope.populateUserKids();
   $scope.populateUserEvents();
   $scope.userInfo();
-  $scope.deleteEvent();
 });
 };
 
@@ -139,21 +151,14 @@ $scope.addKidCallback();
 $scope.addKid = function(){
   var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + $scope.key + '/children');
       //birthdate set to string so database will accept it
+      // var selectedBirthdate = userService.CurrentDate
       var data = {
         name: $scope.child.name,
-        birthdate: $scope.child.birthdate.toString()
+        birthdate: userService.currentDate
       };
 
     // Push data into database
     userRef.push(data);
   };
-
-//***********************************//
-//            Delete Event           //
-//***********************************//
-$scope.deleteEvent = function(data) {
-  var firebaseDeleteRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + this.event.key + '/reservations/' + this.event.resNumber+ '/');
-  firebaseDeleteRef.update({"user_id": '', "childName": null});
-};
 
 }]);//End Controller
