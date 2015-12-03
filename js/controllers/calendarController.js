@@ -7,6 +7,17 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
 
   $scope.show0to24 = false;
 
+$scope.resConfirm = false;
+$scope.showUserConfirm = function(){
+  $scope.resConfirm = true;
+$timeout(function(){
+}, 5000).then(function() {
+  // You know the timeout is done here
+  $scope.resConfirm = false;
+});
+};
+
+
 //***********************************//
 //         Check Login State         //
 //***********************************//
