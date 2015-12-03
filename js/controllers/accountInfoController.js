@@ -73,11 +73,40 @@ $scope.populateUserKids = function(){
     var kidsInfo = firebaseKids.children;
       for(var key in kidsInfo){
         kids.push(kidsInfo[key]);
+        // kids.push($scope.calculateAge(kidsInfo[key].birthdate));
       }
 
     $scope.kids = kids;
     // kids = [];
     // console.log($scope.kids, ' children');
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+};
+
+//***********************************//
+//  Call Database for user kids age  //
+//***********************************//
+$scope.populateUserKidsAge = function(){
+  var kidsAge = [];
+  var userRef = new Firebase('https://momsmorningscheduler.firebaseio.com/users/' + $scope.key);
+  userRef.on("value", function(snapshot) {
+    firebaseKids = snapshot.exportVal();
+    //loop through events to get kids info
+    var kidsInfoAge = firebaseKids.children;
+      for(var key in kidsInfoAge){
+        var newKidsAge = {
+          birthdate: $scope.calculateAge(kidsInfoAge[key].birthdate),
+          name: kidsInfoAge[key].name
+        };
+        console.log(newKidsAge, ' kids age');
+        kidsAge.push(newKidsAge);
+        // console.log($scope.calculateAge(kidsInfoAge[key].birthdate), ' children');
+      }
+
+    $scope.kidsAge = kidsAge;
+    // kids = [];
+    // console.log($scope.calculateAge('2014/05/05'), ' calc age');
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
@@ -137,6 +166,7 @@ $scope.addKidCallback = function () {
     }
   });
   $scope.populateUserKids();
+  $scope.populateUserKidsAge();
   $scope.populateUserEvents();
   $scope.userInfo();
 });
