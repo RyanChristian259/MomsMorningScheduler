@@ -1,4 +1,4 @@
-<h4 ng-cloak ng-show='!authData' style='float: right; color:#666666'>Please Log In to reserve an appointment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+<h4 ng-cloak ng-show='!authData' style='float: right; color:#666666'>Please <a href="#/login">Log in</a></li> to reserve an appointment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
 
 <h1>User Page</h1>
 <p><a href='#/admin'> Go to Admin Calendar</a></p>
@@ -14,7 +14,7 @@
 <div ng-controller='accountInfoController'>
   <h3>My Children</h3>
   <!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
-  <h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   {{kid.birthdate}} (will show age here instead of bday) <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
+  <h4 ng-repeat='kid in kidsAge track by $index'> Name: {{kid.name}} -- Age: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
 </div>
 
 <!-- Start of UI Calendar -->

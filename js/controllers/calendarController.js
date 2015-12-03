@@ -7,15 +7,15 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
 
   $scope.show0to24 = false;
 
-$scope.resConfirm = false;
-$scope.showUserConfirm = function(){
-  $scope.resConfirm = true;
-$timeout(function(){
-}, 5000).then(function() {
+  $scope.resConfirm = false;
+  $scope.showUserConfirm = function(){
+    $scope.resConfirm = true;
+    $timeout(function(){
+    }, 5000).then(function() {
   // You know the timeout is done here
   $scope.resConfirm = false;
 });
-};
+  };
 
 
 //***********************************//
@@ -50,7 +50,7 @@ $scope.addEventToDatabase = function(date, jsEvent, view) {
   var payloadParsed = JSON.parse(payloadStringified);
   var newStartDateTime = (userService.currentDate + ' ' + $scope.selectedStartHour + ':' + $scope.selectedStartMinute + ' ' + $scope.selectedStartampm).toString();
   var newEndDateTime = (userService.currentDate + ' ' + $scope.selectedEndHour + ':' + $scope.selectedEndMinute + ' ' + $scope.selectedEndampm).toString();
-console.log(newStartDateTime, ' start hour');
+  console.log(newStartDateTime, ' start hour');
 
   var formData = {
     title: 'Morning Session',
@@ -112,13 +112,13 @@ var init = function(){
 //***********************************//
 // Show desired age details on click //
 //***********************************//
-    $scope.show0to24Months = function(date, jsEvent, view){
-     $scope.show0to24 = true;
-   };
+$scope.show0to24Months = function(date, jsEvent, view){
+ $scope.show0to24 = true;
+};
 
-   $scope.showAll = function(){
-     $scope.show0to24 = false;
-   };
+$scope.showAll = function(){
+ $scope.show0to24 = false;
+};
 
 //***********************************//
 //   Show event details on click     //
@@ -217,11 +217,11 @@ $scope.uiConfig = {
 /* event sources array*/
       // $scope.events is your events with the following keys:
       // title, start, end, allDay
-$scope.selectedName = null;
+      $scope.selectedName = null;
 
-$scope.selectKid = function(){
-  $scope.selectedName = this.kid.name;
-};
+      $scope.selectKid = function(){
+        $scope.selectedName = this.kid.name;
+      };
 //***********************************//
 //        User Reserve Event         //
 //***********************************//
@@ -251,7 +251,7 @@ $scope.reserve = function(date, jsEvent, view) {
     });
     var updateResRef = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + selectedEvent.key + "/reservations/" + childRefNumber);
     updateResRef.update({"user_id": userKey, "childName": selectedName});
-    });
+  });
     //Remove slot from array after selection
     $scope.showAvailableSlots.splice(this.$index, 1);
   };
@@ -345,6 +345,30 @@ $scope.reserve = function(date, jsEvent, view) {
 
     // Pre-select value by id
     $scope.selectedEndampm = 'pm';
+
+//***********************************//
+//       Calculate Child Age         //
+//***********************************//
+$scope.calculateAge = function(date) {
+ var age = '';
+ var splitDate = date.split('-');
+ var birthYear = splitDate[0];
+ var birthMonth = splitDate[1];
+ var birthDay = splitDate[2];
+ var currentDate = new Date();
+ var currentYear = currentDate.getFullYear();
+ var currentMonth = currentDate.getMonth();
+ var currentDay = currentDate.getDate();
+ age = currentYear - birthYear;
+
+ if (currentMonth < birthMonth - 1) {
+  age--;
+}
+if (birthMonth - 1 == currentMonth && currentDay < birthDay) {
+  age--;
+}
+return age;
+};
 
     }]);//End of Calendar Controller
 
