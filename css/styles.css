@@ -162,3 +162,16 @@ select {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
  }
+
+
+/**** CSS for fade in and out messages ****/
+.show-hide {
+  padding:10px;
+  -webkit-transition:all linear 0.5s;
+  transition:all linear 0.5s;
+}
+
+.show-hide.ng-hide {
+  opacity:0;
+}
+/******************************************/

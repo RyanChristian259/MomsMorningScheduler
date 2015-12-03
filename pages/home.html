@@ -1,6 +1,5 @@
 <h4 ng-cloak ng-show='!authData' style='float: right; color:#666666'>Please Log In to reserve an appointment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
 
-
 <h1>User Page</h1>
 <p><a href='#/admin'> Go to Admin Calendar</a></p>
 <p><a href='#/accountInfo' ng-click="refreshPage()"> Go to My Account</a></p>
@@ -13,9 +12,9 @@
 </form>
 
 <div ng-controller='accountInfoController'>
-<h3>My Children</h3>
-<!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
-<h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   {{kid.birthdate}} (will show age here instead of bday) <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
+  <h3>My Children</h3>
+  <!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
+  <h4 ng-repeat='kid in kids track by $index'> Name: {{kid.name}}   {{kid.birthdate}} (will show age here instead of bday) <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
 </div>
 
 <!-- Start of UI Calendar -->
@@ -29,22 +28,31 @@
         <uib-tab-heading>
         <i class="glyphicon glyphicon-calendar"></i> Mom's Morning Out
       </uib-tab-heading>
+      <h3 style='float: right; color:#666666'>Select your child and click on a date to reserve an appointment</h3>
       <div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
-      <p class=" lead">Available: &nbsp;</p><h4 ng-show='selectedName === null'>Please Select a child to reserve and appointment</h4>
-        <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}  <button class='btn btn-success' ng-disabled='selectedName === null' ng-click="reserve()">Reserve</button></h4>
-      </div>
-      <div class="btn-toolbar">
-        <!-- <p class="pull-right lead">Available: &nbsp;</p> -->
-        <div class="btn-group">
-          <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
-          <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
-          <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
-        </div>
-      </div>
-      <div class="calendar" ng-click="changeView('month', 'myCalendar1')" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
-    </uib-tab>
-  </uib-tabset>
-</div>
-</div>
+        <p class=" lead">Available: &nbsp;</p>
+        <h4 style='font-size:1.4em' ng-show='selectedName === null'>&nbsp;Please Select a child to reserve an appointment</h4>
+        <h3 ng-show='resConfirm' class='show-hide'>Your appointment has been scheduled!</h3>
+        <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}   <button ng-click="showConfirm = !showConfirm;" ng-disabled='selectedName === null' ng-show='!showConfirm' class="btn btn-sm btn-success" type='submit'>Schedule</button>
+          <div ng-hide="!showConfirm">
+            <div class="btn-group" role="group">
+              <button class="btn btn-sm btn-danger" ng-mouseup="showConfirm = !showConfirm" ng-disabled='selectedName === null'>Cancel</button>
+              <button class="btn btn-sm btn-success" ng-mouseup="showConfirm = !showConfirm" ng-disabled='selectedName === null' ng-click="reserve(); showUserConfirm()">Confirm</button>
+            </div ></div><!-- ng hide show Confirm --></h4>
+          </div>
+          <div class="btn-toolbar">
+            <!-- <p class="pull-right lead">Available: &nbsp;</p> -->
+            <div class="btn-group">
+              <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+              <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
+              <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
+            </div>
+          </div>
+          <div class="calendar" ng-click="changeView('month', 'myCalendar1')" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+  </div>
 </div>
 </section>
+
