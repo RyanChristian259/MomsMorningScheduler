@@ -1,22 +1,26 @@
 <h4 ng-cloak ng-show='!authData' style='float: right; color:#666666'>Please <a href="#/login">Log in</a></li> to reserve an appointment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
 
 <h1>User Page</h1>
-<p><a href='#/admin'> Go to Admin Calendar</a></p>
-<p><a href='#/accountInfo' ng-click="refreshPage()"> Go to My Account</a></p>
+<hr>
+<div class='row'>
+  <div class='col-md-6'>
+    <p><a href='#/admin'> Go to Admin Calendar</a></p>
+    <p><a href='#/accountInfo' ng-click="refreshPage()"> Go to My Account</a></p>
 
+    <button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success', false: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
+  </form>
 
-<button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success', false: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
+  <button ng-click="show0to24Months(); !feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{false: 'btn btn-success', true: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show only 0-2 years</button>
 </form>
-
-<button ng-click="show0to24Months(); !feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{false: 'btn btn-success', true: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show only 0-2 years</button>
-</form>
-
-<div ng-controller='accountInfoController'>
-  <h3>My Children</h3>
-  <!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
-  <h4 ng-repeat='kid in kidsAge track by $index'> Name: {{kid.name}} -- Age: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
 </div>
-
+<div class='col-md-6'>
+  <div ng-controller='accountInfoController'>
+  <h3 style='margin:0'>My Children</h3>
+    <!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
+    <h4 ng-repeat='kid in kidsAge track by $index'> Name: {{kid.name}} -- Age: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
+  </div>
+</div>
+</div>
 <!-- Start of UI Calendar -->
 <section>
   <div class="well">

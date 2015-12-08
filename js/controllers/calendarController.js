@@ -5,8 +5,11 @@ app.controller('calendarController', ['$scope', '$firebase', '$firebaseArray', '
   var m = date.getMonth();
   var y = date.getFullYear();
 
-  $scope.show0to24 = false;
 
+//***********************************//
+//    Confirm Event Notificaiton     //
+//***********************************//
+  $scope.show0to24 = false;
   $scope.resConfirm = false;
   $scope.showUserConfirm = function(){
     $scope.resConfirm = true;
@@ -77,7 +80,13 @@ $scope.callBack = function(){
     var counter = 0;
     //loop through events to get num of reserved events
     for(var key in firebaseEvents){
-      // console.log(new Date, ' date');
+      var startDateSplit = firebaseEvents[key].start.split(' ');
+
+      startDateSplit = startDateSplit[0].split('-'); //shows array of strings
+
+      todaysDate = [date.getFullYear(), (date.getMonth() + 1), date.getDate()]; //shows array of numbers
+
+
       var clientSideEvent  = firebaseEvents[key];
       clientSideEvent.key = key;
       //break into client events object
@@ -87,8 +96,11 @@ $scope.callBack = function(){
                 counter += 1;
               }
             }
-            if(counter >= 4 ){
-              console.log('Hold the event');
+            // if to hold past dates from calendar
+            if(parseInt(startDateSplit[0]) <= todaysDate[0] && parseInt(startDateSplit[1]) <= todaysDate[1] && parseInt(startDateSplit[2]) < todaysDate[2] || (startDateSplit[0]) <= todaysDate[0] && parseInt(startDateSplit[1]) < todaysDate[1]){
+              // console.log('Hold the event, occurs before today');
+            } else if (counter >= 4){
+              // console.log('Hold The Event, event is full');
             } else {
               $scope.events.push(clientSideEvent);
             }
@@ -214,14 +226,14 @@ $scope.uiConfig = {
 };
 
 
-/* event sources array*/
-      // $scope.events is your events with the following keys:
-      // title, start, end, allDay
-      $scope.selectedName = null;
 
-      $scope.selectKid = function(){
-        $scope.selectedName = this.kid.name;
-      };
+  // Gets value when user selects
+  // their child for reservation
+  $scope.selectedName = null;
+  $scope.selectKid = function(){
+     $scope.selectedName = this.kid.name;
+    };
+
 //***********************************//
 //        User Reserve Event         //
 //***********************************//
