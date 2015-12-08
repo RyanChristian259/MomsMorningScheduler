@@ -382,5 +382,56 @@ if (birthMonth - 1 == currentMonth && currentDay < birthDay) {
 return age;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+// <input ng-model='from' />
+// <input ng-model='to'/>
+// <button ng-click='getBetweenDates()'>Get Between Dates</button>
+// <div inputd="results"></div>
+
+
+// var getBetweenDates = function(startDate, endDate) {
+//     var now = startDate, dates = [];
+// // console.log(now, ' now');
+//     while (now.format('MM/DD/YYYY') <= endDate.format('MM/DD/YYYY')) {
+//           dates.push(now.format('MM/DD/YYYY'));
+//           now.add('days', 1);
+//     }
+//     return dates;
+// };
+// console.log(getBetweenDates('11/11/2015', '11/15/2015'));
+
+
+// $scope.getBetweenDates =  function () {
+//     var start = $scope.from;
+//     var end = $scope.to;
+//     // var currentDate = moment(date.start).format('MM/DD/YYYY');
+//     currentDate = new Date(start);
+//     console.log(currentDate, ' current date');
+//     var between = [];
+
+
+//     while (currentDate <= end) {
+//         between.push(new Date(currentDate));
+//         currentDate.setDate(currentDate.getDate() + 1);
+//         console.log(currentDate.getDate(), ' get date');
+//     }
+
+// console.log(between, ' between', currentDate, ' current date');
+// };
+
+
+
+
     }]);//End of Calendar Controller
 

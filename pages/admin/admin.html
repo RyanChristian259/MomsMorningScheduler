@@ -1,3 +1,9 @@
+
+
+
+
+
+
     <h2>Mom's Morning Out Admin Page</h2>
     <h4><a href='#/home'> Go to User Calendar</a></h4>
 
@@ -67,7 +73,7 @@
         </label>
       </br>
       <div class="btn-group calTools">
-        <button type="button" class="btn btn-primary" data-ng-click="addEventToDatabase()">
+        <button type="button" class="btn btn-primary btn-custom-green" data-ng-click="addEventToDatabase()">
           Add Event
         </button>
       </div>
@@ -103,9 +109,9 @@
         <div class="btn-toolbar">
           <!-- <p class="pull-right lead">Available: &nbsp;</p> -->
           <div class="btn-group">
-            <button class="btn btn-success" data-ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
-            <button class="btn btn-success" data-ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
-            <button class="btn btn-success" data-ng-click="changeView('month', 'myCalendar1')">Month</button>
+            <button class="btn btn-success btn-custom-green" data-ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+            <button class="btn btn-success btn-custom-green" data-ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
+            <button class="btn btn-success btn-custom-green" data-ng-click="changeView('month', 'myCalendar1')">Month</button>
           </div>
         </div>
         <div class="calendar" data-ng-click="changeView('month', 'myCalendar1')" data-ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
