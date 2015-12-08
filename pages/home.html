@@ -7,17 +7,18 @@
     <p><a href='#/admin'> Go to Admin Calendar</a></p>
     <p><a href='#/accountInfo' ng-click="refreshPage()"> Go to My Account</a></p>
 
-    <button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success', false: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
+
+    <button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success btn-custom-green', false: 'btn btn-alert btn-custom-green'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
   </form>
 
-  <button ng-click="show0to24Months(); !feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{false: 'btn btn-success', true: 'btn btn-alert'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show only 0-2 years</button>
+  <button ng-click="show0to24Months(); !feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{false: 'btn btn-success btn-custom-blue', true: 'btn btn-alert btn-custom-blue'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show only 0-2 years</button>
 </form>
 </div>
 <div class='col-md-6'>
   <div ng-controller='accountInfoController'>
   <h3 style='margin:0'>My Children</h3>
     <!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
-    <h4 ng-repeat='kid in kidsAge track by $index'> Name: {{kid.name}} -- Age: {{kid.birthdate}} <button class='btn btn-success' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
+    <h4 ng-repeat='kid in kidsAge track by $index'> Name: {{kid.name}} -- Age: {{kid.birthdate}} <button class='btn btn-success btn-custom-green' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
   </div>
 </div>
 </div>
@@ -37,19 +38,19 @@
         <p class=" lead">Available: &nbsp;</p>
         <h4 style='font-size:1.4em' ng-show='selectedName === null'>&nbsp;Please Select a child to reserve an appointment</h4>
         <h3 ng-show='resConfirm' class='show-hide'>Your appointment has been scheduled!</h3>
-        <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}   <button ng-click="showConfirm = !showConfirm;" ng-disabled='selectedName === null' ng-show='!showConfirm' class="btn btn-sm btn-success" type='submit'>Schedule</button>
+        <h4 ng-repeat='slots in showAvailableSlots track by $index' ng-model='this.slots'> &nbsp;{{alertMessage}} {{slots}}   <button ng-click="showConfirm = !showConfirm;" ng-disabled='selectedName === null' ng-show='!showConfirm' class="btn btn-sm btn-success btn-custom-green" type='submit'>Schedule</button>
           <div ng-hide="!showConfirm">
             <div class="btn-group" role="group">
-              <button class="btn btn-sm btn-danger" ng-mouseup="showConfirm = !showConfirm" ng-disabled='selectedName === null'>Cancel</button>
-              <button class="btn btn-sm btn-success" ng-mouseup="showConfirm = !showConfirm" ng-disabled='selectedName === null' ng-click="reserve(); showUserConfirm()">Confirm</button>
+              <button class="btn btn-sm btn-danger btn-custom-red" ng-mouseup="showConfirm = !showConfirm" ng-disabled='selectedName === null'>Cancel</button>
+              <button class="btn btn-sm btn-success btn-custom-blue" ng-mouseup="showConfirm = !showConfirm" ng-disabled='selectedName === null' ng-click="reserve(); showUserConfirm()">Confirm</button>
             </div ></div><!-- ng hide show Confirm --></h4>
           </div>
           <div class="btn-toolbar">
             <!-- <p class="pull-right lead">Available: &nbsp;</p> -->
             <div class="btn-group">
-              <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
-              <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
-              <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
+              <button class="btn btn-success btn-custom-green" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+              <button class="btn btn-success btn-custom-green" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
+              <button class="btn btn-success btn-custom-green" ng-click="changeView('month', 'myCalendar1')">Month</button>
             </div>
           </div>
           <div class="calendar" ng-click="changeView('month', 'myCalendar1')" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
