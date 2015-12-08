@@ -99,7 +99,7 @@ $scope.populateUserKidsAge = function(){
           birthdate: $scope.calculateAge(kidsInfoAge[key].birthdate),
           name: kidsInfoAge[key].name
         };
-        console.log(newKidsAge, ' kids age');
+        // console.log(newKidsAge, ' kids age');
         kidsAge.push(newKidsAge);
         // console.log($scope.calculateAge(kidsInfoAge[key].birthdate), ' children');
       }
