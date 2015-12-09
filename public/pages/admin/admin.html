@@ -1,9 +1,3 @@
-
-
-
-
-
-
     <h2>Mom's Morning Out Admin Page</h2>
     <h4><a href='#/home'> Go to User Calendar</a></h4>
 
@@ -23,10 +17,6 @@
           </p>
         </div>
       </div>
-      <!-- </div> -->
-
-
-
 
 
         <!-- Select start and end times for single day scheduling -->
@@ -92,7 +82,8 @@
           <i class="glyphicon glyphicon-calendar"></i> Mom's Morning Out
         </uib-tab-heading>
 
-        <ul class="unstyled">
+    <!-- START Show events above calendar -->
+      <!--   <ul class="unstyled">
           <li ng-repeat="e in events">
             <div class="alert alert-info">
               <a class="close" data-ng-click="remove($index)"><i class="icon-remove"></i></a>
@@ -100,7 +91,8 @@
               {{e.start | date:"MMM dd"}} - {{e.end | date:"MMM dd"}}
             </div>
           </li>
-        </ul>
+        </ul> -->
+        <!-- END Show events above calendar -->
 
         <div class="alert-success calAlert" data-ng-show="alertMessage != undefined && alertMessage != ''">
           <p class=" lead">Available: &nbsp;</p>
