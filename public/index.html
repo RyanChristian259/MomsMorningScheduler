@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='scheduleApp'>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mom's Morning Out</title>
+
+
+
+  <!-- CSS -->
+  <!-- load Bootstrap and custom style.css -->
+  <link href='https://fonts.googleapis.com/css?family=Alice' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./bower_components/bootstrap-css/css/bootstrap.css" />
+  <link rel="stylesheet" href="./bower_components/fullcalendar/dist/fullcalendar.css">
+  <link rel="stylesheet" href="css/calendarCSS.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body ng-controller='authController'>
+
+  <header>
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand moveLogo" href="http://www.momsmorningout.info"><img src="./img/momsMorningOutLogoSmall.png" alt="Mom's Morning Out logo" ></a>
+  </div>
+  <nav>
+    <div class="collapse navbar-collapse moveNavBar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://www.momsmorningout.info/">Home</a></li>
+        <li><a href="#/">Appointments</a></li>
+        <li><a href="http://www.momsmorningout.info/aboutus/">About Us</a></li>
+        <li><a href="http://www.momsmorningout.info/contact/">Contact</a></li>
+        <li ng-show='!authData'><a href="#/login">Log in</a></li>
+        <li ng-show='authData'><a href='' ng-click='logoutUser()'>Log out</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class='pagePortal'>
+<p ng-cloak ng-show='authData' style='float: right; color:#666666'>Hello {{greetUser}}&nbsp;&nbsp;&nbsp;</p>
+
+<div class='container'>
+
+  <div ng-view></div>
+
+</div>
+</div>
+
+<footer>
+  <div class="footer">
+    <div class="small navbar-text text-center">
+      <div class='col-md-4 textAlignLeft footerMargin'>
+        <h5 class='footerLightText'>CONTACT US</h5>
+        <h4 class='footerText'>Mom's Morning Out</h4>
+        <a class='footerLink' href='http://www.momsmorningout.info/contact/'><p class='footerText'>7743 Scarborough Drive</br>
+          Colorado Springs, CO 80920</p></a>
+        </br>
+        <h5 class='footerText'>Call (719) 291-5191</h5>
+      </br>
+      <h5><a class='footerLink' href="mailto:krista@momsmorningout.info">Click Here to send an email</a></h5>
+    </div>
+
+    <div class='col-md-4 textAlignLeft footerMargin'>
+      <h5 class='footerLightText'>ENROLLMENT FORMS</h5>
+      <a class='footerLink' href='http://www.momsmorningout.info/wp-content/uploads/2015/03/Handbook-Policies.pdf'> <h5 class='footerText'>Handbook and Policies</h5></a>
+      <a class='footerLink' href='http://www.momsmorningout.info/wp-content/uploads/2015/04/Admission-Record.pdf'><h5 class='footerText'>Admission Record</h5></a>
+    </br></br>
+
+    <p class='footerLink'>Left click to open online. </br>Right click and select "Save As" to download.</p>
+  </div>
+
+  <div class='col-md-4 textAlignLeft footerMargin'>
+   <h5 class='footerLightText'>CONNECT WITH US</h5>
+   <a class='footerLink' href='https://www.facebook.com/momsmorningout.info'><img src="./img/facebook1.png" alt="Connect With Us On Facebook" ><h5 class='footerLink'>Like Us On Facebook</h5></a>
+ </br>
+ <a class='footerLink' href='http://www.momsmorningout.info/contact/'><h5 class='footerLink'>Contact Us</h5></a>
+</br>
+<h5 class='footerLink'>&copy; Mom's Morning Out 2015</h5>
+<h5 class='footerLink'>Site Design by <a class='footerLink' href='http://ryanchristianmedia.com'>Ryan Christian Media</a></h5>
+</div>
+</div>
+</div>
+</footer>
+
+
+<!-- JS -->
+<!-- load Angular, Firebase, Firebase Angular Library, and custom app.js -->
+<script src="./bower_components/jquery/dist/jquery.js"></script>
+<script src="./bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+
+<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/firebase/firebase.js"></script>
+<script src="bower_components/angularfire/dist/angularfire.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+
+<script type="text/javascript" src="./bower_components/angular-ui-calendar/src/calendar.js"></script>
+<script type="text/javascript" src="./bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+<script type="text/javascript" src="./bower_components/fullcalendar/dist/gcal.js"></script>
+<script type='text/javascript' src="js/controllers/module.js"></script>
+<script type='text/javascript' src="js/controllers/mainController.js"></script>
+
+<script type='text/javascript' src="js/controllers/authController.js"></script>
+<script type='text/javascript' src="js/controllers/datePickerController.js"></script>
+<script type='text/javascript' src="js/controllers/calendarController.js"></script>
+<script type='text/javascript' src="js/controllers/accountInfoController.js"></script>
+<script type='text/javascript' src="js/services/authService.js"></script>
+<script type='text/javascript' src="js/services/userService.js"></script>
+
+<script type='text/javascript' src="js/router.js"></script>
+<script type="text/javascript" script-name="pt-sans" src="https://use.edgefonts.net/pt-sans.js"></script>
+</body>
+
+</html>

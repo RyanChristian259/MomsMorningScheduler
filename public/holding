@@ -1,0 +1,175 @@
+/////////////////////////////////////////////////////////////////
+//Here is the infamous code that caused the dreaded firebase loop.
+ // userRef.on("value", function(users) {
+
+    //   users.forEach(function(user){
+    //     key = user.key();
+    //     userData = user.val();
+    //   });
+
+    //   if(userId === userData.id){
+    //     var singleUserRef = new Firebase("https://momsmorningscheduler.firebaseio.com/users/" + key);
+    //     singleUserRef.update({'date':$scope.cleanDate});
+    //   }
+    // }, function (errorObject) {
+    //   console.log("The read failed: " + errorObject.code);
+    // });
+/////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////
+//***********************************************//
+// process events to show if slots are available //
+//***********************************************//
+$scope.processEvents = function(events){
+  var numSlots = 0;
+  for (var i = 0; i < $scope.events.length; i ++){
+    for (var j = 0; j < $scope.events.length; j ++){
+      if( $scope.events[i].slots[j] === false){
+        numSlots += 1;
+      }
+    }
+    return numSlots;
+  }
+};
+/////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////
+// Callback function
+// Attach an asynchronous callback to read the data at our posts reference
+$scope.callBack = function(){
+  var dateChosen = moment($scope.dt).format('DD/MM/YYYY');
+
+  var inEvents;
+  var ref = new Firebase("https://momsmorningscheduler.firebaseio.com/events");
+  ref.on("value", function(snapshot) {
+    snapshot.forEach(function (childSnapshot){
+      var key = childSnapshot.key();
+        // console.log(key, " key");
+      var childData = childSnapshot.val();
+      // console.log(childData, ' key');
+      var ref2 = new Firebase("https://momsmorningscheduler.firebaseio.com/events/" + key + '/slots');
+      ref2.on('value',function(snapshot){
+
+         if (dateChosen === childData.date) {
+          userService.appointmentService = snapshot.val();
+          console.log(userService.appointmentService,'inside the if');
+          // console.log(snapshot.val(),' dateChosen');
+          // ref2.update({
+          //   1: false
+          // });
+      }
+
+      });
+
+
+
+
+    });
+
+  events2 = snapshot.exportVal();
+  // console.log(events2);
+  // for(var key in events2){
+
+  //    inEvents = events2[key];
+
+     // if (dateChosen === inEvents.date) {
+     //  console.log(inEvents);
+     //  console.log(inEvents.date);
+     //  console.log( 'wah-hoo');
+     // }
+  // }
+
+  $rootScope.events2 = events2;
+}, function (errorObject) {
+  console.log("The read failed: " + errorObject.code);
+});
+};
+/////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////
+//From Calendar Controller -  add event to database Fn, after ref.form push(data)
+    // //Firebase callback starts here
+      // var inEvents;
+      // eventsTestRef.on("value", function(snapshot) {
+      //   events = snapshot.exportVal();
+      //   for(var key in events){
+      //     inEvents = events[key];
+      //   }
+      //   // $scope.events.push({
+      //    // title: inEvents.title,
+      //    // start: inEvents.start,
+      //    // end: inEvents.end
+      //  // });
+
+      // }, function (errorObject) {
+        // console.log("The read failed: " + errorObject.code);
+      // });
+/////////////////////////////////////////////////////////////////
+
+ <link href='http://ajax.microsoft.com/ajax/jquery.ui/1.8.7/themes/black-tie/jquery-ui.css'/ rel='stylesheet'>
+<script src='http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js'></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+
+<div class='testDatePicker'></div>
+
+/**** jquery ui datepicker styles ****/
+table.ui-datepicker-calendar tbody td.highlight > a {
+    background: url("images/ui-bg_inset-hard_55_ffeb80_1x100.png") repeat-x scroll 50% bottom #FDFDFD;
+    color: #363636;
+    border: 1px solid #FFDE2E;
+}
+
+
+
+
+
+//testing for database pre-population function
+// var events = [
+//     { Title: "Five K for charity", Date: new Date("11/20/2015") },
+//     { Title: "Dinner", Date: new Date("11/23/2015") },
+//     { Title: "Meeting with manager", Date: new Date("11/27/2015") }
+// ];
+
+
+$(".testDatePicker").datepicker({
+    beforeShowDay: function(date) {
+        var result = [true, '', null];
+        var matching = $.grep(events, function(event) {
+            return event.Date.valueOf() === date.valueOf();
+        });
+
+        if (matching.length) {
+            result = [true, 'highlight', null];
+        }
+        return result;
+    },
+    onSelect: function(dateText) {
+        var date,
+            selectedDate = new Date(dateText),
+            i = 0,
+            event = null;
+
+        while (i < events.length && !event) {
+            date = events[i].Date;
+
+            if (selectedDate.valueOf() === date.valueOf()) {
+                event = events[i];
+            }
+            i++;
+        }
+        if (event) {
+            console.log(event.Title, ' Title ', event.Date, ' Date');
+            return event.Title;
+
+        }
+    }
+});
