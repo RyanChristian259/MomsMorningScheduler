@@ -1,27 +1,64 @@
-<h4 ng-cloak ng-show='!authData' style='float: right; color:#666666'>Please <a href="#/login">Log in</a></li> to reserve an appointment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
-
-<h1>User Page</h1>
+<h3 class='text-center' style='margin-top:30px;'>Schedule Your Morning Out</h3>
 <hr>
-<div class='row'>
+<h4 ng-cloak ng-show='!authData' style='float: right; color:#666666'>Click Here to <a href="#/login">Create an account</a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+
+<!-- START Log In to appear if user is not logged in -->
+<div class='container'>
+<div ng-if='!authData' ng-controller='authController' class='row'>
   <div class='col-md-6'>
-    <p><a href='#/admin'> Go to Admin Calendar</a></p>
-    <p><a href='#/accountInfo' ng-click="refreshPage()"> Go to My Account</a></p>
+    <form class='form'>
+      <h4 style='margin-top:10px;' class='text-center'>Please <span style='color:blue'>Log In</span> in order to use the calendar to reserve your slot</h4>
+
+      <div class="form-group">
+        <label form="email">Email</label>
+        <input type="text" ng-model='enterEmail' class="form-control" id="email" placeholder="Enter your email..." required>
+      </div>
+
+      <div class="form-group">
+        <label form="password">Password</label>
+        <input type="text" ng-model='enterPassword' class="form-control" id="password" placeholder="Enter your password..." required>
+      </div>
+
+      <button ng-click='signInUser()' type="submit" class="btn btn-default btn-custom-blue" style='margin-right:5px'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log In&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+      <a href='#/signup'<button class="btn btn-default btn-custom-white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></a>
+
+      <p style='margin-top:10px'><a href='#/resetpassword'>Reset your Password</a></p>
+    </form>
 
 
-    <button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success btn-custom-green', false: 'btn btn-alert btn-custom-green'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
-  </form>
+  </div>
+</div>
+</div>
+<!-- END Log In to appear if user is not logged in -->
 
-  <button ng-click="show0to24Months(); !feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{false: 'btn btn-success btn-custom-blue', true: 'btn btn-alert btn-custom-blue'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show only 0-2 years</button>
+<!-- START Controls to appear above calendar when user is logged in -->
+
+<div class='row' ng-if='authData'>
+  <div class='col-md-6'>
+
+    <div class="message-section" ng-show="success">
+     <p class="alert alert-info" role="alert" ng-model="message">{{message}}</p>
+   </div>
+
+   <p><a href='#/accountInfo' ng-click="refreshPage()"> Go to My Account</a></p>
+
+
+   <button ng-click="showAll(); feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{true: 'btn btn-success btn-custom-green', false: 'btn btn-alert btn-custom-green'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show All Slots</button>
+ </form>
+
+ <button ng-click="show0to24Months(); !feature.isSelected ? (feature.isSelected = !feature.isSelected) : ''" ng-class="{false: 'btn btn-success btn-custom-blue', true: 'btn btn-alert btn-custom-blue'}[!feature.isSelected]" type="submit" class="btn btn-primary btn-lg">Show only 0-2 years</button>
 </form>
 </div>
 <div class='col-md-6'>
   <div ng-controller='accountInfoController'>
-  <h3 style='margin:0'>My Children</h3>
+    <h3 style='margin:0'>My Children</h3>
     <!-- <button ng-click='populateUserKids()' type="submit" class="btn btn-default">Show My Kids</button> -->
     <h4 ng-repeat='kid in kidsAge track by $index'> Name: {{kid.name}} -- Age: {{kid.birthdate}} <button class='btn btn-success btn-custom-green' ng-model='this.kid.name' ng-click="selectKid()">Select</button></h4>
   </div>
 </div>
 </div>
+<!-- END Controls to appear above calendar when user is logged in -->
+
 <!-- Start of UI Calendar -->
 <section>
   <div class="well">

@@ -1,6 +1,6 @@
 {
   "firebase": "momsmorningscheduler",
-  "public": "MomsMorningScheduler",
+  "public": "public",
   "ignore": [
     "firebase.json",
     "**/.*",
