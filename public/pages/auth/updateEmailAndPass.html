@@ -1,0 +1,35 @@
+   <form class='form'>
+    <h4>Change Password</h4>
+
+    <div class="form-group">
+        <label form="email">Current Email</label>
+        <input type="text" ng-model='enterCurrentEmail' class="form-control" id="email" placeholder="Enter your email..." required>
+    </div>
+    <div class="form-group">
+        <label form="password">Old Password</label>
+        <input type="text" ng-model='enterOldPassword' class="form-control" id="password" placeholder="Enter your old password..." required>
+    </div>
+    <div class="form-group">
+        <label form="password">New Password</label>
+        <input type="text" ng-model='enterNewPassword' class="form-control" id="password" placeholder="Choose a new password..." required>
+    </div>
+    <button ng-click='changePassword()' type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<form class='form'>
+    <h4>Change Your Email Address</h4>
+
+    <div class="form-group">
+        <label form="email">Old Email</label>
+        <input type="text" ng-model='oldEmail' class="form-control" id="email" placeholder="Enter a username..." required>
+    </div>
+    <div class="form-group">
+        <label form="password">New Email</label>
+        <input type="text" ng-model='newEmail' class="form-control" id="password" placeholder="Choose a password..." required>
+    </div>
+    <div class="form-group">
+        <label form="password">Password</label>
+        <input type="text" ng-model='password' class="form-control" id="password" placeholder="Choose a password..." required>
+    </div>
+    <button ng-click='updateEmail()' type="submit" class="btn btn-default">Submit</button>
+</form>
